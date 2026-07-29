@@ -1,0 +1,237 @@
+.site-header {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
+    border-bottom: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.site-header .navbar {
+    min-height: 70px;
+}
+
+.site-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #e50914;
+    font-size: 26px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.site-brand:hover {
+    color: #ff1f2a;
+    text-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
+}
+
+.site-brand i {
+    font-size: 28px;
+}
+
+.site-header .nav-link {
+    color: #ccc;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 15px 18px;
+    border-radius: 8px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.site-header .nav-link:hover {
+    color: #fff;
+    background-color: rgba(229, 9, 20, 0.2);
+}
+
+.site-header .nav-link.active {
+    color: #fff;
+    background-color: rgba(229, 9, 20, 0.3);
+}
+
+.site-search {
+    position: relative;
+    min-width: 250px;
+}
+
+.site-search .form-control {
+    height: 42px;
+    padding-right: 44px;
+    background: #121212;
+    border: 1px solid #292929;
+    border-radius: 999px;
+    color: #fff;
+}
+
+.site-search .form-control:focus {
+    background: #121212;
+    border-color: #e50914;
+    color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.18);
+}
+
+.site-search .form-control::placeholder {
+    color: #777;
+}
+
+.site-search .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 42px;
+    border: 0;
+    color: #ccc;
+}
+
+.site-search .btn:hover {
+    color: #fff;
+}
+
+.btn-site-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding-inline: 18px;
+    background: linear-gradient(135deg, #e50914, #b20710);
+    border: 0;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.25);
+}
+
+.btn-site-primary:hover {
+    background: linear-gradient(135deg, #ff1f2a, #e50914);
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(229, 9, 20, 0.38);
+}
+
+.site-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    max-width: 220px;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+.site-profile-btn:hover {
+    background: rgba(229, 9, 20, 0.2);
+    border-color: rgba(229, 9, 20, 0.4);
+    color: #fff;
+}
+
+.site-profile-btn span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.site-auth.is-logged-in > .site-profile-btn,
+.site-auth.is-logged-in > a[href="logout.php"] {
+    display: none !important;
+}
+
+.site-user-dropdown {
+    position: relative;
+}
+
+.site-user-toggle {
+    display: inline-flex;
+    min-height: 54px;
+    max-width: 320px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 26px;
+    border: 0;
+    border-radius: 0;
+    background: #090909;
+    color: #d6d6d6;
+    font-size: 1.05rem;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.site-user-toggle:hover,
+.site-user-toggle:focus,
+.site-user-toggle.show {
+    background: #0b0b0b;
+    color: #ffffff;
+}
+
+.site-user-toggle i {
+    font-size: 1.2rem;
+}
+
+.site-user-toggle span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.site-user-toggle.dropdown-toggle::after {
+    margin-left: 2px;
+    border-top-color: currentColor;
+}
+
+.site-user-menu {
+    width: 100%;
+    min-width: 230px;
+    margin-top: 0;
+    padding: 10px 0;
+    border: 0;
+    border-radius: 0 0 6px 6px;
+    background: #ffffff;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+}
+
+.site-user-menu .dropdown-item {
+    padding: 9px 26px;
+    color: #444444;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.site-user-menu .dropdown-item:hover,
+.site-user-menu .dropdown-item:focus {
+    background: #f1f1f1;
+    color: #111111;
+}
+
+@media (max-width: 991.98px) {
+    .site-header .navbar {
+        min-height: 66px;
+    }
+
+    .site-header .nav-link {
+        padding: 12px 14px;
+    }
+
+    .site-search {
+        min-width: 100%;
+    }
+
+    .site-auth .btn {
+        width: 100%;
+    }
+
+    .site-profile-btn {
+        max-width: none;
+    }
+
+    .site-user-dropdown,
+    .site-user-toggle,
+    .site-user-menu {
+        width: 100%;
+        max-width: none;
+    }
+
+    .site-user-toggle {
+        justify-content: center;
+    }
+}

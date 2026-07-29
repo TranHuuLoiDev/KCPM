@@ -1,0 +1,271 @@
+.hero-section {
+    position: relative;
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(10, 10, 10, 0.9)),
+        url("../images/bg-hero.jpg") center/cover no-repeat;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 150px;
+    background: linear-gradient(to top, #0a0a0a, transparent);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 84px 20px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-content h1 {
+    color: #fff;
+    font-size: clamp(42px, 7vw, 76px);
+    font-weight: 800;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    color: #ddd;
+    font-size: clamp(17px, 2.4vw, 23px);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    margin: 0 auto 35px;
+    max-width: 700px;
+}
+
+.btn-booking {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 54px;
+    padding: 0 44px;
+    background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn-booking:hover {
+    background: linear-gradient(135deg, #ff1f2a 0%, #e50914 100%);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(229, 9, 20, 0.6);
+}
+
+.movies-section {
+    background: #0a0a0a;
+    padding: 62px 0 78px;
+    scroll-margin-top: 92px;
+}
+
+.section-title {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 700;
+    padding-bottom: 15px;
+    margin: 0;
+}
+
+.section-title i {
+    color: #e50914;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 68px;
+    height: 4px;
+    background: linear-gradient(90deg, #e50914, transparent);
+}
+
+.section-link {
+    color: #e50914;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.section-link:hover {
+    color: #ff1f2a;
+}
+
+.movie-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.08), box-shadow 0.35s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-10px) scale(1.015);
+    box-shadow: 0 15px 45px rgba(229, 9, 20, 0.4);
+}
+
+.movie-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4.35;
+    background: #0f0f0f;
+}
+
+.movie-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-img-wrap img {
+    transform: scale(1.1);
+}
+
+.movie-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.movie-card:hover .movie-overlay {
+    opacity: 1;
+}
+
+.btn-get-ticket {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 28px;
+    background: linear-gradient(135deg, #e50914, #b20710);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.5);
+    transform: translateY(20px);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.movie-card:hover .btn-get-ticket {
+    transform: translateY(0);
+}
+
+.btn-get-ticket:hover {
+    background: linear-gradient(135deg, #ff1f2a, #e50914);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.7);
+}
+
+.movie-info {
+    padding: 20px;
+}
+
+.movie-info h4 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-info p {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #aaa;
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.movie-info i {
+    color: #e50914;
+    margin-top: 2px;
+}
+
+.empty-movie-state {
+    background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+    border: 1px solid #222;
+    border-radius: 12px;
+    color: #999;
+    padding: 30px;
+    text-align: center;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 640px;
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+    .btn-booking {
+        width: 100%;
+        max-width: 300px;
+        padding: 0 20px;
+    }
+
+    .movie-info {
+        padding: 14px;
+    }
+
+    .movie-info h4 {
+        font-size: 17px;
+    }
+}

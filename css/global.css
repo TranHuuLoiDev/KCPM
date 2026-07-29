@@ -1,0 +1,39 @@
+:root {
+    --bg-main: #0a0a0a;
+    --bg-header: #0a0a0a;
+    --text-light: #ffffff;
+    --text-dim: #aaaaaa;
+    --primary-red: #e50914;
+    --primary-red-dark: #b20710;
+    --border-color: #222222;
+    --bg-ft1: #000000;
+    --bg-ft2: #0a0a0a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-main);
+    color: #e0e0e0;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+main {
+    padding: 0;
+    min-height: 50vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}

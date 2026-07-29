@@ -1,0 +1,224 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    width:100%;
+    min-height:100%;
+    background:#081224;
+}
+
+.seat-page{
+    min-height:100vh;
+    width:100%;
+    background:linear-gradient(to right,#081224,#0b1730,#081224);
+    color:white;
+    padding:40px;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+/* =========================
+   BREADCRUMB
+========================= */
+
+.breadcrumb{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
+
+.step{
+    color:#bfc9d8;
+}
+
+.active-step{
+    color:#ef4444;
+    font-weight:bold;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.seat-container{
+    max-width:900px;
+    margin:0 auto;
+}
+
+.seat-header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.seat-header h1{
+    font-size:32px;
+}
+
+/* =========================
+   SCREEN
+========================= */
+
+.screen{
+    text-align:center;
+    padding:20px;
+    background:#0f1b2e;
+    border:3px solid #34495e;
+    border-radius:8px;
+    margin-bottom:40px;
+    color:#facc15;
+    font-weight:bold;
+    font-size:18px;
+}
+
+/* =========================
+   SEAT MAP
+========================= */
+
+.seat-map{
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+    gap:10px;
+    margin-bottom:40px;
+    background:#16253b;
+    padding:25px;
+    border-radius:12px;
+}
+
+.seat{
+    width:40px;
+    height:40px;
+    border:2px solid #34495e;
+    background:transparent;
+    color:white;
+    border-radius:4px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.seat:hover{
+    border-color:#ef4444;
+}
+
+.seat.selected{
+    background:#ef4444;
+    border-color:#ef4444;
+}
+
+.seat.unavailable{
+    background:#34495e;
+    border-color:#34495e;
+    opacity:0.5;
+    cursor:not-allowed;
+}
+
+/* =========================
+   LEGEND
+========================= */
+
+.seat-legend{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.legend-box{
+    width:30px;
+    height:30px;
+    border-radius:4px;
+}
+.legend-box{
+    width:25px;
+    height:25px;
+    border-radius:4px;
+    border:2px solid #34495e;
+}
+
+/* Ghế trống */
+.legend-box.available{
+    background:transparent;
+}
+
+/* Ghế được chọn */
+.legend-box.selected{
+    background:#ef4444;
+    border-color:#ef4444;
+}
+
+/* Ghế không còn */
+.legend-box.unavailable{
+    background:#34495e;
+    border-color:#34495e;
+}
+
+/* =========================
+   INFO BOX
+========================= */
+
+.seat-info{
+    background:#16253b;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:25px;
+}
+
+.confirmation-section{
+    background:#16253b;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:25px;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.action-group{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+    align-items:center;
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.btn-back{
+    padding:14px 30px;
+    background:#34495e;
+    color:white;
+    border:none;
+    border-radius:8px;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.btn-back:hover{
+    background:#455a64;
+}
+
+.btn-next,
+.btn-submit{
+    padding:14px 30px;
+    background:#ef4444;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn-next:hover,
+.btn-submit:hover{
+    background:#dc2626;
+}

@@ -1,0 +1,19 @@
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Uploads
+public/uploads/*
+
+# Composer
+/vendor/
