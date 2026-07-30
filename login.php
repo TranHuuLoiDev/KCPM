@@ -84,6 +84,12 @@ require_once 'header.php';
                 <input type="email" name="email" required placeholder="Email" />
                 <input type="password" name="password" required placeholder="Mật khẩu" />
 
+                <div class="auth-forgot-link">
+                    <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                        Quên mật khẩu?
+                    </button>
+                </div>
+
                 <button type="submit" class="auth-action">Đăng nhập</button>
 
                 <p class="auth-mobile-switch">
@@ -123,6 +129,101 @@ require_once 'header.php';
             window.history.replaceState(null, '', nextUrl);
         });
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const forgotModalEle = document.getElementById('forgotPasswordModal');
+        const forgotModal = forgotModalEle ? new bootstrap.Modal(forgotModalEle) : null;
+        const forgotForm = document.getElementById('forgotPasswordForm');
+        const forgotStep = document.getElementById('forgotStep');
+        const forgotMessage = document.getElementById('forgotMessage');
+        const forgotEmail = document.getElementById('forgotEmail');
+        const forgotCode = document.getElementById('forgotCode');
+        const forgotNewPassword = document.getElementById('forgotNewPassword');
+        const forgotConfirmPassword = document.getElementById('forgotConfirmPassword');
+        const forgotSubmit = document.getElementById('forgotSubmit');
+
+        if (forgotForm) {
+            forgotForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(forgotForm);
+                formData.append('ajax', '1');
+
+                const response = await fetch('forgot_password.php', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const text = await response.text();
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch (error) {
+                    console.error('Invalid JSON response:', text);
+                    forgotMessage.textContent = 'Lỗi máy chủ: phản hồi không hợp lệ.';
+                    forgotMessage.className = 'auth-alert auth-alert-error';
+                    forgotMessage.style.display = 'block';
+                    return;
+                }
+
+                forgotMessage.textContent = result.message || 'Có lỗi xảy ra';
+                forgotMessage.className = result.status === 'success' ? 'auth-alert auth-alert-success' : 'auth-alert auth-alert-error';
+                forgotMessage.style.display = 'block';
+
+                if (formData.get('action') === 'request_reset' && result.status === 'success') {
+                    forgotStep.value = 'reset_password';
+                    forgotCode.closest('.form-control-group').style.display = 'block';
+                    forgotNewPassword.closest('.form-control-group').style.display = 'block';
+                    forgotConfirmPassword.closest('.form-control-group').style.display = 'block';
+                    forgotEmail.readOnly = true;
+                    forgotSubmit.textContent = 'Xác nhận mã và đổi mật khẩu';
+                }
+
+                if (formData.get('action') === 'reset_password' && result.status === 'success') {
+                    forgotForm.querySelectorAll('input').forEach((input) => input.disabled = true);
+                    forgotSubmit.disabled = true;
+                    forgotSubmit.textContent = 'Hoàn tất';
+                }
+            });
+        }
+    });
 </script>
+
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">Quên mật khẩu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <div id="forgotMessage" class="auth-alert" style="display:none;"></div>
+                <form id="forgotPasswordForm" method="POST">
+                    <input type="hidden" name="action" value="request_reset" id="forgotStep">
+                    <div class="form-control-group mb-3">
+                        <label for="forgotEmail" class="form-label">Email</label>
+                        <input id="forgotEmail" type="email" name="email" class="form-control" placeholder="Email" required>
+                    </div>
+                    <div class="form-control-group mb-3" style="display:none;">
+                        <label for="forgotCode" class="form-label">Mã xác thực</label>
+                        <input id="forgotCode" type="text" name="code" class="form-control" placeholder="Mã xác thực">
+                    </div>
+                    <div class="form-control-group mb-3" style="display:none;">
+                        <label for="forgotNewPassword" class="form-label">Mật khẩu mới</label>
+                        <input id="forgotNewPassword" type="password" name="new_password" class="form-control" placeholder="Mật khẩu mới">
+                    </div>
+                    <div class="form-control-group mb-3" style="display:none;">
+                        <label for="forgotConfirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                        <input id="forgotConfirmPassword" type="password" name="confirm_password" class="form-control" placeholder="Xác nhận mật khẩu mới">
+                    </div>
+                    <button id="forgotSubmit" type="submit" class="auth-action">Gửi mã xác thực</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php require_once 'footer.php'; ?>

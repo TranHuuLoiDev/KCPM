@@ -25,8 +25,22 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Nạp autoloader của Composer nếu tồn tại (PHPMailer và các thư viện khác)
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
 // Nạp các class tự động (Autoloader)
 require_once __DIR__ . '/app/init.php';
+
+// Cấu hình gửi mail SMTP - dùng Mailtrap sandbox cho môi trường phát triển.
+define('MAIL_HOST', 'sandbox.smtp.mailtrap.io');
+define('MAIL_PORT', 2525); // hoặc 587
+define('MAIL_USERNAME', '9c538d2c3a3b7d');
+define('MAIL_PASSWORD', 'e097c3ec33cbe1');
+define('MAIL_ENCRYPTION', 'tls');
+define('MAIL_FROM_ADDRESS', 'no-reply@moviebooking.vn');
+define('MAIL_FROM_NAME', 'Cinema Star');
 
 // Sử dụng lớp Database chung cho toàn bộ dự án để đồng bộ kết nối
 $conn = App\Config\Database::getConnection();

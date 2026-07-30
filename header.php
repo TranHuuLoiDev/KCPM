@@ -29,7 +29,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/home.css">
-    <?php if (in_array($currentPage, ['login.php', 'registration.php'], true)): ?>
+    <?php if (in_array($currentPage, ['login.php', 'registration.php', 'forgot_password.php', 'reset_password.php'], true)): ?>
         <link rel="stylesheet" href="css/auth.css">
     <?php endif; ?>
 </head>

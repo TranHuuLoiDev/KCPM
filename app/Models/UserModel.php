@@ -94,6 +94,26 @@ class UserModel {
         return mysqli_stmt_execute($stmt);
     }
 
+    public function setResetToken($id, $token) {
+        $stmt = mysqli_prepare($this->conn, "UPDATE users SET remember_token = ? WHERE id = ?");
+        mysqli_stmt_bind_param($stmt, "si", $token, $id);
+        return mysqli_stmt_execute($stmt);
+    }
+
+    public function findByResetToken($token) {
+        $stmt = mysqli_prepare($this->conn, "SELECT * FROM users WHERE remember_token = ? LIMIT 1");
+        mysqli_stmt_bind_param($stmt, "s", $token);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_assoc($result);
+    }
+
+    public function clearResetToken($id) {
+        $stmt = mysqli_prepare($this->conn, "UPDATE users SET remember_token = NULL WHERE id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        return mysqli_stmt_execute($stmt);
+    }
+
     public function delete($id) {
         $stmt = mysqli_prepare($this->conn, "DELETE FROM users WHERE id = ?");
         mysqli_stmt_bind_param($stmt, "i", $id);

@@ -257,6 +257,25 @@
     transform: translateY(-1px);
 }
 
+.auth-forgot-link {
+    align-self: flex-end;
+    width: 100%;
+    text-align: right;
+    margin-bottom: 0.5rem;
+}
+
+.auth-forgot-link a {
+    color: var(--primary-red);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-forgot-link a:hover {
+    color: #ff1f2a;
+    text-decoration: underline;
+}
+
 .auth-mobile-switch {
     display: none;
     margin-bottom: 0;
