@@ -12,7 +12,7 @@ on:
 
 jobs:
   sonar:
-    runs-on: self-hosted
+    runs-on: self-hostedx
 
     steps:
       - name: Checkout code
@@ -29,10 +29,11 @@ jobs:
       - name: Install Composer dependencies
         run: |
           php -v
-          if [ -f composer.json ]; then
+          if (Test-Path 'composer.json') {
             composer install --no-interaction --prefer-dist
-          fi
+          }
         working-directory: backend
+        shell: pwsh
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
