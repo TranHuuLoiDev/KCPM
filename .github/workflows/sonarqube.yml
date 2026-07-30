@@ -38,15 +38,18 @@ jobs:
       - name: Download SonarScanner CLI
         shell: pwsh
         run: |
-          $url = 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.9.0.37505-windows.zip'
-          $zip = Join-Path $env:TEMP 'sonar-scanner.zip'
+          $root = Join-Path $env:GITHUB_WORKSPACE 'sonar-scanner'
+          New-Item -ItemType Directory -Force -Path $root | Out-Null
+          $url = 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.9.0.37505-linux.zip'
+          $zip = Join-Path $root 'sonar-scanner.zip'
           Invoke-WebRequest -Uri $url -OutFile $zip
-          Expand-Archive -Path $zip -DestinationPath (Join-Path $env:TEMP 'sonar-scanner')
+          Expand-Archive -Path $zip -DestinationPath $root
 
       - name: Run SonarScanner
         shell: pwsh
         run: |
-          $scanner = Join-Path $env:TEMP 'sonar-scanner\sonar-scanner-4.9.0.37505-windows\bin\sonar-scanner.bat'
+          $root = Join-Path $env:GITHUB_WORKSPACE 'sonar-scanner'
+          $scanner = Join-Path $root 'sonar-scanner-4.9.0.37505-linux/bin/sonar-scanner'
           & $scanner `
             -Dsonar.projectKey=KCPM `
             -Dsonar.sources=backend,frontend `
