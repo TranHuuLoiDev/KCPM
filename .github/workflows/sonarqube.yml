@@ -35,11 +35,24 @@ jobs:
         working-directory: backend
         shell: pwsh
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Download SonarScanner CLI
+        shell: pwsh
+        run: |
+          $url = 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.9.0.37505-windows.zip'
+          $zip = Join-Path $env:TEMP 'sonar-scanner.zip'
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath (Join-Path $env:TEMP 'sonar-scanner')
+
+      - name: Run SonarScanner
+        shell: pwsh
+        run: |
+          $scanner = Join-Path $env:TEMP 'sonar-scanner\sonar-scanner-4.9.0.37505-windows\bin\sonar-scanner.bat'
+          & $scanner `
+            -Dsonar.projectKey=KCPM `
+            -Dsonar.sources=backend,frontend `
+            -Dsonar.host.url='${{ secrets.SONAR_HOST_URL }}' `
+            -Dsonar.login='${{ secrets.SONAR_TOKEN }}' `
+            -Dsonar.sourceEncoding=UTF-8
 
       - name: SonarQube Quality Gate Check
         uses: SonarSource/sonarqube-quality-gate-action@v1
