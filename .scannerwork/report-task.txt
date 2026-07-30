@@ -1,0 +1,6 @@
+projectKey=KCPM
+serverUrl=http://localhost:9000
+serverVersion=26.7.0.124771
+dashboardUrl=http://localhost:9000/dashboard?id=KCPM
+ceTaskId=5e59d5d5-daf5-4d49-b7d9-8a6f79b3b53d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=5e59d5d5-daf5-4d49-b7d9-8a6f79b3b53d
