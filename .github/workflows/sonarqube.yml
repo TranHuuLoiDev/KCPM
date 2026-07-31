@@ -29,22 +29,19 @@ jobs:
       - name: Install Composer dependencies
         run: |
           php -v
-          if (Test-Path 'composer.json') {
+          if [ -f "composer.json" ]; then
             composer install --no-interaction --prefer-dist
-          }
+          fi
         working-directory: backend
-        shell: pwsh
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-          SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || secrets.SONAR_ORGANIZATION }}
 
       - name: SonarQube Quality Gate Check
         uses: SonarSource/sonarqube-quality-gate-action@v1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-          SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || secrets.SONAR_ORGANIZATION }}
