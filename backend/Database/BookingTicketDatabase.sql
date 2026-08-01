@@ -205,17 +205,14 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ==============================================
 
 -- Users
+SET @default_password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+
 INSERT INTO users (first_name, last_name, email, password, phone, role)
-VALUES ('Admin', 'User', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        '0123456789', 'admin'),
-       ('John', 'Doe', 'user@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0987654321',
-        'user'),
-       ('Nguyễn', 'Văn An', 'nguyenvanan@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        '0912345678', 'user'),
-       ('Trần', 'Thị Bình', 'tranthibinh@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        '0923456789', 'user'),
-       ('Lê', 'Hoàng Cường', 'lehoangcuong@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        '0934567890', 'user');
+VALUES ('Admin', 'User', 'admin@example.com', @default_password, '0123456789', 'admin'),
+       ('John', 'Doe', 'user@example.com', @default_password, '0987654321', 'user'),
+       ('Nguyễn', 'Văn An', 'nguyenvanan@example.com', @default_password, '0912345678', 'user'),
+       ('Trần', 'Thị Bình', 'tranthibinh@example.com', @default_password, '0923456789', 'user'),
+       ('Lê', 'Hoàng Cường', 'lehoangcuong@example.com', @default_password, '0934567890', 'user');
 
 -- Genres
 INSERT INTO genres (name, description)
