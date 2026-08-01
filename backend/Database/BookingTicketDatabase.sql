@@ -158,18 +158,26 @@ CREATE TABLE showtimes
     INDEX idx_movie (movie_id)
 );
 
+-- 10.5 Bảng payment_methods (mới thêm để tránh lặp literal)
+DROP TABLE IF EXISTS payment_methods;
+CREATE TABLE payment_methods
+(
+    code VARCHAR(20) PRIMARY KEY
+);
+
 -- 11. Bảng bookings
 DROP TABLE IF EXISTS bookings;
 CREATE TABLE bookings
 (
-    id             INT PRIMARY KEY AUTO_INCREMENT,
-    user_id        INT            NOT NULL,
-    total_price    DECIMAL(10, 2) NOT NULL,
-    payment_method ENUM ('momo', 'vnpay', 'bank_transfer'),
-    status         ENUM ('pending', 'paid', 'canceled') DEFAULT 'pending',
-    created_at     TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
-    updated_at     TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    id                INT PRIMARY KEY AUTO_INCREMENT,
+    user_id           INT            NOT NULL,
+    total_price       DECIMAL(10, 2) NOT NULL,
+    payment_method_id VARCHAR(20)    NOT NULL,
+    status            ENUM ('pending', 'paid', 'canceled') DEFAULT 'pending',
+    created_at        TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (payment_method_id) REFERENCES payment_methods (code),
     INDEX idx_status (status)
 );
 
@@ -1074,8 +1082,15 @@ VALUES (1, 1, '2026-07-01', '09:00:00', 90000),
        (8, 1, '2026-08-17', '19:00:00', 80000),
        (10, 2, '2026-08-17', '20:30:00', 100000);
 
+
+-- payment_methods
+INSERT INTO payment_methods (code)
+VALUES ('momo'),
+       ('vnpay'),
+       ('bank_transfer');
+
 -- bookings
-INSERT INTO bookings (user_id, total_price, payment_method, status)
+INSERT INTO bookings (user_id, total_price, payment_method_id, status)
 VALUES (3, 200000, 'momo', 'paid'),
        (3, 290000, 'vnpay', 'paid'),
        (4, 310000, 'bank_transfer', 'paid'),
