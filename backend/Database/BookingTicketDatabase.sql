@@ -46,7 +46,7 @@ CREATE TABLE movies
     director        VARCHAR(100) NULL,
     cast            TEXT         NULL,
     age_restriction INT                                     DEFAULT 0,
-    country         VARCHAR(50)  NOT NULL,
+    country         VARCHAR(20)  NOT NULL,
     duration        INT          NOT NULL,
     screening_date  DATE         NOT NULL,
     poster          VARCHAR(500) NULL,
@@ -55,6 +55,7 @@ CREATE TABLE movies
     is_active       BOOLEAN                                 DEFAULT TRUE,
     created_at      TIMESTAMP                               DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP                               DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    FOREIGN KEY (country) REFERENCES countries (code),
 );
 
 -- 4. Bảng movie_genre
@@ -165,6 +166,14 @@ CREATE TABLE payment_methods
     code VARCHAR(20) PRIMARY KEY
 );
 
+-- Bảng countries (mới thêm để tránh lặp literal 'Nhật Bản', 'Hoa Kỳ', 'Hàn Quốc'...)
+DROP TABLE IF EXISTS countries;
+CREATE TABLE countries
+(
+    code VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
 -- 11. Bảng bookings
 DROP TABLE IF EXISTS bookings;
 CREATE TABLE bookings
@@ -227,6 +236,13 @@ VALUES ('Hành động', 'Phim có nhiều cảnh đánh nhau, rượt đuổi.'
        ('Tam lý', 'Phim có nhiều yếu tố suy luận và tình tiết suy ngẫm.'),
        ('Hoạt hình', 'Phim dành cho thiếu nhi và gia đình.');
 
+-- countries
+INSERT INTO countries (code, name)
+VALUES ('VN', 'Việt Nam'),
+       ('US', 'Hoa Kỳ'),
+       ('JP', 'Nhật Bản'),
+       ('KR', 'Hàn Quốc');
+
 -- Movies (đã bỏ cột images, thêm trailer_url)
 INSERT INTO movies (title, description, director, cast, age_restriction, country, duration, screening_date, poster,
                     trailer_url, status)
@@ -234,7 +250,7 @@ VALUES ('Avengers: Endgame',
         'Sau sự kiện hủy diệt tàn khốc, vũ trụ chìm trong cảnh hoang tàn. Với sự trợ giúp của những đồng minh còn sống sót, biệt đội siêu anh hùng Avengers tập hợp một lần nữa để đảo ngược hành động của Thanos và khôi phục lại trật tự của vũ trụ.',
         'Anthony Russo, Joe Russo',
         'Robert Downey Jr., Chris Evans, Scarlett Johansson',
-        13, 'Mỹ', 181, '2023-05-01', 'images/movies/Avengers_Endgame.jpg',
+        13, 'US', 181, '2023-05-01', 'images/movies/Avengers_Endgame.jpg',
         'https://www.youtube.com/watch?v=TcMBFSGVi1c',
         'now_showing'),
 
@@ -242,7 +258,7 @@ VALUES ('Avengers: Endgame',
         'TÁC PHẨM KỶ NIỆM 90 NĂM FUJIKO F FUJIO Chuẩn bị cho buổi hòa nhạc ở trường, Nobita đang tập thổi sáo - nhạc cụ mà cậu dở tệ. Thích thú trước nốt "No" lạc quẻ của Nobita, Micca - cô bé bí ẩn đã mời Doraemon, Nobita cùng nhóm bạn đến "Farre" - Cung điện âm nhạc tọa lạc trên một hành tinh nơi âm nhạc sẽ hóa thành năng lượng. Nhằm cứu cung điện này, Micca đang tìm kiếm "virtuoso" - bậc thầy âm nhạc sẽ cùng mình biểu diễn! Với bảo bối thần kì "chứng chỉ chuyên viên âm nhạc", Doraemon và các bạn đã chọn nhạc cụ, cùng Micca hòa tấu, từng bước khôi phục cung điện. Tuy nhiên, một vật thể sống đáng sợ sẽ xóa số âm nhạc khỏi thế giới đang đến gần, Trái Đất đang rơi vào nguy hiểm... ! Liệu những người bạn nhỏ có thể cứu được "tương lai âm nhạc" và cả địa cầu này?',
         'Ryūichi Yagi',
         'Nobita, Doraemon, Shizuka',
-        0, 'Nhật Bản', 105, '2023-06-01', 'images/movies/DoraemonBangGiaoHuongDiaCau.jpg',
+        0, 'JP', 105, '2023-06-01', 'images/movies/DoraemonBangGiaoHuongDiaCau.jpg',
         'https://www.youtube.com/watch?v=Yug8gbDd5EQ',
         'coming'),
 
@@ -250,7 +266,7 @@ VALUES ('Avengers: Endgame',
         'Minions & Quái Vật là câu chuyện vừa náo loạn vừa ngớ ngẩn nhưng “hoàn toàn có thật” về cách Minions chinh phục Hollywood, trở thành ngôi sao điện ảnh, rồi mất tất cả, vô tình thả quái vật ra khắp thế giới và sau đó phải cùng nhau hợp sức để cứu lấy hành tinh khỏi chính mớ hỗn loạn mà mình tạo ra.',
         'Kyle Balda',
         'Minions, Gru',
-        0, 'Hoa Kỳ', 90, '2026-07-01', 'images/movies/MinionsVaQuaiVat.jpg',
+        0, 'US', 90, '2026-07-01', 'images/movies/MinionsVaQuaiVat.jpg',
         'https://www.youtube.com/watch?v=HpDHFqMykpA',
         'coming'),
 
@@ -258,7 +274,7 @@ VALUES ('Avengers: Endgame',
         'Các món đồ chơi đã trở lại trong Toy Story 5 của Disney và Pixar, và lần này sẽ là cuộc đối đầu giữa đồ chơi và công nghệ. Buzz, Woody, Jessie cùng cả nhóm sẽ phải đối mặt với thử thách khó khăn hơn gấp bội khi chạm trán một mối đe dọa hoàn toàn mới đối với niềm vui vui chơi.',
         'Josh Cooley',
         'Tom Hanks, Tim Allen',
-        0, 'Hoa Kỳ', 102, '2026-06-19', 'images/movies/CauChuyenDoChoi5.jpg',
+        0, 'US', 102, '2026-06-19', 'images/movies/CauChuyenDoChoi5.jpg',
         'https://www.youtube.com/watch?v=feq9ZN9Mhhw',
         'now_showing'),
 
@@ -266,7 +282,7 @@ VALUES ('Avengers: Endgame',
         'Bộ phim kể về Mitsuha – nữ sinh trung học sống ở một thị trấn nhỏ của vùng Itomori. Luôn chán chường với cuộc sống tẻ nhạt ở vùng thôn quê, Mitsuha ao ước kiếp sau được làm một anh chàng đẹp trai sống ở thủ đô Tokyo sôi động. Trong khi đó ở Tokyo, anh chàng Taki rất hài lòng với cuộc sống và công việc làm thêm ở một nhà hàng Italy sau giờ học. Tuy vậy, hằng đêm cậu vẫn mơ thấy mình trong cơ thể một cô gái thôn quê. Đến một hôm khi sự kiện nghìn năm có một là Sao Chổi tiến gần tới Trái đất, Taki và Mitsuha bỗng bị hoán đổi cơ thể. Cứ cách một ngày, Taki lại trở thành Mitsuha khám phá cuộc sống vùng quê và ngược lại, Mitsuha làm anh chàng nam sinh Tokyo háo hức với cuộc sống nơi đô thị ồn ào. Cứ thế, câu chuyện của Mitsuha và Taki diễn ra dẫn dắt khán giả đến những tình huống đặc biệt, dù cả hai chưa bao giờ gặp mặt hay thậm chí là biết tên của nhau.',
         'Makoto Shinkai',
         'Ryunosuke Kamiki, Mone Kamishiraishi',
-        13, 'Nhật Bản', 110, '2026-06-05', 'images/movies/TenCauLaGi.png',
+        13, 'JP', 110, '2026-06-05', 'images/movies/TenCauLaGi.png',
         'https://www.youtube.com/watch?v=eGwAKaouPrg',
         'now_showing'),
 
@@ -274,7 +290,7 @@ VALUES ('Avengers: Endgame',
         'Nội dung xoay quanh một hội nghị công nghệ sinh học trong tòa nhà lớn thì bất ngờ xảy ra sự cố rò rỉ virus đột biến. Chính quyền lập tức phong tỏa toàn bộ khu vực, khiến những người còn sống bị mắc kẹt bên trong cùng các sinh vật nhiễm bệnh đang tiến hóa liên tục.',
         'Yeon Sang-ho',
         'Gong Yoo, Jung Yu-mi',
-        18, 'Hàn Quốc', 122, '2026-06-12', 'images/movies/BayXacSong.jpg',
+        18, 'KR', 122, '2026-06-12', 'images/movies/BayXacSong.jpg',
         'https://www.youtube.com/watch?v=NI5iE1R8HgQ',
         'now_showing'),
 
@@ -282,15 +298,15 @@ VALUES ('Avengers: Endgame',
         'Suốt mười năm đằng đẵng, chú chó hoang lông trắng với chiếc mũi đỏ mang tên GOHAN cứ thế phiêu dạt giữa cuộc đời, ôm trọn những ký ức chẳng thể phai nhòa. Đó là sự ấm áp bình lặng bên người chủ đầu tiên – một kỹ sư ô tô người Nhật sắp sửa nghỉ hưu. Là những ngày tháng rộn ràng bên người chủ thứ hai – cô giúp việc trẻ người Miến Điện làm việc tại trạm cứu hộ thú cưng. Và cuối cùng, là những bài học thầm lặng chú dạy cho người chủ hiện tại – một sinh viên mỹ thuật, người lần đầu tiên trong đời học cách định nghĩa thế nào là tình yêu. Một câu chuyện về thời gian, về những cuộc hội ngộ và chia ly, và về một chú chó ghi nhớ tất cả.',
         'Lee Chang-dong',
         'Yoo Ah-in, Kim Hyun-soo',
-        8, 'Hàn Quốc', 140, '2026-06-25', 'images/movies/TamBietGohan.jpg',
-        'https://www.youtube.com/watch?v=PaGtIdi8ONk', -- trailer giả định, bạn có thể thay bằng URL thật nếu có
+        8, 'KR', 140, '2026-06-25', 'images/movies/TamBietGohan.jpg',
+        'https://www.youtube.com/watch?v=PaGtIdi8ONk',
         'now_showing'),
 
        ('Lớp Học Ám Sát: Giờ Của Chúng Ta',
         'Phim điện ảnh phiên bản hoàn toàn mới của “Lớp Học Ám Sát” nhân dịp kỷ niệm 10 năm ra mắt! Một sinh vật mang vận tốc Mach 20 đe dọa hủy diệt Trái Đất nhưng lại trở thành một thầy giáo? Một lớp học bị coi là "phế thải" bỗng chốc trở thành hy vọng cuối cùng của nhân loại? Những câu chuyện mới toanh chưa từng được kể trên màn ảnh sẽ mang đến cho fan hâm mộ những thước phim bùng nổ cùng ký ức rực rỡ nhất về thầy Koro và tập thể lớp 3-E',
         'Yoshihiro Izumi',
         'Yoshihiro Izumi, Kaito Amano',
-        13, 'Nhật Bản', 86, '2026-06-05', 'images/movies/LopHocAmSat.jpg',
+        13, 'JP', 86, '2026-06-05', 'images/movies/LopHocAmSat.jpg',
         'https://www.youtube.com/watch?v=bjkwRzGSe-E',
         'now_showing'),
 
@@ -298,7 +314,7 @@ VALUES ('Avengers: Endgame',
         'Để câu view, một nhóm streamer livestream khám phá Lầu Chú Hỏa, dinh thự bỏ hoang gắn với truyền thuyết về con ma nhà họ Hứa. Nhưng ngay từ những phút đầu, mọi thứ đã vượt khỏi tầm kiểm soát. Hiện tượng siêu nhiên liên tiếp xảy ra, kéo cả nhóm vào vòng xoáy ám ảnh không lối thoát. Buổi livestream nhanh chóng biến thành nơi “tạo nghiệp – trả nghiệp”, khi từng người phải trả giá cho lòng tham và sự báng bổ trước linh hồn oan khuất của cô tiểu thư họ Hứa.',
         'Lê Bảo Trung',
         'Trấn Thành, Ngọc Trinh',
-        18, 'Việt Nam', 94, '2026-06-12', 'images/movies/LauChuHoa.jpg',
+        18, 'VN', 94, '2026-06-12', 'images/movies/LauChuHoa.jpg',
         'https://www.youtube.com/watch?v=4YJ4cV1dTJs',
         'coming'),
 
@@ -306,10 +322,10 @@ VALUES ('Avengers: Endgame',
         'Supergirl – bom tấn mới nhất từ DC Studios – sẽ chính thức đổ bộ các rạp chiếu toàn cầu vào mùa hè này, với Milly Alcock đảm nhận vai kép Supergirl/Kara Zor-El. Khi một kẻ thù bất ngờ và tàn nhẫn giáng đòn ngay tại nơi cô gọi là nhà, Kara Zor-El – hay còn được biết đến với cái tên Supergirl – buộc phải bắt tay với một đồng minh không ai ngờ tới, bắt đầu chuyến hành trình xuyên dải ngân hà đầy sử thi, nơi vừa là cuộc trả thù, vừa là hành trình đi tìm công lý.',
         'James Gunn',
         'Milly Alcock, Helen Slater',
-        16, 'Hoa Kỳ', 108, '2026-06-26', 'images/movies/SuperGirl.jpg',
+        16, 'US', 108, '2026-06-26', 'images/movies/SuperGirl.jpg',
         'https://www.youtube.com/watch?v=s1-pfiVMKAs',
         'now_showing');
-
+        
 -- movie_genre (giữ nguyên)
 INSERT INTO movie_genre (movie_id, genre_id)
 VALUES (1, 1),
