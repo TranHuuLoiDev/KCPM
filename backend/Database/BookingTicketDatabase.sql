@@ -1,5 +1,5 @@
 -- ==============================================
--- DATABASE: movie_ticket_booking (Hoàn chỉnh)
+-- DATABASE: movie_ticket_booking (Hoàn chỉnh - ĐÃ SỬA LỖI end_time)
 -- ==============================================
 
 DROP DATABASE IF EXISTS movie_ticket_booking;
@@ -168,6 +168,26 @@ CREATE TABLE showtimes
     INDEX idx_showdate (show_date),
     INDEX idx_movie (movie_id)
 );
+
+-- ==============================================
+-- FIX: showtimes.end_time là NOT NULL nhưng không có DEFAULT và
+-- không có INSERT nào trong file gốc truyền giá trị này, nên trước đây
+-- MySQL báo lỗi: "Field 'end_time' doesn't have a default value".
+-- Trigger dưới đây tự động tính end_time = start_time + duration phim
+-- cho mọi INSERT vào showtimes, không cần sửa các câu INSERT có sẵn.
+-- ==============================================
+DROP TRIGGER IF EXISTS trg_showtimes_end_time;
+DELIMITER $$
+CREATE TRIGGER trg_showtimes_end_time
+    BEFORE INSERT
+    ON showtimes
+    FOR EACH ROW
+BEGIN
+    DECLARE movie_duration INT;
+    SELECT duration INTO movie_duration FROM movies WHERE id = NEW.movie_id;
+    SET NEW.end_time = ADDTIME(NEW.start_time, SEC_TO_TIME(movie_duration * 60));
+END$$
+DELIMITER ;
 
 -- 10.5 Bảng payment_methods (mới thêm để tránh lặp literal)
 DROP TABLE IF EXISTS payment_methods;
@@ -386,6 +406,8 @@ VALUES ('CGV Vincom', '72 Lê Thánh Tôn, Quận 1', 'Hồ Chí Minh', '1900545
        ('Galaxy Cinema', '116 Nguyễn Du, Quận 1', 'Hồ Chí Minh', '19002224', 6);
 
 -- Rooms
+-- LƯU Ý: total_seats đặt là 40 nhưng generate_seats() bên dưới sinh 8 hàng (A-H) x 12 ghế = 96 ghế/phòng.
+-- Nếu muốn total_seats phản ánh đúng số ghế thực tế, đổi 40 -> 96 (không sửa ở đây để giữ nguyên ý định gốc của bạn).
 INSERT INTO rooms (theatre_id, name, total_seats)
 VALUES (1, 'Phòng 1', 40),
        (1, 'Phòng 2', 40),
@@ -437,6 +459,7 @@ CALL generate_seats();
 DROP PROCEDURE generate_seats;
 
 -- showtimes (giữ nguyên các suất chiếu đặc thù ban đầu, không lặp lại pattern)
+-- end_time được trigger trg_showtimes_end_time tự động tính, không cần khai báo ở đây.
 INSERT INTO showtimes (movie_id, room_id, show_date, start_time, base_price)
 VALUES (1, 1, '2026-07-01', '09:00:00', 90000),
        (1, 2, '2026-07-01', '19:00:00', 90000),
@@ -488,6 +511,7 @@ VALUES (1, 1, '2026-07-01', '09:00:00', 90000),
 -- sinh bằng thủ tục thay vì liệt kê ~270 dòng gần như giống hệt nhau
 -- (nguyên nhân còn lại gây 39.3% duplication trên SonarQube)
 -- Pattern A và Pattern B xen kẽ đúng như dữ liệu gốc
+-- end_time cũng được trigger trg_showtimes_end_time tự động tính.
 -- ==============================================
 DROP PROCEDURE IF EXISTS generate_daily_showtimes;
 DELIMITER $$
