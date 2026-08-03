@@ -224,6 +224,9 @@ VALUES ('Hành động', 'Phim có nhiều cảnh đánh nhau, rượt đuổi.'
        ('Tam lý', 'Phim có nhiều yếu tố suy luận và tình tiết suy ngẫm.'),
        ('Hoạt hình', 'Phim dành cho thiếu nhi và gia đình.');
 
+-- Định nghĩa hằng số cho trạng thái phim, tránh lặp lại literal 'coming' nhiều lần
+SET @STATUS_COMING = 'coming';
+
 -- Movies (đã bỏ cột images, thêm trailer_url)
 INSERT INTO movies (title, description, director, cast, age_restriction, country, duration, screening_date, poster,
                     trailer_url, status)
@@ -241,7 +244,7 @@ VALUES ('Avengers: Endgame',
         'Nobita, Doraemon, Shizuka',
         0, 'Nhật Bản', 105, '2023-06-01', 'images/movies/DoraemonBangGiaoHuongDiaCau.jpg',
         'https://www.youtube.com/watch?v=Yug8gbDd5EQ',
-        'coming'),
+        @STATUS_COMING),
 
        ('Minions & Quái Vật',
         'Minions & Quái Vật là câu chuyện vừa náo loạn vừa ngớ ngẩn nhưng “hoàn toàn có thật” về cách Minions chinh phục Hollywood, trở thành ngôi sao điện ảnh, rồi mất tất cả, vô tình thả quái vật ra khắp thế giới và sau đó phải cùng nhau hợp sức để cứu lấy hành tinh khỏi chính mớ hỗn loạn mà mình tạo ra.',
@@ -249,7 +252,7 @@ VALUES ('Avengers: Endgame',
         'Minions, Gru',
         0, 'Hoa Kỳ', 90, '2026-07-01', 'images/movies/MinionsVaQuaiVat.jpg',
         'https://www.youtube.com/watch?v=HpDHFqMykpA',
-        'coming'),
+        @STATUS_COMING),
 
        ('Câu Chuyện Đồ Chơi 5',
         'Các món đồ chơi đã trở lại trong Toy Story 5 của Disney và Pixar, và lần này sẽ là cuộc đối đầu giữa đồ chơi và công nghệ. Buzz, Woody, Jessie cùng cả nhóm sẽ phải đối mặt với thử thách khó khăn hơn gấp bội khi chạm trán một mối đe dọa hoàn toàn mới đối với niềm vui vui chơi.',
@@ -297,7 +300,7 @@ VALUES ('Avengers: Endgame',
         'Trấn Thành, Ngọc Trinh',
         18, 'Việt Nam', 94, '2026-06-12', 'images/movies/LauChuHoa.jpg',
         'https://www.youtube.com/watch?v=4YJ4cV1dTJs',
-        'coming'),
+        @STATUS_COMING),
 
        ('Supergirl',
         'Supergirl – bom tấn mới nhất từ DC Studios – sẽ chính thức đổ bộ các rạp chiếu toàn cầu vào mùa hè này, với Milly Alcock đảm nhận vai kép Supergirl/Kara Zor-El. Khi một kẻ thù bất ngờ và tàn nhẫn giáng đòn ngay tại nơi cô gọi là nhà, Kara Zor-El – hay còn được biết đến với cái tên Supergirl – buộc phải bắt tay với một đồng minh không ai ngờ tới, bắt đầu chuyến hành trình xuyên dải ngân hà đầy sử thi, nơi vừa là cuộc trả thù, vừa là hành trình đi tìm công lý.',
