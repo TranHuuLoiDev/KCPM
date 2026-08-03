@@ -39,6 +39,10 @@ class BookingService {
             $paymentMethod = 'cash';
         }
 
+        if ($paymentMethod === 'cash') {
+            $paymentMethod = 'bank_transfer';
+        }
+
         $showtime = $this->showtimeModel->getDetailById($showtimeId);
 
         if (!$showtime || ($showtime['status'] ?? '') !== 'active') {

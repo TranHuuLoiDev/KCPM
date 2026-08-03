@@ -1,0 +1,25 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "Avengers: Endgame",
+      "description": "Phim siêu anh hùng bom tấn",
+      "status": "now_showing",
+      "poster": "images/movies/Avengers_Endgame.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Doraemon: Nobita và bản giao hưởng địa cầu",
+      "description": "Phim hoạt hình hài hước",
+      "status": "coming",
+      "poster": "images/movies/DoraemonBangGiaoHuongDiaCau.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Minions & Quái Vật",
+      "description": "Phim hoạt hình vui nhộn",
+      "status": "coming",
+      "poster": "images/movies/MinionsVaQuaiVat.jpg"
+    }
+  ]
+}
