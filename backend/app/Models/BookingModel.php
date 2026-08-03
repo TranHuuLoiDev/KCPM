@@ -125,7 +125,7 @@ class BookingModel {
                 b.id,
                 b.user_id,
                 b.total_price,
-                b.payment_method,
+                b.payment_method_id,
                 b.status,
                 b.created_at,
                 b.updated_at,
@@ -150,7 +150,7 @@ class BookingModel {
             LEFT JOIN seats s ON s.id = t.seat_id
             $whereSql
             GROUP BY
-                b.id, b.user_id, b.total_price, b.payment_method, b.status,
+                b.id, b.user_id, b.total_price, b.payment_method_id, b.status,
                 b.created_at, b.updated_at, u.first_name, u.last_name, u.email, u.phone
             ORDER BY b.created_at DESC, b.id DESC
         ";
@@ -183,7 +183,7 @@ class BookingModel {
                 b.id,
                 b.user_id,
                 b.total_price,
-                b.payment_method,
+                b.payment_method_id,
                 b.status,
                 b.created_at,
                 b.updated_at,
@@ -210,7 +210,7 @@ class BookingModel {
             LEFT JOIN seats s ON s.id = t.seat_id
             WHERE b.id = ?
             GROUP BY
-                b.id, b.user_id, b.total_price, b.payment_method, b.status,
+                b.id, b.user_id, b.total_price, b.payment_method_id, b.status,
                 b.created_at, b.updated_at, u.first_name, u.last_name, u.email,
                 u.phone, u.birth_date
             LIMIT 1
@@ -363,7 +363,7 @@ class BookingModel {
 
         $stmt = mysqli_prepare(
             $this->conn,
-            "INSERT INTO bookings (user_id, total_price, payment_method, status)
+            "INSERT INTO bookings (user_id, total_price, payment_method_id, status)
              VALUES (?, ?, ?, ?)"
         );
 
