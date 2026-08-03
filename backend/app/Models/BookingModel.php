@@ -358,9 +358,12 @@ class BookingModel {
     //
 
     //
+
     public function createBooking($userId, $totalPrice, $paymentMethod) {
         $status = 'paid';
 
+        // [KAN-22] payment_method_id thay cho payment_method (theo thay đổi schema ở KAN-19), ngoài ra thay thế các payment_method thành payment_method_id như brnahch trước
+        // branch này và commit mục đích để gắn task đến jira
         $stmt = mysqli_prepare(
             $this->conn,
             "INSERT INTO bookings (user_id, total_price, payment_method_id, status)
