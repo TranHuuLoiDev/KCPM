@@ -30,7 +30,7 @@ class SeatService {
         return ['status' => 'error', 'message' => 'Lỗi khi thêm ghế: ' . $this->model->getError()];
     }
 
-    public function updateSeat($id, $data) {
+    private function validateUpdateSeat($id, &$data) {
         if ($id <= 0) {
             return ['status' => 'error', 'message' => 'ID ghế không hợp lệ!'];
         }
@@ -41,19 +41,27 @@ class SeatService {
         }
 
         $data['seat_row'] = strtoupper(trim($data['seat_row'] ?? ''));
-        $validation = $this->validate($data, $id);
-        if ($validation) {
-            return $validation;
+        return $this->validate($data, $id);
+    }
+
+    public function updateSeat($id, $data) {
+        $error = $this->validateUpdateSeat($id, $data);
+        if ($error) {
+            return $error;
         }
 
-        if ($this->model->update($id, $data)) {
-            $this->syncRoomTotalSeats($data['room_id']);
-            if ((int)$existing['room_id'] !== (int)$data['room_id']) {
-                $this->syncRoomTotalSeats($existing['room_id']);
-            }
-            return ['status' => 'success', 'message' => 'Cập nhật ghế thành công!'];
+        $existing = $this->model->findById($id);
+
+        if (!$this->model->update($id, $data)) {
+            return ['status' => 'error', 'message' => 'Lỗi khi cập nhật ghế: ' . $this->model->getError()];
         }
-        return ['status' => 'error', 'message' => 'Lỗi khi cập nhật ghế: ' . $this->model->getError()];
+
+        $this->syncRoomTotalSeats($data['room_id']);
+        if ((int)$existing['room_id'] !== (int)$data['room_id']) {
+            $this->syncRoomTotalSeats($existing['room_id']);
+        }
+
+        return ['status' => 'success', 'message' => 'Cập nhật ghế thành công!'];
     }
 
     public function deleteSeat($id) {
