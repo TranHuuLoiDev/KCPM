@@ -158,26 +158,18 @@ CREATE TABLE showtimes
     INDEX idx_movie (movie_id)
 );
 
--- 10.5 Bảng payment_methods (mới thêm để tránh lặp literal)
-DROP TABLE IF EXISTS payment_methods;
-CREATE TABLE payment_methods
-(
-    code VARCHAR(20) PRIMARY KEY
-);
-
 -- 11. Bảng bookings
 DROP TABLE IF EXISTS bookings;
 CREATE TABLE bookings
 (
-    id                INT PRIMARY KEY AUTO_INCREMENT,
-    user_id           INT            NOT NULL,
-    total_price       DECIMAL(10, 2) NOT NULL,
-    payment_method_id VARCHAR(20)    NOT NULL,
-    status            ENUM ('pending', 'paid', 'canceled') DEFAULT 'pending',
-    created_at        TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
-    updated_at        TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    id             INT PRIMARY KEY AUTO_INCREMENT,
+    user_id        INT            NOT NULL,
+    total_price    DECIMAL(10, 2) NOT NULL,
+    payment_method ENUM ('momo', 'vnpay', 'bank_transfer'),
+    status         ENUM ('pending', 'paid', 'canceled') DEFAULT 'pending',
+    created_at     TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (payment_method_id) REFERENCES payment_methods (code),
     INDEX idx_status (status)
 );
 
@@ -205,14 +197,20 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ==============================================
 
 -- Users
-SET @default_password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+-- Định nghĩa 1 lần literal password hash mặc định để tránh trùng lặp (dùng session variable của MySQL)
+SET @default_password_hash := '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
 
 INSERT INTO users (first_name, last_name, email, password, phone, role)
-VALUES ('Admin', 'User', 'admin@example.com', @default_password, '0123456789', 'admin'),
-       ('John', 'Doe', 'user@example.com', @default_password, '0987654321', 'user'),
-       ('Nguyễn', 'Văn An', 'nguyenvanan@example.com', @default_password, '0912345678', 'user'),
-       ('Trần', 'Thị Bình', 'tranthibinh@example.com', @default_password, '0923456789', 'user'),
-       ('Lê', 'Hoàng Cường', 'lehoangcuong@example.com', @default_password, '0934567890', 'user');
+VALUES ('Admin', 'User', 'admin@example.com', @default_password_hash,
+        '0123456789', 'admin'),
+       ('John', 'Doe', 'user@example.com', @default_password_hash, '0987654321',
+        'user'),
+       ('Nguyễn', 'Văn An', 'nguyenvanan@example.com', @default_password_hash,
+        '0912345678', 'user'),
+       ('Trần', 'Thị Bình', 'tranthibinh@example.com', @default_password_hash,
+        '0923456789', 'user'),
+       ('Lê', 'Hoàng Cường', 'lehoangcuong@example.com', @default_password_hash,
+        '0934567890', 'user');
 
 -- Genres
 INSERT INTO genres (name, description)
@@ -224,7 +222,13 @@ VALUES ('Hành động', 'Phim có nhiều cảnh đánh nhau, rượt đuổi.'
        ('Tam lý', 'Phim có nhiều yếu tố suy luận và tình tiết suy ngẫm.'),
        ('Hoạt hình', 'Phim dành cho thiếu nhi và gia đình.');
 
+-- Định nghĩa hằng số cho trạng thái phim, tránh lặp lại literal 'coming' nhiều lần
+SET @STATUS_COMING = 'coming';
+
 -- Movies (đã bỏ cột images, thêm trailer_url)
+-- Định nghĩa 1 lần literal tên quốc gia để tránh trùng lặp
+SET @country_japan := 'Nhật Bản';
+
 INSERT INTO movies (title, description, director, cast, age_restriction, country, duration, screening_date, poster,
                     trailer_url, status)
 VALUES ('Avengers: Endgame',
@@ -239,17 +243,17 @@ VALUES ('Avengers: Endgame',
         'TÁC PHẨM KỶ NIỆM 90 NĂM FUJIKO F FUJIO Chuẩn bị cho buổi hòa nhạc ở trường, Nobita đang tập thổi sáo - nhạc cụ mà cậu dở tệ. Thích thú trước nốt "No" lạc quẻ của Nobita, Micca - cô bé bí ẩn đã mời Doraemon, Nobita cùng nhóm bạn đến "Farre" - Cung điện âm nhạc tọa lạc trên một hành tinh nơi âm nhạc sẽ hóa thành năng lượng. Nhằm cứu cung điện này, Micca đang tìm kiếm "virtuoso" - bậc thầy âm nhạc sẽ cùng mình biểu diễn! Với bảo bối thần kì "chứng chỉ chuyên viên âm nhạc", Doraemon và các bạn đã chọn nhạc cụ, cùng Micca hòa tấu, từng bước khôi phục cung điện. Tuy nhiên, một vật thể sống đáng sợ sẽ xóa số âm nhạc khỏi thế giới đang đến gần, Trái Đất đang rơi vào nguy hiểm... ! Liệu những người bạn nhỏ có thể cứu được "tương lai âm nhạc" và cả địa cầu này?',
         'Ryūichi Yagi',
         'Nobita, Doraemon, Shizuka',
-        0, 'Nhật Bản', 105, '2023-06-01', 'images/movies/DoraemonBangGiaoHuongDiaCau.jpg',
+        0, @country_japan, 105, '2023-06-01', 'images/movies/DoraemonBangGiaoHuongDiaCau.jpg',
         'https://www.youtube.com/watch?v=Yug8gbDd5EQ',
-        'coming'),
+        @STATUS_COMING),
 
        ('Minions & Quái Vật',
-        'Minions & Quái Vật là câu chuyện vừa náo loạn vừa ngớ ngẩn nhưng “hoàn toàn có thật” về cách Minions chinh phục Hollywood, trở thành ngôi sao điện ảnh, rồi mất tất cả, vô tình thả quái vật ra khắp thế giới và sau đó phải cùng nhau hợp sức để cứu lấy hành tinh khỏi chính mớ hỗn loạn mà mình tạo ra.',
+        'Minions & Quái Vật là câu chuyện vừa náo loạn vừa ngớ ngẩn nhưng "hoàn toàn có thật" về cách Minions chinh phục Hollywood, trở thành ngôi sao điện ảnh, rồi mất tất cả, vô tình thả quái vật ra khắp thế giới và sau đó phải cùng nhau hợp sức để cứu lấy hành tinh khỏi chính mớ hỗn loạn mà mình tạo ra.',
         'Kyle Balda',
         'Minions, Gru',
         0, 'Hoa Kỳ', 90, '2026-07-01', 'images/movies/MinionsVaQuaiVat.jpg',
         'https://www.youtube.com/watch?v=HpDHFqMykpA',
-        'coming'),
+        @STATUS_COMING),
 
        ('Câu Chuyện Đồ Chơi 5',
         'Các món đồ chơi đã trở lại trong Toy Story 5 của Disney và Pixar, và lần này sẽ là cuộc đối đầu giữa đồ chơi và công nghệ. Buzz, Woody, Jessie cùng cả nhóm sẽ phải đối mặt với thử thách khó khăn hơn gấp bội khi chạm trán một mối đe dọa hoàn toàn mới đối với niềm vui vui chơi.',
@@ -263,7 +267,7 @@ VALUES ('Avengers: Endgame',
         'Bộ phim kể về Mitsuha – nữ sinh trung học sống ở một thị trấn nhỏ của vùng Itomori. Luôn chán chường với cuộc sống tẻ nhạt ở vùng thôn quê, Mitsuha ao ước kiếp sau được làm một anh chàng đẹp trai sống ở thủ đô Tokyo sôi động. Trong khi đó ở Tokyo, anh chàng Taki rất hài lòng với cuộc sống và công việc làm thêm ở một nhà hàng Italy sau giờ học. Tuy vậy, hằng đêm cậu vẫn mơ thấy mình trong cơ thể một cô gái thôn quê. Đến một hôm khi sự kiện nghìn năm có một là Sao Chổi tiến gần tới Trái đất, Taki và Mitsuha bỗng bị hoán đổi cơ thể. Cứ cách một ngày, Taki lại trở thành Mitsuha khám phá cuộc sống vùng quê và ngược lại, Mitsuha làm anh chàng nam sinh Tokyo háo hức với cuộc sống nơi đô thị ồn ào. Cứ thế, câu chuyện của Mitsuha và Taki diễn ra dẫn dắt khán giả đến những tình huống đặc biệt, dù cả hai chưa bao giờ gặp mặt hay thậm chí là biết tên của nhau.',
         'Makoto Shinkai',
         'Ryunosuke Kamiki, Mone Kamishiraishi',
-        13, 'Nhật Bản', 110, '2026-06-05', 'images/movies/TenCauLaGi.png',
+        13, @country_japan, 110, '2026-06-05', 'images/movies/TenCauLaGi.png',
         'https://www.youtube.com/watch?v=eGwAKaouPrg',
         'now_showing'),
 
@@ -280,24 +284,24 @@ VALUES ('Avengers: Endgame',
         'Lee Chang-dong',
         'Yoo Ah-in, Kim Hyun-soo',
         8, 'Hàn Quốc', 140, '2026-06-25', 'images/movies/TamBietGohan.jpg',
-        'https://www.youtube.com/watch?v=PaGtIdi8ONk', -- trailer giả định, bạn có thể thay bằng URL thật nếu có
+        'https://www.youtube.com/watch?v=PaGtIdi8ONk',
         'now_showing'),
 
        ('Lớp Học Ám Sát: Giờ Của Chúng Ta',
-        'Phim điện ảnh phiên bản hoàn toàn mới của “Lớp Học Ám Sát” nhân dịp kỷ niệm 10 năm ra mắt! Một sinh vật mang vận tốc Mach 20 đe dọa hủy diệt Trái Đất nhưng lại trở thành một thầy giáo? Một lớp học bị coi là "phế thải" bỗng chốc trở thành hy vọng cuối cùng của nhân loại? Những câu chuyện mới toanh chưa từng được kể trên màn ảnh sẽ mang đến cho fan hâm mộ những thước phim bùng nổ cùng ký ức rực rỡ nhất về thầy Koro và tập thể lớp 3-E',
+        'Phim điện ảnh phiên bản hoàn toàn mới của "Lớp Học Ám Sát" nhân dịp kỷ niệm 10 năm ra mắt! Một sinh vật mang vận tốc Mach 20 đe dọa hủy diệt Trái Đất nhưng lại trở thành một thầy giáo? Một lớp học bị coi là "phế thải" bỗng chốc trở thành hy vọng cuối cùng của nhân loại? Những câu chuyện mới toanh chưa từng được kể trên màn ảnh sẽ mang đến cho fan hâm mộ những thước phim bùng nổ cùng ký ức rực rỡ nhất về thầy Koro và tập thể lớp 3-E',
         'Yoshihiro Izumi',
         'Yoshihiro Izumi, Kaito Amano',
-        13, 'Nhật Bản', 86, '2026-06-05', 'images/movies/LopHocAmSat.jpg',
+        13, @country_japan, 86, '2026-06-05', 'images/movies/LopHocAmSat.jpg',
         'https://www.youtube.com/watch?v=bjkwRzGSe-E',
         'now_showing'),
 
        ('Lầu Chú Hoả',
-        'Để câu view, một nhóm streamer livestream khám phá Lầu Chú Hỏa, dinh thự bỏ hoang gắn với truyền thuyết về con ma nhà họ Hứa. Nhưng ngay từ những phút đầu, mọi thứ đã vượt khỏi tầm kiểm soát. Hiện tượng siêu nhiên liên tiếp xảy ra, kéo cả nhóm vào vòng xoáy ám ảnh không lối thoát. Buổi livestream nhanh chóng biến thành nơi “tạo nghiệp – trả nghiệp”, khi từng người phải trả giá cho lòng tham và sự báng bổ trước linh hồn oan khuất của cô tiểu thư họ Hứa.',
+        'Để câu view, một nhóm streamer livestream khám phá Lầu Chú Hỏa, dinh thự bỏ hoang gắn với truyền thuyết về con ma nhà họ Hứa. Nhưng ngay từ những phút đầu, mọi thứ đã vượt khỏi tầm kiểm soát. Hiện tượng siêu nhiên liên tiếp xảy ra, kéo cả nhóm vào vòng xoáy ám ảnh không lối thoát. Buổi livestream nhanh chóng biến thành nơi "tạo nghiệp – trả nghiệp", khi từng người phải trả giá cho lòng tham và sự báng bổ trước linh hồn oan khuất của cô tiểu thư họ Hứa.',
         'Lê Bảo Trung',
         'Trấn Thành, Ngọc Trinh',
         18, 'Việt Nam', 94, '2026-06-12', 'images/movies/LauChuHoa.jpg',
         'https://www.youtube.com/watch?v=4YJ4cV1dTJs',
-        'coming'),
+        @STATUS_COMING),
 
        ('Supergirl',
         'Supergirl – bom tấn mới nhất từ DC Studios – sẽ chính thức đổ bộ các rạp chiếu toàn cầu vào mùa hè này, với Milly Alcock đảm nhận vai kép Supergirl/Kara Zor-El. Khi một kẻ thù bất ngờ và tàn nhẫn giáng đòn ngay tại nơi cô gọi là nhà, Kara Zor-El – hay còn được biết đến với cái tên Supergirl – buộc phải bắt tay với một đồng minh không ai ngờ tới, bắt đầu chuyến hành trình xuyên dải ngân hà đầy sử thi, nơi vừa là cuộc trả thù, vừa là hành trình đi tìm công lý.',
@@ -1079,15 +1083,8 @@ VALUES (1, 1, '2026-07-01', '09:00:00', 90000),
        (8, 1, '2026-08-17', '19:00:00', 80000),
        (10, 2, '2026-08-17', '20:30:00', 100000);
 
-
--- payment_methods
-INSERT INTO payment_methods (code)
-VALUES ('momo'),
-       ('vnpay'),
-       ('bank_transfer');
-
 -- bookings
-INSERT INTO bookings (user_id, total_price, payment_method_id, status)
+INSERT INTO bookings (user_id, total_price, payment_method, status)
 VALUES (3, 200000, 'momo', 'paid'),
        (3, 290000, 'vnpay', 'paid'),
        (4, 310000, 'bank_transfer', 'paid'),
