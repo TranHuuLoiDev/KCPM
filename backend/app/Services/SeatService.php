@@ -41,12 +41,7 @@ class SeatService {
         }
 
         $data['seat_row'] = strtoupper(trim($data['seat_row'] ?? ''));
-        $validation = $this->validate($data, $id);
-        if ($validation) {
-            return $validation;
-        }
-
-        return null;
+        return $this->validate($data, $id);
     }
 
     public function updateSeat($id, $data) {
