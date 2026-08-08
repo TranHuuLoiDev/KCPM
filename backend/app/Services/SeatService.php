@@ -286,7 +286,7 @@ class SeatService {
      * Lấy thông tin ghế theo danh sách ID
      */
     public function getSeatsByIds($seatIds) {
-        if (empty($seatIds)) return [];
-        return $this->seatModel->getByIds($seatIds);
+    if (empty($seatIds)) return [];
+    return $this->model->getByIds($seatIds);  // sửa từ $this->seatModel
     }
 }
