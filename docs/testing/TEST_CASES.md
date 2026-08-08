@@ -83,7 +83,13 @@
 - SonarCloud no longer reports the duplicated literal issue.
 
 #### Actual Result
-- Not executed yet.
+
+- `@STATUS_NOW_SHOWING` is defined once in the SQL seed script.
+- The duplicated `now_showing` literals in the movie INSERT statements were replaced with `@STATUS_NOW_SHOWING`.
+- SonarCloud analysis completed successfully.
+- SonarCloud Quality Gate passed with 0 new issues.
+- The duplicated literal issue reported by KAN-15 is no longer reported.
 
 #### Status
-`NOT RUN`
+
+`PASS`
