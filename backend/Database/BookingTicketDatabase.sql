@@ -162,13 +162,13 @@ CREATE TABLE showtimes
 DROP TABLE IF EXISTS bookings;
 CREATE TABLE bookings
 (
-    id             INT PRIMARY KEY AUTO_INCREMENT,
-    user_id        INT            NOT NULL,
-    total_price    DECIMAL(10, 2) NOT NULL,
-    payment_method ENUM ('momo', 'vnpay', 'bank_transfer'),
-    status         ENUM ('pending', 'paid', 'canceled') DEFAULT 'pending',
-    created_at     TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
-    updated_at     TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    id                INT PRIMARY KEY AUTO_INCREMENT,
+    user_id           INT            NOT NULL,
+    total_price       DECIMAL(10, 2) NOT NULL,
+    payment_method_id ENUM ('momo', 'vnpay', 'bank_transfer'),
+    status            ENUM ('pending', 'paid', 'canceled') DEFAULT 'pending',
+    created_at        TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     INDEX idx_status (status)
 );
@@ -1089,7 +1089,7 @@ JOIN movies m ON s.movie_id = m.id
 SET s.end_time = ADDTIME(s.start_time, SEC_TO_TIME(m.duration * 60));
 
 -- bookings
-INSERT INTO bookings (user_id, total_price, payment_method, status)
+INSERT INTO bookings (user_id, total_price, payment_method_id, status)
 VALUES (3, 200000, 'momo', 'paid'),
        (3, 290000, 'vnpay', 'paid'),
        (4, 310000, 'bank_transfer', 'paid'),
