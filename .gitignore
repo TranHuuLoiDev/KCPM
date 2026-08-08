@@ -16,4 +16,4 @@ Thumbs.db
 public/uploads/*
 
 # Composer
-/vendor/
+vendor/

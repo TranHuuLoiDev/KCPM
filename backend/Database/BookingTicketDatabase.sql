@@ -146,7 +146,7 @@ CREATE TABLE showtimes
     room_id    INT            NOT NULL,
     show_date  DATE           NOT NULL,
     start_time TIME           NOT NULL,
-    end_time   TIME           NOT NULL,
+    end_time   TIME           NULL,
     base_price DECIMAL(10, 2) NOT NULL     DEFAULT 80000,
     status     ENUM ('active', 'canceled') DEFAULT 'active',
     created_at TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP,
@@ -1082,6 +1082,11 @@ VALUES (1, 1, '2026-07-01', '09:00:00', 90000),
        (7, 2, '2026-08-17', '17:30:00', 85000),
        (8, 1, '2026-08-17', '19:00:00', 80000),
        (10, 2, '2026-08-17', '20:30:00', 100000);
+
+-- Tự động tính end_time dựa trên start_time + thời lượng phim
+UPDATE showtimes s
+JOIN movies m ON s.movie_id = m.id
+SET s.end_time = ADDTIME(s.start_time, SEC_TO_TIME(m.duration * 60));
 
 -- bookings
 INSERT INTO bookings (user_id, total_price, payment_method, status)

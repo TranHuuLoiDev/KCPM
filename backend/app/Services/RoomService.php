@@ -64,6 +64,21 @@ class RoomService {
         return $this->model->getAllWithTheatre();
     }
 
+    public function getRoomById($id) {
+        if ($id <= 0) {
+            return null;
+        }
+        $room = $this->model->findById($id);
+        if ($room) {
+            $theatre = $this->theatreModel->findById($room['theatre_id']);
+            if ($theatre) {
+                $room['theatre_name'] = $theatre['name'];
+                $room['theatre_city'] = $theatre['city'];
+            }
+        }
+        return $room;
+    }
+
     public function getAllTheatres() {
         return $this->theatreModel->getAll();
     }
