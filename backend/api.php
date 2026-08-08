@@ -31,17 +31,19 @@ $segments = array_values(array_filter(explode('/', $path), static function ($seg
     return $segment !== '';
 }));
 
-foreach (['movie-ticket-booking', 'backend', 'api.php'] as $prefix) {
-    if (($segments[0] ?? '') === $prefix) {
-        array_shift($segments);
-    }
+if (($segments[0] ?? '') === 'movie-ticket-booking') {
+    array_shift($segments);
 }
 
-$resource = strtolower($segments[0] ?? '');
-$id = isset($segments[1]) ? (int)$segments[1] : 0;
-if ($id <= 0 && isset($_GET['id'])) {
-    $id = (int)$_GET['id'];
+if (($segments[0] ?? '') === 'backend') {
+    array_shift($segments);
 }
+
+if (($segments[0] ?? '') === 'api.php') {
+    array_shift($segments);
+}
+$resource = $segments[0] ?? '';
+$id = isset($segments[1]) ? (int)$segments[1] : 0;
 $input = readRequestPayload();
 
 if ($method === 'GET' && $resource === 'health') {
@@ -184,13 +186,6 @@ if ($resource === 'theatres') {
     $theatreService = new App\Services\TheatreService();
 
     if ($method === 'GET') {
-        if ($id > 0) {
-            $theatre = $theatreService->getTheatreById($id);
-            if ($theatre) {
-                sendJson(['status' => 'success', 'data' => $theatre]);
-            }
-            sendJson(['status' => 'error', 'message' => 'Rạp không tồn tại'], 404);
-        }
         sendJson(['status' => 'success', 'data' => $theatreService->getAllTheatres()]);
     }
 
@@ -234,14 +229,6 @@ if ($resource === 'rooms') {
     $roomService = new App\Services\RoomService();
 
     if ($method === 'GET') {
-        if ($id > 0) {
-            $room = $roomService->getRoomById($id);
-            if ($room) {
-                sendJson(['status' => 'success', 'data' => $room]);
-            }
-            sendJson(['status' => 'error', 'message' => 'Phòng không tồn tại'], 404);
-        }
-
         sendJson(['status' => 'success', 'data' => $roomService->getAllRooms()]);
     }
 
