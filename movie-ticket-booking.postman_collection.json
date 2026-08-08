@@ -1,51 +1,213 @@
 {
   "info": {
-    "name": "Movie Ticket Booking API",
-    "description": "Collection Postman cho project movie-ticket-booking",
+    "name": "Movie Ticket Booking API - CRUD",
+    "description": "Full CRUD operations for movie-ticket-booking API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-  "item": [
+  "variable": [
     {
-      "name": "Health",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/health",
-          "host": ["{{baseUrl}}"],
-          "path": ["health"]
-        }
-      },
-      "response": []
-    },
+      "key": "baseUrl",
+      "value": "http://localhost/movie-ticket-booking/backend/api.php"
+    }
+  ],
+  "item": [
     {
       "name": "Movies",
       "item": [
         {
-          "name": "Get all movies",
+          "name": "GET all",
           "request": {
             "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/movies",
-              "host": ["{{baseUrl}}"],
-              "path": ["movies"]
-            }
-          },
-          "response": []
+            "url": "{{baseUrl}}/movies"
+          }
         },
         {
-          "name": "Get movie by id",
+          "name": "GET by ID",
           "request": {
             "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/movies/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["movies", "1"]
-            }
-          },
-          "response": []
+            "url": "{{baseUrl}}/movies?id=1"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"New Movie\", \"description\": \"Test\", \"director\": \"Director\", \"cast\": \"Actor\", \"age_restriction\": 13, \"country\": \"Vietnam\", \"duration\": 120, \"screening_date\": \"2026-09-01\", \"trailer_url\": \"http://example.com\", \"status\": \"coming\", \"genre_ids\": [1]}"
+            },
+            "url": "{{baseUrl}}/movies"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"Updated\", \"description\": \"Test\", \"director\": \"Director\", \"cast\": \"Actor\", \"age_restriction\": 13, \"country\": \"Vietnam\", \"duration\": 120, \"screening_date\": \"2026-09-01\", \"trailer_url\": \"http://example.com\", \"status\": \"now_showing\", \"genre_ids\": [1]}"
+            },
+            "url": "{{baseUrl}}/movies?id=1"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/movies?id=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genres",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/genres"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/genres?id=1"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Hành động\", \"description\": \"Phim hành động\"}"
+            },
+            "url": "{{baseUrl}}/genres"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Hài kịch\", \"description\": \"Phim hài\"}"
+            },
+            "url": "{{baseUrl}}/genres?id=1"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/genres?id=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Theatres",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/theatres"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/theatres?id=1"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"CGV Hà Nội\", \"address\": \"123 Trần Duy Hưng\", \"city\": \"Hà Nội\", \"phone\": \"0123456789\", \"total_screens\": 4}"
+            },
+            "url": "{{baseUrl}}/theatres"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Galaxy Cinema\", \"address\": \"456 Nguyễn Huệ\", \"city\": \"HCM\", \"phone\": \"0987654321\", \"total_screens\": 6}"
+            },
+            "url": "{{baseUrl}}/theatres?id=1"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/theatres?id=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/rooms"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/rooms?id=1"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"theatre_id\": 1, \"name\": \"Phòng A\", \"total_seats\": 100, \"is_active\": true}"
+            },
+            "url": "{{baseUrl}}/rooms"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"theatre_id\": 1, \"name\": \"Phòng IMAX\", \"total_seats\": 150, \"is_active\": true}"
+            },
+            "url": "{{baseUrl}}/rooms?id=1"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/rooms?id=1"
+          }
         }
       ]
     },
@@ -53,36 +215,99 @@
       "name": "Showtimes",
       "item": [
         {
-          "name": "Get all showtimes",
+          "name": "GET all",
           "request": {
             "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/showtimes",
-              "host": ["{{baseUrl}}"],
-              "path": ["showtimes"]
-            }
-          },
-          "response": []
+            "url": "{{baseUrl}}/showtimes"
+          }
         },
         {
-          "name": "Get showtimes by movie id",
+          "name": "GET by ID",
           "request": {
             "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/showtimes?movie_id=1",
-              "host": ["{{baseUrl}}"],
-              "path": ["showtimes"],
-              "query": [
-                {
-                  "key": "movie_id",
-                  "value": "1"
-                }
-              ]
-            }
-          },
-          "response": []
+            "url": "{{baseUrl}}/showtimes?id=1"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"movie_id\": 1, \"room_id\": 1, \"show_date\": \"2026-09-01\", \"start_time\": \"14:00:00\", \"base_price\": 150000, \"status\": \"active\"}"
+            },
+            "url": "{{baseUrl}}/showtimes"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"movie_id\": 1, \"room_id\": 1, \"show_date\": \"2026-09-02\", \"start_time\": \"19:00:00\", \"base_price\": 180000, \"status\": \"active\"}"
+            },
+            "url": "{{baseUrl}}/showtimes?id=1"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/showtimes?id=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users?id=1"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"first_name\": \"John\", \"last_name\": \"Doe\", \"email\": \"john@example.com\", \"phone\": \"0123456789\", \"password\": \"123456\", \"birth_date\": \"1990-01-01\", \"role\": \"user\"}"
+            },
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"first_name\": \"Jane\", \"last_name\": \"Smith\", \"email\": \"jane@example.com\", \"phone\": \"0987654321\", \"birth_date\": \"1995-05-15\", \"role\": \"user\"}"
+            },
+            "url": "{{baseUrl}}/users?id=1"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/users?id=1"
+          }
         }
       ]
     },
@@ -93,199 +318,27 @@
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{"key": "Content-Type", "value": "application/json"}],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\"email\": \"admin@example.com\", \"password\": \"password\"}"
             },
-            "url": {
-              "raw": "{{baseUrl}}/auth",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth"]
-            }
-          },
-          "response": []
+            "url": "{{baseUrl}}/login"
+          }
         },
         {
           "name": "Register",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{"key": "Content-Type", "value": "application/json"}],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"first_name\": \"Test\",\n  \"last_name\": \"User\",\n  \"email\": \"test@example.com\",\n  \"phone\": \"0123456789\",\n  \"password\": \"123456\",\n  \"confirm_password\": \"123456\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\"first_name\": \"Test\", \"last_name\": \"User\", \"email\": \"test@example.com\", \"phone\": \"0123456789\", \"password\": \"123456\", \"confirm_password\": \"123456\"}"
             },
-            "url": {
-              "raw": "{{baseUrl}}/register",
-              "host": ["{{baseUrl}}"],
-              "path": ["register"]
-            }
-          },
-          "response": []
+            "url": "{{baseUrl}}/register"
+          }
         }
       ]
-    },
-    {
-      "name": "Bookings",
-      "item": [
-        {
-          "name": "Get my bookings",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{bearerToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create booking",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{bearerToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"showtime_id\": 1,\n  \"seat_ids\": [1, 2, 3],\n  \"payment_method\": \"momo\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Cancel booking",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{bearerToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/bookings/1/cancel",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings", "1", "cancel"]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-    ,
-    {
-      "name": "Admin",
-      "item": [
-        {
-          "name": "Get all bookings (admin)",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{bearerToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/admin/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin","bookings"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get booking detail (admin)",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{bearerToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/admin/bookings/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin","bookings","1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get booking stats (admin)",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{bearerToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/admin/bookings/stats",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin","bookings","stats"]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost/movie-ticket-booking/backend/api.php"
-    },
-    {
-      "key": "bearerToken",
-      "value": ""
     }
   ]
 }

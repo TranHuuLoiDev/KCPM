@@ -61,6 +61,13 @@ class TheatreService {
         return $this->model->getAll();
     }
 
+    public function getTheatreById($id) {
+        if ($id <= 0) {
+            return null;
+        }
+        return $this->model->findById($id);
+    }
+
     private function validate($data) {
         if (empty($data['name'])) {
             return ['status' => 'error', 'message' => 'Tên rạp không được để trống!'];
