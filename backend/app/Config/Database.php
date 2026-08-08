@@ -6,13 +6,13 @@ class Database {
 
     public static function getConnection() {
         if (self::$connection === null) {
-            $host = 'localhost';
-            $username = 'root';
-            $password = '';
-            $database = 'movie_ticket_booking';
-            $port = 3306;
+            $host     = getenv('DB_HOST') ?: 'localhost';
+            $username = getenv('DB_USER') ?: 'root';
+            $password = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '';
+            $database = getenv('DB_NAME') ?: 'movie_ticket_booking';
+            $port     = getenv('DB_PORT') ?: 3306;
 
-            $conn = mysqli_connect($host, $username, $password, $database, $port);
+            $conn = mysqli_connect($host, $username, $password, $database, (int)$port);
             if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
             }

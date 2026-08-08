@@ -14,6 +14,20 @@ jobs:
   sonar:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: movie_ticket_booking
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,6 +39,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: mbstring, mysqli, pdo, pdo_mysql
+          coverage: xdebug
 
       - name: Install Composer dependencies
         run: |
@@ -32,6 +47,29 @@ jobs:
           if [ -f "composer.json" ]; then
             composer install --no-interaction --prefer-dist
           fi
+        working-directory: backend
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            mysqladmin ping -h 127.0.0.1 -P 3306 -u root -proot --silent && break
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      - name: Import database schema
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -u root -proot movie_ticket_booking < backend/Database/BookingTicketDatabase.sql
+
+      - name: Run PHPUnit with coverage
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: root
+          DB_NAME: movie_ticket_booking
+          DB_PORT: 3306
+        run: |
+          vendor/bin/phpunit --coverage-clover=coverage.xml
         working-directory: backend
 
       - name: SonarQube Scan
