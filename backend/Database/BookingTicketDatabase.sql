@@ -8,6 +8,9 @@ USE movie_ticket_booking;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+SET @STATUS_NOW_SHOWING = 'now_showing';
+
+
 -- 1. Bảng users
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
@@ -237,7 +240,7 @@ VALUES ('Avengers: Endgame',
         'Robert Downey Jr., Chris Evans, Scarlett Johansson',
         13, 'Mỹ', 181, '2023-05-01', 'images/movies/Avengers_Endgame.jpg',
         'https://www.youtube.com/watch?v=TcMBFSGVi1c',
-        'now_showing'),
+        @STATUS_NOW_SHOWING),
 
        ('Doraemon: Nobita và bản giao hưởng địa cầu',
         'TÁC PHẨM KỶ NIỆM 90 NĂM FUJIKO F FUJIO Chuẩn bị cho buổi hòa nhạc ở trường, Nobita đang tập thổi sáo - nhạc cụ mà cậu dở tệ. Thích thú trước nốt "No" lạc quẻ của Nobita, Micca - cô bé bí ẩn đã mời Doraemon, Nobita cùng nhóm bạn đến "Farre" - Cung điện âm nhạc tọa lạc trên một hành tinh nơi âm nhạc sẽ hóa thành năng lượng. Nhằm cứu cung điện này, Micca đang tìm kiếm "virtuoso" - bậc thầy âm nhạc sẽ cùng mình biểu diễn! Với bảo bối thần kì "chứng chỉ chuyên viên âm nhạc", Doraemon và các bạn đã chọn nhạc cụ, cùng Micca hòa tấu, từng bước khôi phục cung điện. Tuy nhiên, một vật thể sống đáng sợ sẽ xóa số âm nhạc khỏi thế giới đang đến gần, Trái Đất đang rơi vào nguy hiểm... ! Liệu những người bạn nhỏ có thể cứu được "tương lai âm nhạc" và cả địa cầu này?',
@@ -261,7 +264,7 @@ VALUES ('Avengers: Endgame',
         'Tom Hanks, Tim Allen',
         0, 'Hoa Kỳ', 102, '2026-06-19', 'images/movies/CauChuyenDoChoi5.jpg',
         'https://www.youtube.com/watch?v=feq9ZN9Mhhw',
-        'now_showing'),
+        @STATUS_NOW_SHOWING),
 
        ('Tên Cậu Là Gì?',
         'Bộ phim kể về Mitsuha – nữ sinh trung học sống ở một thị trấn nhỏ của vùng Itomori. Luôn chán chường với cuộc sống tẻ nhạt ở vùng thôn quê, Mitsuha ao ước kiếp sau được làm một anh chàng đẹp trai sống ở thủ đô Tokyo sôi động. Trong khi đó ở Tokyo, anh chàng Taki rất hài lòng với cuộc sống và công việc làm thêm ở một nhà hàng Italy sau giờ học. Tuy vậy, hằng đêm cậu vẫn mơ thấy mình trong cơ thể một cô gái thôn quê. Đến một hôm khi sự kiện nghìn năm có một là Sao Chổi tiến gần tới Trái đất, Taki và Mitsuha bỗng bị hoán đổi cơ thể. Cứ cách một ngày, Taki lại trở thành Mitsuha khám phá cuộc sống vùng quê và ngược lại, Mitsuha làm anh chàng nam sinh Tokyo háo hức với cuộc sống nơi đô thị ồn ào. Cứ thế, câu chuyện của Mitsuha và Taki diễn ra dẫn dắt khán giả đến những tình huống đặc biệt, dù cả hai chưa bao giờ gặp mặt hay thậm chí là biết tên của nhau.',
@@ -269,7 +272,7 @@ VALUES ('Avengers: Endgame',
         'Ryunosuke Kamiki, Mone Kamishiraishi',
         13, @country_japan, 110, '2026-06-05', 'images/movies/TenCauLaGi.png',
         'https://www.youtube.com/watch?v=eGwAKaouPrg',
-        'now_showing'),
+        @STATUS_NOW_SHOWING),
 
        ('Bầy Xác Sống',
         'Nội dung xoay quanh một hội nghị công nghệ sinh học trong tòa nhà lớn thì bất ngờ xảy ra sự cố rò rỉ virus đột biến. Chính quyền lập tức phong tỏa toàn bộ khu vực, khiến những người còn sống bị mắc kẹt bên trong cùng các sinh vật nhiễm bệnh đang tiến hóa liên tục.',
@@ -277,7 +280,7 @@ VALUES ('Avengers: Endgame',
         'Gong Yoo, Jung Yu-mi',
         18, 'Hàn Quốc', 122, '2026-06-12', 'images/movies/BayXacSong.jpg',
         'https://www.youtube.com/watch?v=NI5iE1R8HgQ',
-        'now_showing'),
+        @STATUS_NOW_SHOWING),
 
        ('Tạm Biệt Gohan',
         'Suốt mười năm đằng đẵng, chú chó hoang lông trắng với chiếc mũi đỏ mang tên GOHAN cứ thế phiêu dạt giữa cuộc đời, ôm trọn những ký ức chẳng thể phai nhòa. Đó là sự ấm áp bình lặng bên người chủ đầu tiên – một kỹ sư ô tô người Nhật sắp sửa nghỉ hưu. Là những ngày tháng rộn ràng bên người chủ thứ hai – cô giúp việc trẻ người Miến Điện làm việc tại trạm cứu hộ thú cưng. Và cuối cùng, là những bài học thầm lặng chú dạy cho người chủ hiện tại – một sinh viên mỹ thuật, người lần đầu tiên trong đời học cách định nghĩa thế nào là tình yêu. Một câu chuyện về thời gian, về những cuộc hội ngộ và chia ly, và về một chú chó ghi nhớ tất cả.',
@@ -285,7 +288,7 @@ VALUES ('Avengers: Endgame',
         'Yoo Ah-in, Kim Hyun-soo',
         8, 'Hàn Quốc', 140, '2026-06-25', 'images/movies/TamBietGohan.jpg',
         'https://www.youtube.com/watch?v=PaGtIdi8ONk',
-        'now_showing'),
+        @STATUS_NOW_SHOWING),
 
        ('Lớp Học Ám Sát: Giờ Của Chúng Ta',
         'Phim điện ảnh phiên bản hoàn toàn mới của "Lớp Học Ám Sát" nhân dịp kỷ niệm 10 năm ra mắt! Một sinh vật mang vận tốc Mach 20 đe dọa hủy diệt Trái Đất nhưng lại trở thành một thầy giáo? Một lớp học bị coi là "phế thải" bỗng chốc trở thành hy vọng cuối cùng của nhân loại? Những câu chuyện mới toanh chưa từng được kể trên màn ảnh sẽ mang đến cho fan hâm mộ những thước phim bùng nổ cùng ký ức rực rỡ nhất về thầy Koro và tập thể lớp 3-E',
@@ -293,7 +296,7 @@ VALUES ('Avengers: Endgame',
         'Yoshihiro Izumi, Kaito Amano',
         13, @country_japan, 86, '2026-06-05', 'images/movies/LopHocAmSat.jpg',
         'https://www.youtube.com/watch?v=bjkwRzGSe-E',
-        'now_showing'),
+        @STATUS_NOW_SHOWING),
 
        ('Lầu Chú Hoả',
         'Để câu view, một nhóm streamer livestream khám phá Lầu Chú Hỏa, dinh thự bỏ hoang gắn với truyền thuyết về con ma nhà họ Hứa. Nhưng ngay từ những phút đầu, mọi thứ đã vượt khỏi tầm kiểm soát. Hiện tượng siêu nhiên liên tiếp xảy ra, kéo cả nhóm vào vòng xoáy ám ảnh không lối thoát. Buổi livestream nhanh chóng biến thành nơi "tạo nghiệp – trả nghiệp", khi từng người phải trả giá cho lòng tham và sự báng bổ trước linh hồn oan khuất của cô tiểu thư họ Hứa.',
@@ -309,7 +312,7 @@ VALUES ('Avengers: Endgame',
         'Milly Alcock, Helen Slater',
         16, 'Hoa Kỳ', 108, '2026-06-26', 'images/movies/SuperGirl.jpg',
         'https://www.youtube.com/watch?v=s1-pfiVMKAs',
-        'now_showing');
+        @STATUS_NOW_SHOWING);
 
 -- movie_genre (giữ nguyên)
 INSERT INTO movie_genre (movie_id, genre_id)
