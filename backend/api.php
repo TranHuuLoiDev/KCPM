@@ -25,6 +25,16 @@ function sendJson($payload, int $statusCode = 200): void {
     exit;
 }
 
+function requireValidId(int $id, string $message): void {
+    if ($id <= 0) {
+        sendJson(['status' => 'error', 'message' => $message], 400);
+    }
+}
+
+function sendResult(array $result, int $successCode = 200): void {
+    sendJson($result, $result['status'] === 'success' ? $successCode : 400);
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $segments = array_values(array_filter(explode('/', $path), static function ($segment) {
@@ -42,6 +52,7 @@ if (($segments[0] ?? '') === 'backend') {
 if (($segments[0] ?? '') === 'api.php') {
     array_shift($segments);
 }
+
 $resource = $segments[0] ?? '';
 $id = isset($segments[1]) ? (int)$segments[1] : 0;
 $input = readRequestPayload();
@@ -107,14 +118,11 @@ if ($resource === 'movies') {
             'status' => $input['status'] ?? 'coming'
         ];
 
-        $result = $movieService->addMovie($data, $genreIds, null);
-        sendJson($result, $result['status'] === 'success' ? 201 : 400);
+        sendResult($movieService->addMovie($data, $genreIds, null), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID phim không hợp lệ'], 400);
-        }
+        requireValidId($id, 'ID phim không hợp lệ');
 
         $genres = $input['genre_ids'] ?? $input['genres'] ?? [];
         $genreIds = is_array($genres) ? array_map('intval', $genres) : [];
@@ -132,17 +140,12 @@ if ($resource === 'movies') {
             'status' => $input['status'] ?? 'coming'
         ];
 
-        $result = $movieService->updateMovie($id, $data, $genreIds, null);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        sendResult($movieService->updateMovie($id, $data, $genreIds, null));
     }
 
     if ($method === 'DELETE') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID phim không hợp lệ'], 400);
-        }
-
-        $result = $movieService->deleteMovie($id);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID phim không hợp lệ');
+        sendResult($movieService->deleteMovie($id));
     }
 }
 
@@ -161,24 +164,22 @@ if ($resource === 'genres') {
     }
 
     if ($method === 'POST') {
-        $result = $genreService->addGenre(trim($input['name'] ?? ''), trim($input['description'] ?? ''));
-        sendJson($result, $result['status'] === 'success' ? 201 : 400);
+        sendResult(
+            $genreService->addGenre(trim($input['name'] ?? ''), trim($input['description'] ?? '')),
+            201
+        );
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID thể loại không hợp lệ'], 400);
-        }
-        $result = $genreService->updateGenre($id, trim($input['name'] ?? ''), trim($input['description'] ?? ''));
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID thể loại không hợp lệ');
+        sendResult(
+            $genreService->updateGenre($id, trim($input['name'] ?? ''), trim($input['description'] ?? ''))
+        );
     }
 
     if ($method === 'DELETE') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID thể loại không hợp lệ'], 400);
-        }
-        $result = $genreService->deleteGenre($id);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID thể loại không hợp lệ');
+        sendResult($genreService->deleteGenre($id));
     }
 }
 
@@ -197,14 +198,11 @@ if ($resource === 'theatres') {
             'phone' => trim($input['phone'] ?? ''),
             'total_screens' => (int)($input['total_screens'] ?? 1)
         ];
-        $result = $theatreService->addTheatre($data);
-        sendJson($result, $result['status'] === 'success' ? 201 : 400);
+        sendResult($theatreService->addTheatre($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID rạp không hợp lệ'], 400);
-        }
+        requireValidId($id, 'ID rạp không hợp lệ');
         $data = [
             'name' => trim($input['name'] ?? ''),
             'address' => trim($input['address'] ?? ''),
@@ -212,16 +210,12 @@ if ($resource === 'theatres') {
             'phone' => trim($input['phone'] ?? ''),
             'total_screens' => (int)($input['total_screens'] ?? 1)
         ];
-        $result = $theatreService->updateTheatre($id, $data);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        sendResult($theatreService->updateTheatre($id, $data));
     }
 
     if ($method === 'DELETE') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID rạp không hợp lệ'], 400);
-        }
-        $result = $theatreService->deleteTheatre($id);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID rạp không hợp lệ');
+        sendResult($theatreService->deleteTheatre($id));
     }
 }
 
@@ -239,30 +233,23 @@ if ($resource === 'rooms') {
             'total_seats' => (int)($input['total_seats'] ?? 0),
             'is_active' => !empty($input['is_active'])
         ];
-        $result = $roomService->addRoom($data);
-        sendJson($result, $result['status'] === 'success' ? 201 : 400);
+        sendResult($roomService->addRoom($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID phòng không hợp lệ'], 400);
-        }
+        requireValidId($id, 'ID phòng không hợp lệ');
         $data = [
             'theatre_id' => (int)($input['theatre_id'] ?? 0),
             'name' => trim($input['name'] ?? ''),
             'total_seats' => (int)($input['total_seats'] ?? 0),
             'is_active' => !empty($input['is_active'])
         ];
-        $result = $roomService->updateRoom($id, $data);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        sendResult($roomService->updateRoom($id, $data));
     }
 
     if ($method === 'DELETE') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID phòng không hợp lệ'], 400);
-        }
-        $result = $roomService->deleteRoom($id);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID phòng không hợp lệ');
+        sendResult($roomService->deleteRoom($id));
     }
 }
 
@@ -289,14 +276,11 @@ if ($resource === 'showtimes') {
             'base_price' => (float)($input['base_price'] ?? 0),
             'status' => $input['status'] ?? 'active'
         ];
-        $result = $showtimeService->addShowtime($data);
-        sendJson($result, $result['status'] === 'success' ? 201 : 400);
+        sendResult($showtimeService->addShowtime($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ'], 400);
-        }
+        requireValidId($id, 'ID suất chiếu không hợp lệ');
         $data = [
             'movie_id' => (int)($input['movie_id'] ?? 0),
             'room_id' => (int)($input['room_id'] ?? 0),
@@ -305,16 +289,12 @@ if ($resource === 'showtimes') {
             'base_price' => (float)($input['base_price'] ?? 0),
             'status' => $input['status'] ?? 'active'
         ];
-        $result = $showtimeService->updateShowtime($id, $data);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        sendResult($showtimeService->updateShowtime($id, $data));
     }
 
     if ($method === 'DELETE') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ'], 400);
-        }
-        $result = $showtimeService->deleteShowtime($id);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID suất chiếu không hợp lệ');
+        sendResult($showtimeService->deleteShowtime($id));
     }
 }
 
@@ -342,14 +322,11 @@ if ($resource === 'users') {
             'birth_date' => trim($input['birth_date'] ?? ''),
             'role' => $input['role'] ?? 'user'
         ];
-        $result = $userService->addUser($data);
-        sendJson($result, $result['status'] === 'success' ? 201 : 400);
+        sendResult($userService->addUser($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID người dùng không hợp lệ'], 400);
-        }
+        requireValidId($id, 'ID người dùng không hợp lệ');
         $data = [
             'first_name' => trim($input['first_name'] ?? ''),
             'last_name' => trim($input['last_name'] ?? ''),
@@ -359,16 +336,12 @@ if ($resource === 'users') {
             'birth_date' => trim($input['birth_date'] ?? ''),
             'role' => $input['role'] ?? 'user'
         ];
-        $result = $userService->updateUser($id, $data);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        sendResult($userService->updateUser($id, $data));
     }
 
     if ($method === 'DELETE') {
-        if ($id <= 0) {
-            sendJson(['status' => 'error', 'message' => 'ID người dùng không hợp lệ'], 400);
-        }
-        $result = $userService->deleteUser($id);
-        sendJson($result, $result['status'] === 'success' ? 200 : 400);
+        requireValidId($id, 'ID người dùng không hợp lệ');
+        sendResult($userService->deleteUser($id));
     }
 }
 
