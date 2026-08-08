@@ -35,6 +35,68 @@ function sendResult(array $result, int $successCode = 200): void {
     sendJson($result, $result['status'] === 'success' ? $successCode : 400);
 }
 
+function buildMovieData(array $input): array {
+    return [
+        'title' => trim($input['title'] ?? ''),
+        'description' => trim($input['description'] ?? ''),
+        'director' => trim($input['director'] ?? ''),
+        'cast' => trim($input['cast'] ?? ''),
+        'age_restriction' => (int)($input['age_restriction'] ?? 0),
+        'country' => trim($input['country'] ?? ''),
+        'duration' => (int)($input['duration'] ?? 0),
+        'screening_date' => trim($input['screening_date'] ?? ''),
+        'trailer_url' => trim($input['trailer_url'] ?? ''),
+        'status' => $input['status'] ?? 'coming'
+    ];
+}
+
+function extractGenreIds(array $input): array {
+    $genres = $input['genre_ids'] ?? $input['genres'] ?? [];
+    return is_array($genres) ? array_map('intval', $genres) : [];
+}
+
+function buildTheatreData(array $input): array {
+    return [
+        'name' => trim($input['name'] ?? ''),
+        'address' => trim($input['address'] ?? ''),
+        'city' => trim($input['city'] ?? ''),
+        'phone' => trim($input['phone'] ?? ''),
+        'total_screens' => (int)($input['total_screens'] ?? 1)
+    ];
+}
+
+function buildRoomData(array $input): array {
+    return [
+        'theatre_id' => (int)($input['theatre_id'] ?? 0),
+        'name' => trim($input['name'] ?? ''),
+        'total_seats' => (int)($input['total_seats'] ?? 0),
+        'is_active' => !empty($input['is_active'])
+    ];
+}
+
+function buildShowtimeData(array $input): array {
+    return [
+        'movie_id' => (int)($input['movie_id'] ?? 0),
+        'room_id' => (int)($input['room_id'] ?? 0),
+        'show_date' => trim($input['show_date'] ?? ''),
+        'start_time' => trim($input['start_time'] ?? ''),
+        'base_price' => (float)($input['base_price'] ?? 0),
+        'status' => $input['status'] ?? 'active'
+    ];
+}
+
+function buildUserData(array $input): array {
+    return [
+        'first_name' => trim($input['first_name'] ?? ''),
+        'last_name' => trim($input['last_name'] ?? ''),
+        'email' => trim($input['email'] ?? ''),
+        'phone' => trim($input['phone'] ?? ''),
+        'password' => $input['password'] ?? '',
+        'birth_date' => trim($input['birth_date'] ?? ''),
+        'role' => $input['role'] ?? 'user'
+    ];
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $segments = array_values(array_filter(explode('/', $path), static function ($segment) {
@@ -102,44 +164,15 @@ if ($resource === 'movies') {
     }
 
     if ($method === 'POST') {
-        $genres = $input['genre_ids'] ?? $input['genres'] ?? [];
-        $genreIds = is_array($genres) ? array_map('intval', $genres) : [];
-
-        $data = [
-            'title' => trim($input['title'] ?? ''),
-            'description' => trim($input['description'] ?? ''),
-            'director' => trim($input['director'] ?? ''),
-            'cast' => trim($input['cast'] ?? ''),
-            'age_restriction' => (int)($input['age_restriction'] ?? 0),
-            'country' => trim($input['country'] ?? ''),
-            'duration' => (int)($input['duration'] ?? 0),
-            'screening_date' => trim($input['screening_date'] ?? ''),
-            'trailer_url' => trim($input['trailer_url'] ?? ''),
-            'status' => $input['status'] ?? 'coming'
-        ];
-
+        $genreIds = extractGenreIds($input);
+        $data = buildMovieData($input);
         sendResult($movieService->addMovie($data, $genreIds, null), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
         requireValidId($id, 'ID phim không hợp lệ');
-
-        $genres = $input['genre_ids'] ?? $input['genres'] ?? [];
-        $genreIds = is_array($genres) ? array_map('intval', $genres) : [];
-
-        $data = [
-            'title' => trim($input['title'] ?? ''),
-            'description' => trim($input['description'] ?? ''),
-            'director' => trim($input['director'] ?? ''),
-            'cast' => trim($input['cast'] ?? ''),
-            'age_restriction' => (int)($input['age_restriction'] ?? 0),
-            'country' => trim($input['country'] ?? ''),
-            'duration' => (int)($input['duration'] ?? 0),
-            'screening_date' => trim($input['screening_date'] ?? ''),
-            'trailer_url' => trim($input['trailer_url'] ?? ''),
-            'status' => $input['status'] ?? 'coming'
-        ];
-
+        $genreIds = extractGenreIds($input);
+        $data = buildMovieData($input);
         sendResult($movieService->updateMovie($id, $data, $genreIds, null));
     }
 
@@ -191,25 +224,13 @@ if ($resource === 'theatres') {
     }
 
     if ($method === 'POST') {
-        $data = [
-            'name' => trim($input['name'] ?? ''),
-            'address' => trim($input['address'] ?? ''),
-            'city' => trim($input['city'] ?? ''),
-            'phone' => trim($input['phone'] ?? ''),
-            'total_screens' => (int)($input['total_screens'] ?? 1)
-        ];
+        $data = buildTheatreData($input);
         sendResult($theatreService->addTheatre($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
         requireValidId($id, 'ID rạp không hợp lệ');
-        $data = [
-            'name' => trim($input['name'] ?? ''),
-            'address' => trim($input['address'] ?? ''),
-            'city' => trim($input['city'] ?? ''),
-            'phone' => trim($input['phone'] ?? ''),
-            'total_screens' => (int)($input['total_screens'] ?? 1)
-        ];
+        $data = buildTheatreData($input);
         sendResult($theatreService->updateTheatre($id, $data));
     }
 
@@ -227,23 +248,13 @@ if ($resource === 'rooms') {
     }
 
     if ($method === 'POST') {
-        $data = [
-            'theatre_id' => (int)($input['theatre_id'] ?? 0),
-            'name' => trim($input['name'] ?? ''),
-            'total_seats' => (int)($input['total_seats'] ?? 0),
-            'is_active' => !empty($input['is_active'])
-        ];
+        $data = buildRoomData($input);
         sendResult($roomService->addRoom($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
         requireValidId($id, 'ID phòng không hợp lệ');
-        $data = [
-            'theatre_id' => (int)($input['theatre_id'] ?? 0),
-            'name' => trim($input['name'] ?? ''),
-            'total_seats' => (int)($input['total_seats'] ?? 0),
-            'is_active' => !empty($input['is_active'])
-        ];
+        $data = buildRoomData($input);
         sendResult($roomService->updateRoom($id, $data));
     }
 
@@ -268,27 +279,13 @@ if ($resource === 'showtimes') {
     }
 
     if ($method === 'POST') {
-        $data = [
-            'movie_id' => (int)($input['movie_id'] ?? 0),
-            'room_id' => (int)($input['room_id'] ?? 0),
-            'show_date' => trim($input['show_date'] ?? ''),
-            'start_time' => trim($input['start_time'] ?? ''),
-            'base_price' => (float)($input['base_price'] ?? 0),
-            'status' => $input['status'] ?? 'active'
-        ];
+        $data = buildShowtimeData($input);
         sendResult($showtimeService->addShowtime($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
         requireValidId($id, 'ID suất chiếu không hợp lệ');
-        $data = [
-            'movie_id' => (int)($input['movie_id'] ?? 0),
-            'room_id' => (int)($input['room_id'] ?? 0),
-            'show_date' => trim($input['show_date'] ?? ''),
-            'start_time' => trim($input['start_time'] ?? ''),
-            'base_price' => (float)($input['base_price'] ?? 0),
-            'status' => $input['status'] ?? 'active'
-        ];
+        $data = buildShowtimeData($input);
         sendResult($showtimeService->updateShowtime($id, $data));
     }
 
@@ -313,29 +310,13 @@ if ($resource === 'users') {
     }
 
     if ($method === 'POST') {
-        $data = [
-            'first_name' => trim($input['first_name'] ?? ''),
-            'last_name' => trim($input['last_name'] ?? ''),
-            'email' => trim($input['email'] ?? ''),
-            'phone' => trim($input['phone'] ?? ''),
-            'password' => $input['password'] ?? '',
-            'birth_date' => trim($input['birth_date'] ?? ''),
-            'role' => $input['role'] ?? 'user'
-        ];
+        $data = buildUserData($input);
         sendResult($userService->addUser($data), 201);
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
         requireValidId($id, 'ID người dùng không hợp lệ');
-        $data = [
-            'first_name' => trim($input['first_name'] ?? ''),
-            'last_name' => trim($input['last_name'] ?? ''),
-            'email' => trim($input['email'] ?? ''),
-            'phone' => trim($input['phone'] ?? ''),
-            'password' => $input['password'] ?? '',
-            'birth_date' => trim($input['birth_date'] ?? ''),
-            'role' => $input['role'] ?? 'user'
-        ];
+        $data = buildUserData($input);
         sendResult($userService->updateUser($id, $data));
     }
 
