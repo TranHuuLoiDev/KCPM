@@ -5,6 +5,10 @@ use App\Services\MovieService;
 use App\Services\GenreService;
 
 class MovieController {
+    private const ACTION_ADD = 'add';
+    private const ACTION_EDIT = 'edit';
+    private const ACTION_DELETE = 'delete';
+
     private $movieService;
     private $genreService;
 
@@ -14,38 +18,44 @@ class MovieController {
     }
 
     public function handleRequest() {
+        $result = null;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $action = $_POST['action'];
 
-            if ($action === 'add' || $action === 'edit') {
-                $data = [
-                    'title' => trim($_POST['title'] ?? ''),
-                    'description' => trim($_POST['description'] ?? ''),
-                    'director' => trim($_POST['director'] ?? ''),
-                    'cast' => trim($_POST['cast'] ?? ''),
-                    'age_restriction' => (int)($_POST['age_restriction'] ?? 0),
-                    'country' => trim($_POST['country'] ?? ''),
-                    'duration' => (int)($_POST['duration'] ?? 0),
-                    'screening_date' => trim($_POST['screening_date'] ?? ''),
-                    'trailer_url' => trim($_POST['trailer_url'] ?? ''),
-                    'status' => $_POST['status'] ?? 'coming'
-                ];
-                $genres = $_POST['genres'] ?? [];
-                $posterFile = $_FILES['poster'] ?? null;
-
-                if ($action === 'add') {
-                    return $this->movieService->addMovie($data, $genres, $posterFile);
-                } else {
-                    $id = (int)($_POST['id'] ?? 0);
-                    return $this->movieService->updateMovie($id, $data, $genres, $posterFile);
-                }
-            } 
-            elseif ($action === 'delete') {
+            if ($action === self::ACTION_ADD || $action === self::ACTION_EDIT) {
+                $result = $this->handleAddOrEdit($action);
+            } elseif ($action === self::ACTION_DELETE) {
                 $id = (int)($_POST['id'] ?? 0);
-                return $this->movieService->deleteMovie($id);
+                $result = $this->movieService->deleteMovie($id);
             }
         }
-        return null;
+
+        return $result;
+    }
+
+    private function handleAddOrEdit($action) {
+        $data = [
+            'title' => trim($_POST['title'] ?? ''),
+            'description' => trim($_POST['description'] ?? ''),
+            'director' => trim($_POST['director'] ?? ''),
+            'cast' => trim($_POST['cast'] ?? ''),
+            'age_restriction' => (int)($_POST['age_restriction'] ?? 0),
+            'country' => trim($_POST['country'] ?? ''),
+            'duration' => (int)($_POST['duration'] ?? 0),
+            'screening_date' => trim($_POST['screening_date'] ?? ''),
+            'trailer_url' => trim($_POST['trailer_url'] ?? ''),
+            'status' => $_POST['status'] ?? 'coming'
+        ];
+        $genres = $_POST['genres'] ?? [];
+        $posterFile = $_FILES['poster'] ?? null;
+
+        if ($action === self::ACTION_ADD) {
+            return $this->movieService->addMovie($data, $genres, $posterFile);
+        }
+
+        $id = (int)($_POST['id'] ?? 0);
+        return $this->movieService->updateMovie($id, $data, $genres, $posterFile);
     }
 
     public function getAllMovies() {
