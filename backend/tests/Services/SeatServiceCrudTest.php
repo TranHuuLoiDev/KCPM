@@ -42,7 +42,7 @@ class SeatServiceCrudTest extends TestCase
         $this->roomService->addRoom([
             'name' => $roomName,
             'theatre_id' => $this->theatreId,
-            'total_seats' => 0,
+            'total_seats' => 1,
             'is_active' => 1,
         ]);
         $rooms = $this->roomService->getAllRooms();
