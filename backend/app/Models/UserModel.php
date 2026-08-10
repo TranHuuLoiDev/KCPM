@@ -188,15 +188,21 @@ class UserModel {
 
         // Total users (excluding admin)
         $res1 = mysqli_query($this->conn, "SELECT COUNT(*) as total FROM users WHERE role = 'user'");
-        if ($res1) $stats['total_users'] = mysqli_fetch_assoc($res1)['total'];
+        if ($res1) {
+            $stats['total_users'] = mysqli_fetch_assoc($res1)['total'];
+        }
 
         // New this month
         $res2 = mysqli_query($this->conn, "SELECT COUNT(*) as total FROM users WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())");
-        if ($res2) $stats['new_this_month'] = mysqli_fetch_assoc($res2)['total'];
+        if ($res2) {
+            $stats['new_this_month'] = mysqli_fetch_assoc($res2)['total'];
+        }
 
         // Active users (users who have at least one paid booking)
         $res3 = mysqli_query($this->conn, "SELECT COUNT(DISTINCT user_id) as total FROM bookings WHERE status='paid'");
-        if ($res3) $stats['active_users'] = mysqli_fetch_assoc($res3)['total'];
+        if ($res3) {
+            $stats['active_users'] = mysqli_fetch_assoc($res3)['total'];
+        }
 
         return $stats;
     }
