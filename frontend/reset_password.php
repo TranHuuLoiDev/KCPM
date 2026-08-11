@@ -41,8 +41,11 @@ require_once 'header.php';
                 <?php endif; ?>
 
                 <?php if ($showForm): ?>
-                    <input type="password" name="new_password" placeholder="Mật khẩu mới" required />
-                    <input type="password" name="confirm_password" placeholder="Xác nhận mật khẩu mới" required />
+                    <label for="new_password">Mật khẩu mới</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="Mật khẩu mới" required />
+
+                    <label for="confirm_password">Xác nhận mật khẩu mới</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Xác nhận mật khẩu mới" required />
 
                     <button type="submit" class="auth-action">Đổi mật khẩu</button>
                 <?php else: ?>
