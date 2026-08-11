@@ -503,15 +503,15 @@ class BookingModel {
                 b.*,
                 GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seat_names,
                 GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seats,
-                st.show_date,
-                st.start_time,
-                st.end_time,
-                m.title AS movie_title,
-                m.poster AS movie_poster,
-                r.name AS room_name,
-                th.name AS theatre_name,
-                th.address AS theatre_address,
-                th.city AS theatre_city
+                MIN(st.show_date) AS show_date,
+                MIN(st.start_time) AS start_time,
+                MIN(st.end_time) AS end_time,
+                MAX(m.title) AS movie_title,
+                MAX(m.poster) AS movie_poster,
+                MAX(r.name) AS room_name,
+                MAX(th.name) AS theatre_name,
+                MAX(th.address) AS theatre_address,
+                MAX(th.city) AS theatre_city
             FROM bookings b
             LEFT JOIN tickets t ON t.booking_id = b.id
             LEFT JOIN seats s ON s.id = t.seat_id
