@@ -11,33 +11,34 @@ class ShowtimeController {
     }
 
     public function handleRequest() {
+        $result = null;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $action = $_POST['action'];
 
             if ($action === 'add' || $action === 'edit') {
                 $data = [
-                    'movie_id' => (int)($_POST['movie_id'] ?? 0),
-                    'room_id' => (int)($_POST['room_id'] ?? 0),
-                    'show_date' => trim($_POST['show_date'] ?? ''),
+                    'movie_id'   => (int)($_POST['movie_id'] ?? 0),
+                    'room_id'    => (int)($_POST['room_id'] ?? 0),
+                    'show_date'  => trim($_POST['show_date'] ?? ''),
                     'start_time' => trim($_POST['start_time'] ?? ''),
                     'base_price' => (float)($_POST['base_price'] ?? 0),
-                    'status' => $_POST['status'] ?? 'active',
+                    'status'     => $_POST['status'] ?? 'active',
                 ];
 
                 if ($action === 'add') {
-                    return $this->service->addShowtime($data);
+                    $result = $this->service->addShowtime($data);
+                } else {
+                    $id = (int)($_POST['id'] ?? 0);
+                    $result = $this->service->updateShowtime($id, $data);
                 }
-
+            } elseif ($action === 'delete') {
                 $id = (int)($_POST['id'] ?? 0);
-                return $this->service->updateShowtime($id, $data);
-            }
-
-            if ($action === 'delete') {
-                $id = (int)($_POST['id'] ?? 0);
-                return $this->service->deleteShowtime($id);
+                $result = $this->service->deleteShowtime($id);
             }
         }
-        return null;
+
+        return $result;
     }
 
     public function getAllShowtimes() {
