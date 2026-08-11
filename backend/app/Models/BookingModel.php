@@ -538,4 +538,7 @@ class BookingModel {
 
         return $bookings;
     }
+
+
+// đã kiểm tra thay đổi, commit thành công và test postman api, nhưng do chưa commit thiếu KAN-32, nên commit này sẽ với mục đích liên kết đến jira
 }
