@@ -496,7 +496,7 @@ class BookingModel {
     }
 
 
-
+// khắc phục lỗi khac phuc loi ONLY_FULL_GROUP_BY trong getBookingsByUser cho CI pipeline
     public function getBookingsByUser($userId) {
         $query = "
             SELECT
