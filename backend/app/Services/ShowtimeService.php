@@ -29,23 +29,24 @@ class ShowtimeService {
     }
 
     public function updateShowtime($id, $data) {
+        $result = null;
+
         if ($id <= 0) {
-            return ['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ!'];
+            $result = ['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ!'];
+        } elseif (!$this->showtimeModel->findById($id)) {
+            $result = ['status' => 'error', 'message' => 'Suất chiếu không tồn tại!'];
+        } else {
+            $validation = $this->validate($data, $id);
+            if ($validation) {
+                $result = $validation;
+            } elseif ($this->showtimeModel->update($id, $data)) {
+                $result = ['status' => 'success', 'message' => 'Cập nhật suất chiếu thành công!'];
+            } else {
+                $result = ['status' => 'error', 'message' => 'Lỗi khi cập nhật suất chiếu: ' . $this->showtimeModel->getError()];
+            }
         }
 
-        if (!$this->showtimeModel->findById($id)) {
-            return ['status' => 'error', 'message' => 'Suất chiếu không tồn tại!'];
-        }
-
-        $validation = $this->validate($data, $id);
-        if ($validation) {
-            return $validation;
-        }
-
-        if ($this->showtimeModel->update($id, $data)) {
-            return ['status' => 'success', 'message' => 'Cập nhật suất chiếu thành công!'];
-        }
-        return ['status' => 'error', 'message' => 'Lỗi khi cập nhật suất chiếu: ' . $this->showtimeModel->getError()];
+        return $result;
     }
 
     public function deleteShowtime($id) {
@@ -143,13 +144,12 @@ class ShowtimeService {
         return null;
     }
 
-
     public function getShowtimesByMovie($movieId) {
         if ($movieId <= 0) {
             return [];
         }
 
-        return $this->model->getShowtimesByMovie($movieId);
+        return $this->showtimeModel->getShowtimesByMovie($movieId);
     }
 
     public function getShowtimeDetails($showtimeId) {
@@ -157,7 +157,7 @@ class ShowtimeService {
             return null;
         }
 
-        return $this->model->getShowtimeDetails($showtimeId);
+        return $this->showtimeModel->getShowtimeDetails($showtimeId);
     }
 
     private function computeEndTime($startTime, $durationMinutes) {
@@ -167,6 +167,6 @@ class ShowtimeService {
 
     public function getShowtimeById($id) {
         if ($id <= 0) return null;
-        return $this->model->getById($id);
+        return $this->showtimeModel->getById($id);
     }
 }
