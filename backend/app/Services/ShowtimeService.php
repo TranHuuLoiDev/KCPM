@@ -17,50 +17,55 @@ class ShowtimeService {
     }
 
     public function addShowtime($data) {
+        $result = null;
         $validation = $this->validate($data);
+
         if ($validation) {
-            return $validation;
+            $result = $validation;
+        } elseif ($this->showtimeModel->insert($data)) {
+            $result = ['status' => 'success', 'message' => 'Thêm suất chiếu thành công!'];
+        } else {
+            $result = ['status' => 'error', 'message' => 'Lỗi khi thêm suất chiếu: ' . $this->showtimeModel->getError()];
         }
 
-        if ($this->showtimeModel->insert($data)) {
-            return ['status' => 'success', 'message' => 'Thêm suất chiếu thành công!'];
-        }
-        return ['status' => 'error', 'message' => 'Lỗi khi thêm suất chiếu: ' . $this->showtimeModel->getError()];
+        return $result;
     }
 
     public function updateShowtime($id, $data) {
+        $result = null;
+
         if ($id <= 0) {
-            return ['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ!'];
+            $result = ['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ!'];
+        } elseif (!$this->showtimeModel->findById($id)) {
+            $result = ['status' => 'error', 'message' => 'Suất chiếu không tồn tại!'];
+        } else {
+            $validation = $this->validate($data, $id);
+            if ($validation) {
+                $result = $validation;
+            } elseif ($this->showtimeModel->update($id, $data)) {
+                $result = ['status' => 'success', 'message' => 'Cập nhật suất chiếu thành công!'];
+            } else {
+                $result = ['status' => 'error', 'message' => 'Lỗi khi cập nhật suất chiếu: ' . $this->showtimeModel->getError()];
+            }
         }
 
-        if (!$this->showtimeModel->findById($id)) {
-            return ['status' => 'error', 'message' => 'Suất chiếu không tồn tại!'];
-        }
-
-        $validation = $this->validate($data, $id);
-        if ($validation) {
-            return $validation;
-        }
-
-        if ($this->showtimeModel->update($id, $data)) {
-            return ['status' => 'success', 'message' => 'Cập nhật suất chiếu thành công!'];
-        }
-        return ['status' => 'error', 'message' => 'Lỗi khi cập nhật suất chiếu: ' . $this->showtimeModel->getError()];
+        return $result;
     }
 
     public function deleteShowtime($id) {
+        $result = null;
+
         if ($id <= 0) {
-            return ['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ!'];
+            $result = ['status' => 'error', 'message' => 'ID suất chiếu không hợp lệ!'];
+        } elseif (!$this->showtimeModel->findById($id)) {
+            $result = ['status' => 'error', 'message' => 'Suất chiếu không tồn tại!'];
+        } elseif ($this->showtimeModel->delete($id)) {
+            $result = ['status' => 'success', 'message' => 'Xóa suất chiếu thành công!'];
+        } else {
+            $result = ['status' => 'error', 'message' => 'Lỗi khi xóa suất chiếu: ' . $this->showtimeModel->getError()];
         }
 
-        if (!$this->showtimeModel->findById($id)) {
-            return ['status' => 'error', 'message' => 'Suất chiếu không tồn tại!'];
-        }
-
-        if ($this->showtimeModel->delete($id)) {
-            return ['status' => 'success', 'message' => 'Xóa suất chiếu thành công!'];
-        }
-        return ['status' => 'error', 'message' => 'Lỗi khi xóa suất chiếu: ' . $this->showtimeModel->getError()];
+        return $result;
     }
 
     public function getAllShowtimes() {
@@ -68,19 +73,21 @@ class ShowtimeService {
     }
 
     public function getShowtimeDetail($showtimeId) {
+        $result = null;
         $showtimeId = (int)$showtimeId;
-        if ($showtimeId <= 0) {
-            return null;
+        if ($showtimeId > 0) {
+            $result = $this->showtimeModel->getDetailById($showtimeId);
         }
-        return $this->showtimeModel->getDetailById($showtimeId);
+        return $result;
     }
 
     public function getShowtimesByMovieId($movieId) {
+        $result = [];
         $movieId = (int)$movieId;
-        if ($movieId <= 0) {
-            return [];
+        if ($movieId > 0) {
+            $result = $this->showtimeModel->getByMovieId($movieId);
         }
-        return $this->showtimeModel->getByMovieId($movieId);
+        return $result;
     }
 
     public function getAllMovies() {
@@ -92,72 +99,67 @@ class ShowtimeService {
     }
 
     private function validate(&$data, $excludeId = null) {
+        $result = null;
+
         if ($data['movie_id'] <= 0 || !$this->showtimeModel->movieExists($data['movie_id'])) {
-            return ['status' => 'error', 'message' => 'Phim không hợp lệ!'];
-        }
-        if ($data['room_id'] <= 0 || !$this->showtimeModel->roomExists($data['room_id'])) {
-            return ['status' => 'error', 'message' => 'Phòng chiếu không hợp lệ!'];
-        }
-        if (empty($data['show_date'])) {
-            return ['status' => 'error', 'message' => 'Ngày chiếu không được để trống!'];
-        }
-        if (empty($data['start_time'])) {
-            return ['status' => 'error', 'message' => 'Giờ bắt đầu không được để trống!'];
+            $result = ['status' => 'error', 'message' => 'Phim không hợp lệ!'];
+        } elseif ($data['room_id'] <= 0 || !$this->showtimeModel->roomExists($data['room_id'])) {
+            $result = ['status' => 'error', 'message' => 'Phòng chiếu không hợp lệ!'];
+        } elseif (empty($data['show_date'])) {
+            $result = ['status' => 'error', 'message' => 'Ngày chiếu không được để trống!'];
+        } elseif (empty($data['start_time'])) {
+            $result = ['status' => 'error', 'message' => 'Giờ bắt đầu không được để trống!'];
+        } else {
+            $startTime = $this->normalizeTime($data['start_time']);
+            if (!$startTime) {
+                $result = ['status' => 'error', 'message' => 'Giờ bắt đầu không hợp lệ!'];
+            } else {
+                $data['start_time'] = $startTime;
+                $duration = $this->showtimeModel->getMovieDuration($data['movie_id']);
+                if ($duration <= 0) {
+                    $result = ['status' => 'error', 'message' => 'Không thể tính giờ kết thúc. Vui lòng cập nhật thời lượng phim.'];
+                } else {
+                    $data['end_time'] = $this->computeEndTime($startTime, $duration);
+
+                    if ($data['base_price'] <= 0) {
+                        $result = ['status' => 'error', 'message' => 'Giá vé cơ bản phải lớn hơn 0!'];
+                    } elseif (!in_array($data['status'], ['active', 'canceled'], true)) {
+                        $result = ['status' => 'error', 'message' => 'Trạng thái suất chiếu không hợp lệ!'];
+                    } elseif ($this->showtimeModel->findConflict($data['room_id'], $data['show_date'], $data['start_time'], $excludeId)) {
+                        $result = ['status' => 'error', 'message' => 'Phòng đã có suất chiếu trùng ngày và giờ bắt đầu!'];
+                    }
+                }
+            }
         }
 
-        $startTime = $this->normalizeTime($data['start_time']);
-        if (!$startTime) {
-            return ['status' => 'error', 'message' => 'Giờ bắt đầu không hợp lệ!'];
-        }
-        $data['start_time'] = $startTime;
-
-        $duration = $this->showtimeModel->getMovieDuration($data['movie_id']);
-        if ($duration <= 0) {
-            return ['status' => 'error', 'message' => 'Không thể tính giờ kết thúc. Vui lòng cập nhật thời lượng phim.'];
-        }
-        $data['end_time'] = $this->computeEndTime($startTime, $duration);
-
-        if ($data['base_price'] <= 0) {
-            return ['status' => 'error', 'message' => 'Giá vé cơ bản phải lớn hơn 0!'];
-        }
-
-        if (!in_array($data['status'], ['active', 'canceled'], true)) {
-            return ['status' => 'error', 'message' => 'Trạng thái suất chiếu không hợp lệ!'];
-        }
-
-        if ($this->showtimeModel->findConflict($data['room_id'], $data['show_date'], $data['start_time'], $excludeId)) {
-            return ['status' => 'error', 'message' => 'Phòng đã có suất chiếu trùng ngày và giờ bắt đầu!'];
-        }
-
-        return null;
+        return $result;
     }
 
     private function normalizeTime($time) {
+        $result = null;
         $time = trim($time);
         if (preg_match('/^\d{2}:\d{2}$/', $time)) {
-            return $time . ':00';
+            $result = $time . ':00';
+        } elseif (preg_match('/^\d{2}:\d{2}:\d{2}$/', $time)) {
+            $result = $time;
         }
-        if (preg_match('/^\d{2}:\d{2}:\d{2}$/', $time)) {
-            return $time;
-        }
-        return null;
+        return $result;
     }
 
-
     public function getShowtimesByMovie($movieId) {
-        if ($movieId <= 0) {
-            return [];
+        $result = [];
+        if ($movieId > 0) {
+            $result = $this->model->getShowtimesByMovie($movieId);
         }
-
-        return $this->model->getShowtimesByMovie($movieId);
+        return $result;
     }
 
     public function getShowtimeDetails($showtimeId) {
-        if ($showtimeId <= 0) {
-            return null;
+        $result = null;
+        if ($showtimeId > 0) {
+            $result = $this->model->getShowtimeDetails($showtimeId);
         }
-
-        return $this->model->getShowtimeDetails($showtimeId);
+        return $result;
     }
 
     private function computeEndTime($startTime, $durationMinutes) {
@@ -166,7 +168,10 @@ class ShowtimeService {
     }
 
     public function getShowtimeById($id) {
-        if ($id <= 0) return null;
-        return $this->model->getById($id);
+        $result = null;
+        if ($id > 0) {
+            $result = $this->model->getById($id);
+        }
+        return $result;
     }
 }
