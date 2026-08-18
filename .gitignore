@@ -17,3 +17,7 @@ public/uploads/*
 
 # Composer
 vendor/
+# Node / Test Automation
+node_modules/
+output/
+tests/reports/
