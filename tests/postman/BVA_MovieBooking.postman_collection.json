@@ -1,0 +1,1261 @@
+{
+  "info": {
+    "name": "Movie Ticket Booking - BVA Automation",
+    "description": "Collection được sinh tự động từ tests/bva/bva-cases.js",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost/movie-ticket-booking/backend/api.php"
+    }
+  ],
+  "item": [
+    {
+      "name": "BVA - Seat",
+      "item": [
+        {
+          "name": "TC-SEAT-BVA-01 | seat_number=0 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 0,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "description": "TC=TC-SEAT-BVA-01\nModule=Seat\nField=seat_number\nValue=0\nBoundary=MIN - 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-01\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-SEAT-BVA-02 | seat_number=1 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 1,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "description": "TC=TC-SEAT-BVA-02\nModule=Seat\nField=seat_number\nValue=1\nBoundary=MIN\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-02\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 1;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-SEAT-BVA-03 | seat_number=2 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 2,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "description": "TC=TC-SEAT-BVA-03\nModule=Seat\nField=seat_number\nValue=2\nBoundary=MIN + 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-03\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 2;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-SEAT-BVA-04 | seat_number=11 | MAX - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 11,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "description": "TC=TC-SEAT-BVA-04\nModule=Seat\nField=seat_number\nValue=11\nBoundary=MAX - 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-04\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 11;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-SEAT-BVA-05 | seat_number=12 | MAX",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 12,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "description": "TC=TC-SEAT-BVA-05\nModule=Seat\nField=seat_number\nValue=12\nBoundary=MAX\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-05\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 12;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-SEAT-BVA-06 | seat_number=13 | MAX + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 13,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "description": "TC=TC-SEAT-BVA-06\nModule=Seat\nField=seat_number\nValue=13\nBoundary=MAX + 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-06\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 13;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BVA - Room",
+      "item": [
+        {
+          "name": "TC-ROOM-BVA-01 | total_seats=-1 | MIN - 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-01 {{$randomInt}}\",\n  \"total_seats\": -1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rooms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rooms"
+              ]
+            },
+            "description": "TC=TC-ROOM-BVA-01\nModule=Room\nField=total_seats\nValue=-1\nBoundary=MIN - 2\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-ROOM-BVA-01\";",
+                  "const field = \"total_seats\";",
+                  "const inputValue = -1;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-ROOM-BVA-02 | total_seats=0 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-02 {{$randomInt}}\",\n  \"total_seats\": 0,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rooms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rooms"
+              ]
+            },
+            "description": "TC=TC-ROOM-BVA-02\nModule=Room\nField=total_seats\nValue=0\nBoundary=MIN - 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-ROOM-BVA-02\";",
+                  "const field = \"total_seats\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-ROOM-BVA-03 | total_seats=1 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-03 {{$randomInt}}\",\n  \"total_seats\": 1,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rooms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rooms"
+              ]
+            },
+            "description": "TC=TC-ROOM-BVA-03\nModule=Room\nField=total_seats\nValue=1\nBoundary=MIN\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-ROOM-BVA-03\";",
+                  "const field = \"total_seats\";",
+                  "const inputValue = 1;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-ROOM-BVA-04 | total_seats=2 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-04 {{$randomInt}}\",\n  \"total_seats\": 2,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rooms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rooms"
+              ]
+            },
+            "description": "TC=TC-ROOM-BVA-04\nModule=Room\nField=total_seats\nValue=2\nBoundary=MIN + 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-ROOM-BVA-04\";",
+                  "const field = \"total_seats\";",
+                  "const inputValue = 2;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BVA - Theatre",
+      "item": [
+        {
+          "name": "TC-THEATRE-BVA-01 | total_screens=-1 | MIN - 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-01 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": -1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/theatres",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "theatres"
+              ]
+            },
+            "description": "TC=TC-THEATRE-BVA-01\nModule=Theatre\nField=total_screens\nValue=-1\nBoundary=MIN - 2\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-THEATRE-BVA-01\";",
+                  "const field = \"total_screens\";",
+                  "const inputValue = -1;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-THEATRE-BVA-02 | total_screens=0 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-02 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/theatres",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "theatres"
+              ]
+            },
+            "description": "TC=TC-THEATRE-BVA-02\nModule=Theatre\nField=total_screens\nValue=0\nBoundary=MIN - 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-THEATRE-BVA-02\";",
+                  "const field = \"total_screens\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-THEATRE-BVA-03 | total_screens=1 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-03 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/theatres",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "theatres"
+              ]
+            },
+            "description": "TC=TC-THEATRE-BVA-03\nModule=Theatre\nField=total_screens\nValue=1\nBoundary=MIN\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-THEATRE-BVA-03\";",
+                  "const field = \"total_screens\";",
+                  "const inputValue = 1;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-THEATRE-BVA-04 | total_screens=2 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-04 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/theatres",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "theatres"
+              ]
+            },
+            "description": "TC=TC-THEATRE-BVA-04\nModule=Theatre\nField=total_screens\nValue=2\nBoundary=MIN + 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-THEATRE-BVA-04\";",
+                  "const field = \"total_screens\";",
+                  "const inputValue = 2;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BVA - Review",
+      "item": [
+        {
+          "name": "TC-REVIEW-BVA-01 | rating=0 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 0,\n  \"comment\": \"BVA test TC-REVIEW-BVA-01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "description": "TC=TC-REVIEW-BVA-01\nModule=Review\nField=rating\nValue=0\nBoundary=MIN - 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-REVIEW-BVA-01\";",
+                  "const field = \"rating\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-REVIEW-BVA-02 | rating=1 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 1,\n  \"comment\": \"BVA test TC-REVIEW-BVA-02\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "description": "TC=TC-REVIEW-BVA-02\nModule=Review\nField=rating\nValue=1\nBoundary=MIN\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-REVIEW-BVA-02\";",
+                  "const field = \"rating\";",
+                  "const inputValue = 1;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-REVIEW-BVA-03 | rating=2 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 2,\n  \"comment\": \"BVA test TC-REVIEW-BVA-03\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "description": "TC=TC-REVIEW-BVA-03\nModule=Review\nField=rating\nValue=2\nBoundary=MIN + 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-REVIEW-BVA-03\";",
+                  "const field = \"rating\";",
+                  "const inputValue = 2;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-REVIEW-BVA-04 | rating=4 | MAX - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 4,\n  \"comment\": \"BVA test TC-REVIEW-BVA-04\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "description": "TC=TC-REVIEW-BVA-04\nModule=Review\nField=rating\nValue=4\nBoundary=MAX - 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-REVIEW-BVA-04\";",
+                  "const field = \"rating\";",
+                  "const inputValue = 4;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-REVIEW-BVA-05 | rating=5 | MAX",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 5,\n  \"comment\": \"BVA test TC-REVIEW-BVA-05\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "description": "TC=TC-REVIEW-BVA-05\nModule=Review\nField=rating\nValue=5\nBoundary=MAX\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-REVIEW-BVA-05\";",
+                  "const field = \"rating\";",
+                  "const inputValue = 5;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-REVIEW-BVA-06 | rating=6 | MAX + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 6,\n  \"comment\": \"BVA test TC-REVIEW-BVA-06\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "description": "TC=TC-REVIEW-BVA-06\nModule=Review\nField=rating\nValue=6\nBoundary=MAX + 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-REVIEW-BVA-06\";",
+                  "const field = \"rating\";",
+                  "const inputValue = 6;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

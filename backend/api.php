@@ -118,6 +118,28 @@ if ($method === 'GET' && $resource === 'users') {
     exit;
 }
 
+// BVA AUTOMATION - SEAT VALIDATION
+if (
+    $method === 'POST'
+    && $resource === 'seats'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
+    $seatService = new App\Services\SeatService();
+
+    $result = $seatService->validateSeatInput([
+        'room_id' => (int)($input['room_id'] ?? 0),
+        'seat_row' => trim($input['seat_row'] ?? ''),
+        'seat_number' => (int)($input['seat_number'] ?? 0),
+        'seat_type_id' => (int)($input['seat_type_id'] ?? 0),
+        'is_active' => (bool)($input['is_active'] ?? true)
+    ]);
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 //1. ĐẶT VÉ (POST /bookings)
 if ($resource === 'bookings') {
 
