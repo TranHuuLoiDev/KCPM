@@ -21,3 +21,6 @@ vendor/
 node_modules/
 output/
 tests/reports/
+
+# Playwright Test Results
+test-results/

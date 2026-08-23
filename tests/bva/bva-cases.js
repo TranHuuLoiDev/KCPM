@@ -50,7 +50,7 @@
   room: {
     module: 'Room',
     field: 'total_seats',
-    endpoint: '/rooms',
+    endpoint: '/rooms/validate',
     method: 'POST',
     min: 1,
 

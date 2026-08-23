@@ -406,12 +406,13 @@
               "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-01 {{$randomInt}}\",\n  \"total_seats\": -1,\n  \"is_active\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/rooms",
+              "raw": "{{baseUrl}}/rooms/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "rooms"
+                "rooms",
+                "validate"
               ]
             },
             "description": "TC=TC-ROOM-BVA-01\nModule=Room\nField=total_seats\nValue=-1\nBoundary=MIN - 2\nExpected=error"
@@ -467,12 +468,13 @@
               "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-02 {{$randomInt}}\",\n  \"total_seats\": 0,\n  \"is_active\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/rooms",
+              "raw": "{{baseUrl}}/rooms/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "rooms"
+                "rooms",
+                "validate"
               ]
             },
             "description": "TC=TC-ROOM-BVA-02\nModule=Room\nField=total_seats\nValue=0\nBoundary=MIN - 1\nExpected=error"
@@ -528,12 +530,13 @@
               "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-03 {{$randomInt}}\",\n  \"total_seats\": 1,\n  \"is_active\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/rooms",
+              "raw": "{{baseUrl}}/rooms/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "rooms"
+                "rooms",
+                "validate"
               ]
             },
             "description": "TC=TC-ROOM-BVA-03\nModule=Room\nField=total_seats\nValue=1\nBoundary=MIN\nExpected=success"
@@ -589,12 +592,13 @@
               "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"BVA Room TC-ROOM-BVA-04 {{$randomInt}}\",\n  \"total_seats\": 2,\n  \"is_active\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/rooms",
+              "raw": "{{baseUrl}}/rooms/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "rooms"
+                "rooms",
+                "validate"
               ]
             },
             "description": "TC=TC-ROOM-BVA-04\nModule=Room\nField=total_seats\nValue=2\nBoundary=MIN + 1\nExpected=success"

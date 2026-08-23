@@ -83,6 +83,38 @@ class RoomService {
         return $this->theatreModel->getAll();
     }
 
+    public function validateRoomInput($data) {
+    $validation = $this->validateBase($data);
+
+    if ($validation) {
+        return $validation;
+    }
+
+    return [
+        'status' => 'success',
+        'message' => 'Dữ liệu phòng hợp lệ!'
+    ];
+}
+
+    private function validateBase($data) {
+        if (empty($data['name'])) {
+            return ['status' => 'error', 'message' => 'Tên phòng không được để trống!'];
+        }
+
+        if (
+            ($data['theatre_id'] ?? 0) <= 0
+            || !$this->theatreModel->findById($data['theatre_id'])
+        ) {
+            return ['status' => 'error', 'message' => 'Rạp chiếu không hợp lệ!'];
+        }
+
+        if (($data['total_seats'] ?? 0) < 1) {
+            return ['status' => 'error', 'message' => 'Số ghế phải lớn hơn 0!'];
+        }
+
+        return null;
+    }
+
     private function validate($data, $excludeId = null) {
         if (empty($data['name'])) {
             return ['status' => 'error', 'message' => 'Tên phòng không được để trống!'];
