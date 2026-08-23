@@ -205,4 +205,41 @@ class RoomServiceTest extends TestCase
 
         $this->assertIsArray($theatres);
     }
+    
+    // ---- BVA validateRoomInput ----
+    public function testValidateRoomTotalSeatsBelowMinimum(): void
+    {
+        $result = $this->service->validateRoomInput(
+            $this->sampleData(['total_seats' => -1])
+        );
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateRoomTotalSeatsZero(): void
+    {
+        $result = $this->service->validateRoomInput(
+            $this->sampleData(['total_seats' => 0])
+        );
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateRoomTotalSeatsAtMinimum(): void
+    {
+        $result = $this->service->validateRoomInput(
+            $this->sampleData(['total_seats' => 1])
+        );
+
+        $this->assertSame('success', $result['status']);
+    }
+
+    public function testValidateRoomTotalSeatsMinPlusOne(): void
+    {
+        $result = $this->service->validateRoomInput(
+            $this->sampleData(['total_seats' => 2])
+        );
+
+        $this->assertSame('success', $result['status']);
+    }
 }

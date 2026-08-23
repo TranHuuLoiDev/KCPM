@@ -140,6 +140,27 @@ if (
     exit;
 }
 
+// BVA AUTOMATION - ROOM VALIDATION
+if (
+    $method === 'POST'
+    && $resource === 'rooms'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
+    $roomService = new App\Services\RoomService();
+
+    $result = $roomService->validateRoomInput([
+        'theatre_id' => (int)($input['theatre_id'] ?? 0),
+        'name' => trim($input['name'] ?? ''),
+        'total_seats' => (int)($input['total_seats'] ?? 0),
+        'is_active' => (bool)($input['is_active'] ?? true)
+    ]);
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 //1. ĐẶT VÉ (POST /bookings)
 if ($resource === 'bookings') {
 
