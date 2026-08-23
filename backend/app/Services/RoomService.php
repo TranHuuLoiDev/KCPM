@@ -116,18 +116,19 @@ class RoomService {
     }
 
     private function validate($data, $excludeId = null) {
-        if (empty($data['name'])) {
-            return ['status' => 'error', 'message' => 'Tên phòng không được để trống!'];
+        $validation = $this->validateBase($data);
+
+        if ($validation) {
+            return $validation;
         }
-        if ($data['theatre_id'] <= 0 || !$this->theatreModel->findById($data['theatre_id'])) {
-            return ['status' => 'error', 'message' => 'Rạp chiếu không hợp lệ!'];
-        }
-        if ($data['total_seats'] < 1) {
-            return ['status' => 'error', 'message' => 'Số ghế phải lớn hơn 0!'];
-        }
+
         if ($this->model->findByName($data['name'], $excludeId)) {
-            return ['status' => 'error', 'message' => "Tên phòng '{$data['name']}' đã tồn tại trong hệ thống!"];
+            return [
+                'status' => 'error',
+                'message' => "Tên phòng '{$data['name']}' đã tồn tại trong hệ thống!"
+            ];
         }
+
         return null;
     }
 }
