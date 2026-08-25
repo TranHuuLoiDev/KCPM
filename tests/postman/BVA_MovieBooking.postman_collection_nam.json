@@ -1,0 +1,492 @@
+{
+    "info": {
+        "_postman_id": "bva-automation-collection-uuid-02",
+        "name": "Movie Ticket Booking - BVA Automation",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "BVA - Movies",
+            "item": [
+                {
+                    "name": "TC-MOVIE-BVA-01 | duration=59 | MIN - 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test Movie\",\n  \"duration\": 59,\n  \"ageRating\": 16,\n  \"releaseDate\": \"2026-05-01\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/movies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-MOVIE-BVA-02 | duration=60 | MIN",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test Movie\",\n  \"duration\": 60,\n  \"ageRating\": 16,\n  \"releaseDate\": \"2026-05-01\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/movies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-MOVIE-BVA-03 | duration=61 | MIN + 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test Movie\",\n  \"duration\": 61,\n  \"ageRating\": 16,\n  \"releaseDate\": \"2026-05-01\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/movies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-MOVIE-BVA-04 | duration=179 | MAX - 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test Movie\",\n  \"duration\": 179,\n  \"ageRating\": 16,\n  \"releaseDate\": \"2026-05-01\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/movies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-MOVIE-BVA-05 | duration=180 | MAX",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test Movie\",\n  \"duration\": 180,\n  \"ageRating\": 16,\n  \"releaseDate\": \"2026-05-01\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/movies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-MOVIE-BVA-06 | duration=181 | MAX + 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test Movie\",\n  \"duration\": 181,\n  \"ageRating\": 16,\n  \"releaseDate\": \"2026-05-01\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/movies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "BVA - Rooms",
+            "item": [
+                {
+                    "name": "TC-ROOM-BVA-01 | capacity=9 | MIN - 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roomName\": \"Room A\",\n  \"capacity\": 9\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/rooms",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rooms"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-ROOM-BVA-02 | capacity=10 | MIN",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roomName\": \"Room A\",\n  \"capacity\": 10\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/rooms",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rooms"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-ROOM-BVA-03 | capacity=11 | MIN + 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roomName\": \"Room A\",\n  \"capacity\": 11\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/rooms",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rooms"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-ROOM-BVA-04 | capacity=199 | MAX - 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roomName\": \"Room A\",\n  \"capacity\": 199\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/rooms",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rooms"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-ROOM-BVA-05 | capacity=200 | MAX",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roomName\": \"Room A\",\n  \"capacity\": 200\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/rooms",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rooms"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-ROOM-BVA-06 | capacity=201 | MAX + 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roomName\": \"Room A\",\n  \"capacity\": 201\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/rooms",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rooms"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "BVA - Showtimes",
+            "item": [
+                {
+                    "name": "TC-SHOW-BVA-01 | price=49999 | MIN - 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T10:00:00\",\n  \"price\": 49999\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/showtimes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "showtimes"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-SHOW-BVA-02 | price=50000 | MIN",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T10:00:00\",\n  \"price\": 50000\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/showtimes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "showtimes"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-SHOW-BVA-03 | price=50001 | MIN + 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T10:00:00\",\n  \"price\": 50001\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/showtimes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "showtimes"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-SHOW-BVA-04 | price=199999 | MAX - 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T10:00:00\",\n  \"price\": 199999\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/showtimes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "showtimes"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-SHOW-BVA-05 | price=200000 | MAX",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T10:00:00\",\n  \"price\": 200000\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/showtimes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "showtimes"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "TC-SHOW-BVA-06 | price=200001 | MAX + 1",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T10:00:00\",\n  \"price\": 200001\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/showtimes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "showtypes"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
