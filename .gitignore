@@ -17,3 +17,11 @@ public/uploads/*
 
 # Composer
 vendor/
+# Node / Test Automation
+node_modules/
+output/
+tests/reports/
+
+# Playwright Test Results
+test-results/
+#KAN37

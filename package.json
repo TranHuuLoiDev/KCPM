@@ -1,0 +1,30 @@
+{
+  "name": "movie-ticket-booking",
+  "version": "1.0.0",
+  "description": "Online Movie Ticket Booking System là website hỗ trợ khách hàng tra cứu phim, xem lịch chiếu, chọn ghế và đặt vé xem phim trực tuyến.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TranHuuLoiDev/KCPM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TranHuuLoiDev/KCPM/issues"
+  },
+  "homepage": "https://github.com/TranHuuLoiDev/KCPM#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "codeceptjs": "^4.1.0",
+    "newman": "^6.2.2",
+    "playwright": "^1.62.1"
+  }
+}

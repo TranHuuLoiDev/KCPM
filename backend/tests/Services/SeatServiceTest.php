@@ -119,4 +119,122 @@ class SeatServiceTest extends TestCase
     {
         $this->assertIsArray($this->service->getAllSeatTypes());
     }
+    // ---- BVA validateSeatInput ----
+
+public function testValidateSeatNumberBelowMinimum(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 0,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('error', $result['status']);
+}
+
+public function testValidateSeatNumberAtMinimum(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 1,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('success', $result['status']);
+}
+
+public function testValidateSeatNumberMinPlusOne(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 2,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('success', $result['status']);
+}
+
+public function testValidateSeatNumberMaxMinusOne(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 11,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('success', $result['status']);
+}
+
+public function testValidateSeatNumberAtMaximum(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 12,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('success', $result['status']);
+}
+
+public function testValidateSeatNumberAboveMaximum(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 13,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('error', $result['status']);
+}
+
+public function testValidateSeatRejectsInvalidRow(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'I',
+        'seat_number' => 1,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('error', $result['status']);
+}
+
+    public function testValidateSeatRejectsInvalidRoom(): void
+    {
+        $result = $this->service->validateSeatInput([
+            'room_id' => 0,
+            'seat_row' => 'A',
+            'seat_number' => 1,
+            'seat_type_id' => 1,
+            'is_active' => true
+        ]);
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateSeatRejectsInvalidSeatType(): void
+    {
+        $result = $this->service->validateSeatInput([
+            'room_id' => 1,
+            'seat_row' => 'A',
+            'seat_number' => 1,
+            'seat_type_id' => 0,
+            'is_active' => true
+        ]);
+
+        $this->assertSame('error', $result['status']);
+    }
 }
