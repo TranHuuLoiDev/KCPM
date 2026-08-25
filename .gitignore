@@ -18,3 +18,6 @@ public/uploads/*
 # Composer
 vendor/node_modules/
 postman/reports/
+ backend/vendor/
+ vendor/
+ node_modules/
