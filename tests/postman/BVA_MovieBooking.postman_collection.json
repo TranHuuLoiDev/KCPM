@@ -1264,6 +1264,194 @@
           ]
         }
       ]
+    },
+    {
+      "name": "BVA - Authentication",
+      "item": [
+        {
+          "name": "TC-AUTH-BVA-01 | password=12345 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"BVA\",\n  \"last_name\": \"Authentication\",\n  \"email\": \"bva.auth.TC-AUTH-BVA-01.{{$randomInt}}@example.com\",\n  \"phone\": \"09{{$randomInt}}\",\n  \"birth_date\": \"2000-01-01\",\n  \"password\": \"12345\",\n  \"confirm_password\": \"12345\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "TC=TC-AUTH-BVA-01\nModule=Authentication\nField=password\nValue=12345\nBoundary=MIN - 1\nExpected=error"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-AUTH-BVA-01\";",
+                  "const field = \"password\";",
+                  "const inputValue = \"12345\";",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-AUTH-BVA-02 | password=123456 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"BVA\",\n  \"last_name\": \"Authentication\",\n  \"email\": \"bva.auth.TC-AUTH-BVA-02.{{$randomInt}}@example.com\",\n  \"phone\": \"09{{$randomInt}}\",\n  \"birth_date\": \"2000-01-01\",\n  \"password\": \"123456\",\n  \"confirm_password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "TC=TC-AUTH-BVA-02\nModule=Authentication\nField=password\nValue=123456\nBoundary=MIN\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-AUTH-BVA-02\";",
+                  "const field = \"password\";",
+                  "const inputValue = \"123456\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-AUTH-BVA-03 | password=1234567 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"BVA\",\n  \"last_name\": \"Authentication\",\n  \"email\": \"bva.auth.TC-AUTH-BVA-03.{{$randomInt}}@example.com\",\n  \"phone\": \"09{{$randomInt}}\",\n  \"birth_date\": \"2000-01-01\",\n  \"password\": \"1234567\",\n  \"confirm_password\": \"1234567\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "TC=TC-AUTH-BVA-03\nModule=Authentication\nField=password\nValue=1234567\nBoundary=MIN + 1\nExpected=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-AUTH-BVA-03\";",
+                  "const field = \"password\";",
+                  "const inputValue = \"1234567\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

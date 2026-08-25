@@ -6,6 +6,17 @@ const baseUrl = 'http://localhost/movie-ticket-booking/backend/api.php';
 
 function buildBody(moduleKey, testCase) {
   switch (moduleKey) {
+    case 'authentication':
+      return {
+        first_name: 'BVA',
+        last_name: 'Authentication',
+        email: `bva.auth.${testCase.id}.{{$randomInt}}@example.com`,
+        phone: `09{{$randomInt}}`,
+        birth_date: '2000-01-01',
+        password: testCase.value,
+        confirm_password: testCase.value
+      };
+
     case 'seat':
       return {
         room_id: 1,
