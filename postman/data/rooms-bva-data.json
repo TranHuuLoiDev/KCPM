@@ -1,0 +1,42 @@
+[
+  {
+    "testCaseId": "TC-ROOM-01",
+    "description": "Tong so ghe am (bien duoi - 1)",
+    "theatre_id": 1,
+    "name": "Phong Test BVA 01",
+    "total_seats": -1,
+    "is_active": true,
+    "expectedStatus": "error",
+    "expectedMessage": "Số ghế phải lớn hơn 0!"
+  },
+  {
+    "testCaseId": "TC-ROOM-02",
+    "description": "Tong so ghe bang 0 (bien duoi)",
+    "theatre_id": 1,
+    "name": "Phong Test BVA 02",
+    "total_seats": 0,
+    "is_active": true,
+    "expectedStatus": "error",
+    "expectedMessage": "Số ghế phải lớn hơn 0!"
+  },
+  {
+    "testCaseId": "TC-ROOM-03",
+    "description": "Tong so ghe bang 1 (bien duoi hop le)",
+    "theatre_id": 1,
+    "name": "Phong Test BVA 03",
+    "total_seats": 1,
+    "is_active": true,
+    "expectedStatus": "success",
+    "expectedMessage": null
+  },
+  {
+    "testCaseId": "TC-ROOM-04",
+    "description": "Ten phong da ton tai (Phong 1)",
+    "theatre_id": 1,
+    "name": "Phòng 1",
+    "total_seats": 50,
+    "is_active": true,
+    "expectedStatus": "error",
+    "expectedMessage": "Tên phòng 'Phòng 1' đã tồn tại trong hệ thống!"
+  }
+]

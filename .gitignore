@@ -16,4 +16,5 @@ Thumbs.db
 public/uploads/*
 
 # Composer
-vendor/
+vendor/node_modules/
+postman/reports/

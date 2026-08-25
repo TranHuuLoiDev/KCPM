@@ -1,0 +1,24 @@
+[
+  {
+    "testCaseId": "TC-THEATRE-01",
+    "description": "Ten rap rong",
+    "name": "",
+    "address": "123 Test Street",
+    "city": "HCM",
+    "phone": "0900000000",
+    "total_screens": 5,
+    "expectedStatus": "error",
+    "expectedMessage": "Tên rạp không được để trống!"
+  },
+  {
+    "testCaseId": "TC-THEATRE-02",
+    "description": "So phong chieu bang 0 (bien duoi)",
+    "name": "Rap Test BVA",
+    "address": "456 Test Street",
+    "city": "HCM",
+    "phone": "0900000001",
+    "total_screens": 0,
+    "expectedStatus": "error",
+    "expectedMessage": "Số phòng chiếu phải lớn hơn 0!"
+  }
+]
