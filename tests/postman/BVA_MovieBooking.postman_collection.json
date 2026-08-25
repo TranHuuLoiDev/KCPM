@@ -659,12 +659,13 @@
               "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-01 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": -1\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/theatres",
+              "raw": "{{baseUrl}}/theatres/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "theatres"
+                "theatres",
+                "validate"
               ]
             },
             "description": "TC=TC-THEATRE-BVA-01\nModule=Theatre\nField=total_screens\nValue=-1\nBoundary=MIN - 2\nExpected=error"
@@ -720,12 +721,13 @@
               "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-02 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": 0\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/theatres",
+              "raw": "{{baseUrl}}/theatres/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "theatres"
+                "theatres",
+                "validate"
               ]
             },
             "description": "TC=TC-THEATRE-BVA-02\nModule=Theatre\nField=total_screens\nValue=0\nBoundary=MIN - 1\nExpected=error"
@@ -781,12 +783,13 @@
               "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-03 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": 1\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/theatres",
+              "raw": "{{baseUrl}}/theatres/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "theatres"
+                "theatres",
+                "validate"
               ]
             },
             "description": "TC=TC-THEATRE-BVA-03\nModule=Theatre\nField=total_screens\nValue=1\nBoundary=MIN\nExpected=success"
@@ -842,12 +845,13 @@
               "raw": "{\n  \"name\": \"BVA Theatre TC-THEATRE-BVA-04 {{$randomInt}}\",\n  \"address\": \"123 BVA Test\",\n  \"city\": \"Ho Chi Minh\",\n  \"phone\": \"0123456789\",\n  \"total_screens\": 2\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/theatres",
+              "raw": "{{baseUrl}}/theatres/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "theatres"
+                "theatres",
+                "validate"
               ]
             },
             "description": "TC=TC-THEATRE-BVA-04\nModule=Theatre\nField=total_screens\nValue=2\nBoundary=MIN + 1\nExpected=success"

@@ -161,6 +161,28 @@ if (
     exit;
 }
 
+// BVA AUTOMATION - THEATRE VALIDATION
+if (
+    $method === 'POST'
+    && $resource === 'theatres'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
+    $theatreService = new App\Services\TheatreService();
+
+    $result = $theatreService->validateTheatreInput([
+        'name' => trim($input['name'] ?? ''),
+        'address' => trim($input['address'] ?? ''),
+        'city' => trim($input['city'] ?? ''),
+        'phone' => trim($input['phone'] ?? ''),
+        'total_screens' => (int)($input['total_screens'] ?? 0)
+    ]);
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 //1. ĐẶT VÉ (POST /bookings)
 if ($resource === 'bookings') {
 

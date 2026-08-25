@@ -85,7 +85,7 @@
   theatre: {
     module: 'Theatre',
     field: 'total_screens',
-    endpoint: '/theatres',
+    endpoint: '/theatres/validate',
     method: 'POST',
     min: 1,
 
