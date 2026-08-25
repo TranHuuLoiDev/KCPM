@@ -68,13 +68,37 @@ class TheatreService {
         return $this->model->findById($id);
     }
 
-    private function validate($data) {
+    public function validateTheatreInput($data) {
+        $validation = $this->validateBase($data);
+
+        if ($validation) {
+            return $validation;
+        }
+
+        return [
+            'status' => 'success',
+            'message' => 'Dữ liệu rạp hợp lệ!'
+        ];
+    }
+
+    private function validateBase($data) {
         if (empty($data['name'])) {
-            return ['status' => 'error', 'message' => 'Tên rạp không được để trống!'];
+            return [
+                'status' => 'error',
+                'message' => 'Tên rạp không được để trống!'
+            ];
         }
-        if ($data['total_screens'] < 1) {
-            return ['status' => 'error', 'message' => 'Số phòng chiếu phải lớn hơn 0!'];
+
+        if (($data['total_screens'] ?? 0) < 1) {
+            return [
+                'status' => 'error',
+                'message' => 'Số phòng chiếu phải lớn hơn 0!'
+            ];
         }
+
         return null;
+    }
+    private function validate($data) {
+        return $this->validateBase($data);
     }
 }

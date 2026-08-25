@@ -164,4 +164,41 @@ class TheatreServiceTest extends TestCase
 
         $this->assertIsArray($theatres);
     }
+    
+    // ---- BVA validateTheatreInput ----
+    public function testValidateTheatreTotalScreensBelowMinimum(): void
+    {
+        $result = $this->service->validateTheatreInput(
+            $this->sampleData(['total_screens' => -1])
+        );
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateTheatreTotalScreensZero(): void
+    {
+        $result = $this->service->validateTheatreInput(
+            $this->sampleData(['total_screens' => 0])
+        );
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateTheatreTotalScreensAtMinimum(): void
+    {
+        $result = $this->service->validateTheatreInput(
+            $this->sampleData(['total_screens' => 1])
+        );
+
+        $this->assertSame('success', $result['status']);
+    }
+
+    public function testValidateTheatreTotalScreensMinPlusOne(): void
+    {
+        $result = $this->service->validateTheatreInput(
+            $this->sampleData(['total_screens' => 2])
+        );
+
+        $this->assertSame('success', $result['status']);
+    }
 }
