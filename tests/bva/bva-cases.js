@@ -163,5 +163,36 @@
         expected: 'error'
       }
     ]
-  }
+  },
+
+
+//==========================
+    authentication: {
+        module: 'Authentication',
+        field: 'password',
+        endpoint: '/register',
+        method: 'POST',
+        min: 6,
+
+        cases: [
+          {
+            id: 'TC-AUTH-BVA-01',
+            value: '12345',
+            position: 'MIN - 1',
+            expected: 'error'
+          },
+          {
+            id: 'TC-AUTH-BVA-02',
+            value: '123456',
+            position: 'MIN',
+            expected: 'success'
+          },
+          {
+            id: 'TC-AUTH-BVA-03',
+            value: '1234567',
+            position: 'MIN + 1',
+            expected: 'success'
+          }
+        ]
+      }
 };
