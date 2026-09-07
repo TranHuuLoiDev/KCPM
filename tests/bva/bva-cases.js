@@ -120,7 +120,7 @@
   review: {
     module: 'Review',
     field: 'rating',
-    endpoint: '/reviews',
+    endpoint: '/reviews/validate',
     method: 'POST',
     min: 1,
     max: 5,

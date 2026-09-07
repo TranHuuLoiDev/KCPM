@@ -912,12 +912,13 @@
               "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 0,\n  \"comment\": \"BVA test TC-REVIEW-BVA-01\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
+              "raw": "{{baseUrl}}/reviews/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "reviews"
+                "reviews",
+                "validate"
               ]
             },
             "description": "TC=TC-REVIEW-BVA-01\nModule=Review\nField=rating\nValue=0\nBoundary=MIN - 1\nExpected=error"
@@ -973,12 +974,13 @@
               "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 1,\n  \"comment\": \"BVA test TC-REVIEW-BVA-02\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
+              "raw": "{{baseUrl}}/reviews/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "reviews"
+                "reviews",
+                "validate"
               ]
             },
             "description": "TC=TC-REVIEW-BVA-02\nModule=Review\nField=rating\nValue=1\nBoundary=MIN\nExpected=success"
@@ -1034,12 +1036,13 @@
               "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 2,\n  \"comment\": \"BVA test TC-REVIEW-BVA-03\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
+              "raw": "{{baseUrl}}/reviews/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "reviews"
+                "reviews",
+                "validate"
               ]
             },
             "description": "TC=TC-REVIEW-BVA-03\nModule=Review\nField=rating\nValue=2\nBoundary=MIN + 1\nExpected=success"
@@ -1095,12 +1098,13 @@
               "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 4,\n  \"comment\": \"BVA test TC-REVIEW-BVA-04\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
+              "raw": "{{baseUrl}}/reviews/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "reviews"
+                "reviews",
+                "validate"
               ]
             },
             "description": "TC=TC-REVIEW-BVA-04\nModule=Review\nField=rating\nValue=4\nBoundary=MAX - 1\nExpected=success"
@@ -1156,12 +1160,13 @@
               "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 5,\n  \"comment\": \"BVA test TC-REVIEW-BVA-05\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
+              "raw": "{{baseUrl}}/reviews/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "reviews"
+                "reviews",
+                "validate"
               ]
             },
             "description": "TC=TC-REVIEW-BVA-05\nModule=Review\nField=rating\nValue=5\nBoundary=MAX\nExpected=success"
@@ -1217,12 +1222,13 @@
               "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"rating\": 6,\n  \"comment\": \"BVA test TC-REVIEW-BVA-06\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
+              "raw": "{{baseUrl}}/reviews/validate",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "reviews"
+                "reviews",
+                "validate"
               ]
             },
             "description": "TC=TC-REVIEW-BVA-06\nModule=Review\nField=rating\nValue=6\nBoundary=MAX + 1\nExpected=error"
