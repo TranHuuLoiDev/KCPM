@@ -7,7 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bva:generate": "node tests/bva/generate-postman.js",
+    "bva:log": "node tests/automation/run-bva-and-log.js",
+    "bva:log:review": "node tests/automation/run-bva-and-log.js \"BVA - Review\""
   },
   "repository": {
     "type": "git",
