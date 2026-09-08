@@ -1,0 +1,533 @@
+{
+  "info": {
+    "_postman_id": "bva-member4-showtime-admin-id",
+    "name": "Movie Ticket Booking - BVA Automation (Member 4)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "BVA - Showtime",
+      "item": [
+        {
+          "name": "TC-SHOWTIME-BVA-01 | price = 9999 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T18:00:00\",\n  \"price\": 9999\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/showtimes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "showtimes"]
+            }
+          }
+        },
+        {
+          "name": "TC-SHOWTIME-BVA-02 | price = 10000 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T18:00:00\",\n  \"price\": 10000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/showtimes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "showtimes"]
+            }
+          }
+        },
+        {
+          "name": "TC-SHOWTIME-BVA-03 | price = 10001 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T18:00:00\",\n  \"price\": 10001\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/showtimes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "showtimes"]
+            }
+          }
+        },
+        {
+          "name": "TC-SHOWTIME-BVA-04 | price = 499999 | MAX - 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T18:00:00\",\n  \"price\": 499999\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/showtimes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "showtimes"]
+            }
+          }
+        },
+        {
+          "name": "TC-SHOWTIME-BVA-05 | price = 500000 | MAX",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T18:00:00\",\n  \"price\": 500000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/showtimes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "showtimes"]
+            }
+          }
+        },
+        {
+          "name": "TC-SHOWTIME-BVA-06 | price = 500001 | MAX + 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": 1,\n  \"roomId\": 1,\n  \"startTime\": \"2026-06-01T18:00:00\",\n  \"price\": 500001\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/showtimes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "showtimes"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "BVA - Admin Dashboard",
+      "item": [
+        {
+          "name": "TC-DASH-BVA-01 | limit=0 | MIN - 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/stats?limit=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "stats"],
+              "query": [{"key": "limit", "value": "0"}]
+            }
+          }
+        },
+        {
+          "name": "TC-DASH-BVA-02 | limit=1 | MIN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/stats?limit=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "stats"],
+              "query": [{"key": "limit", "value": "1"}]
+            }
+          }
+        },
+        {
+          "name": "TC-DASH-BVA-03 | limit=2 | MIN + 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/stats?limit=2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "stats"],
+              "query": [{"key": "limit", "value": "2"}]
+            }
+          }
+        },
+        {
+          "name": "TC-DASH-BVA-04 | limit=99 | MAX - 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/stats?limit=99",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "stats"],
+              "query": [{"key": "limit", "value": "99"}]
+            }
+          }
+        },
+        {
+          "name": "TC-DASH-BVA-05 | limit=100 | MAX",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/stats?limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "stats"],
+              "query": [{"key": "limit", "value": "100"}]
+            }
+          }
+        },
+        {
+          "name": "TC-DASH-BVA-06 | limit=101 | MAX + 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/stats?limit=101",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard", "stats"],
+              "query": [{"key": "limit", "value": "101"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "BVA - Admin User Management",
+      "item": [
+        {
+          "name": "TC-USER-BVA-01 | age=17 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@gmail.com\",\n  \"age\": 17\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "TC-USER-BVA-02 | age=18 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@gmail.com\",\n  \"age\": 18\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "TC-USER-BVA-03 | age=19 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@gmail.com\",\n  \"age\": 19\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "TC-USER-BVA-04 | age=99 | MAX - 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@gmail.com\",\n  \"age\": 99\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "TC-USER-BVA-05 | age=100 | MAX",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@gmail.com\",\n  \"age\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "TC-USER-BVA-06 | age=101 | MAX + 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@gmail.com\",\n  \"age\": 101\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "BVA - Admin Booking Management",
+      "item": [
+        {
+          "name": "TC-BOOK-BVA-01 | ticket_quantity=0 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": 1,\n  \"ticket_quantity\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "TC-BOOK-BVA-02 | ticket_quantity=1 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": 1,\n  \"ticket_quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "TC-BOOK-BVA-03 | ticket_quantity=2 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": 1,\n  \"ticket_quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "TC-BOOK-BVA-04 | ticket_quantity=9 | MAX - 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": 1,\n  \"ticket_quantity\": 9\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "TC-BOOK-BVA-05 | ticket_quantity=10 | MAX",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": 1,\n  \"ticket_quantity\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "TC-BOOK-BVA-06 | ticket_quantity=11 | MAX + 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": 1,\n  \"ticket_quantity\": 11\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "BVA - Admin Seat Management",
+      "item": [
+        {
+          "name": "TC-SEAT-BVA-01 | seat_number=0 | MIN - 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"rowName\": \"A\",\n  \"seat_number\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/seats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "seats"]
+            }
+          }
+        },
+        {
+          "name": "TC-SEAT-BVA-02 | seat_number=1 | MIN",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"rowName\": \"A\",\n  \"seat_number\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/seats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "seats"]
+            }
+          }
+        },
+        {
+          "name": "TC-SEAT-BVA-03 | seat_number=2 | MIN + 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"rowName\": \"A\",\n  \"seat_number\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/seats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "seats"]
+            }
+          }
+        },
+        {
+          "name": "TC-SEAT-BVA-04 | seat_number=11 | MAX - 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"rowName\": \"A\",\n  \"seat_number\": 11\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/seats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "seats"]
+            }
+          }
+        },
+        {
+          "name": "TC-SEAT-BVA-05 | seat_number=12 | MAX",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"rowName\": \"A\",\n  \"seat_number\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/seats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "seats"]
+            }
+          }
+        },
+        {
+          "name": "TC-SEAT-BVA-06 | seat_number=13 | MAX + 1",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"rowName\": \"A\",\n  \"seat_number\": 13\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/seats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "seats"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}

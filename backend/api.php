@@ -170,6 +170,10 @@ if (
 if (
     $method === 'POST'
     && $resource === 'bookings'
+// BVA AUTOMATION - THEATRE VALIDATION
+if (
+    $method === 'POST'
+    && $resource === 'theatres'
     && ($segments[1] ?? '') === 'validate'
 ) {
     $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
@@ -182,6 +186,36 @@ if (
         $input['seat_ids'] ?? [],
         $input['payment_method'] ?? 'cash'
     );
+    $theatreService = new App\Services\TheatreService();
+
+    $result = $theatreService->validateTheatreInput([
+        'name' => trim($input['name'] ?? ''),
+        'address' => trim($input['address'] ?? ''),
+        'city' => trim($input['city'] ?? ''),
+        'phone' => trim($input['phone'] ?? ''),
+        'total_screens' => (int)($input['total_screens'] ?? 0)
+    ]);
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// BVA AUTOMATION - REVIEW RATING VALIDATION
+if (
+    $method === 'POST'
+    && $resource === 'reviews'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
+    $reviewService = new App\Services\ReviewService();
+
+    $result = $reviewService->validateReviewInput([
+        'user_id' => (int)($input['user_id'] ?? 0),
+        'movie_id' => (int)($input['movie_id'] ?? 0),
+        'rating' => (int)($input['rating'] ?? 0),
+        'comment' => trim($input['comment'] ?? '')
+    ]);
 
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
     exit;
