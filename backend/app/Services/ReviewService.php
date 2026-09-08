@@ -19,15 +19,21 @@ class ReviewService {
         $rating = (int)$rating;
         $comment = trim($comment);
 
-        $validation = $this->validateBase(
-            $userId,
-            $movieId,
-            $rating,
-            $comment
-        );
+        if ($userId <= 0) {
+            return ['status' => 'error', 'message' => 'Vui lòng đăng nhập để đánh giá phim!'];
+        }
 
-        if ($validation) {
-            return $validation;
+        if ($movieId <= 0 || !$this->movieModel->getMovieByIdWithGenres($movieId)) {
+            return ['status' => 'error', 'message' => 'Phim không hợp lệ!'];
+        }
+
+        $ratingValidation = $this->validateRating($rating);
+        if ($ratingValidation) {
+            return $ratingValidation;
+        }
+
+        if ($comment === '') {
+            return ['status' => 'error', 'message' => 'Vui lòng nhập nội dung đánh giá!'];
         }
 
         if ($this->model->create([
@@ -36,16 +42,10 @@ class ReviewService {
             'rating' => $rating,
             'comment' => $comment
         ])) {
-            return [
-                'status' => 'success',
-                'message' => 'Gửi đánh giá thành công!'
-            ];
+            return ['status' => 'success', 'message' => 'Gửi đánh giá thành công!'];
         }
 
-        return [
-            'status' => 'error',
-            'message' => 'Lỗi khi gửi đánh giá: ' . $this->model->getError()
-        ];
+        return ['status' => 'error', 'message' => 'Lỗi khi gửi đánh giá: ' . $this->model->getError()];
     }
 
     public function validateReviewInput($data) {
@@ -74,65 +74,22 @@ class ReviewService {
         return null;
     }
 
-    private function validateBase(
-        $userId,
-        $movieId,
-        $rating,
-        $comment
-    ) {
-        if ($userId <= 0) {
-            return [
-                'status' => 'error',
-                'message' => 'Vui lòng đăng nhập để đánh giá phim!'
-            ];
-        }
-
-        if (
-            $movieId <= 0
-            || !$this->movieModel->getMovieByIdWithGenres($movieId)
-        ) {
-            return [
-                'status' => 'error',
-                'message' => 'Phim không hợp lệ!'
-            ];
-        }
-
-        $ratingValidation = $this->validateRating($rating);
-
-        if ($ratingValidation) {
-            return $ratingValidation;
-        }
-
-        if ($comment === '') {
-            return [
-                'status' => 'error',
-                'message' => 'Vui lòng nhập nội dung đánh giá!'
-            ];
-        }
-
-        return null;
-    }
-
     public function getReviewsByMovieId($movieId) {
         $movieId = (int)$movieId;
-
         if ($movieId <= 0) {
             return [];
         }
-
         return $this->model->getByMovieId($movieId);
     }
 
     public function getRatingSummary($movieId) {
         $movieId = (int)$movieId;
-
         if ($movieId <= 0) {
             return [
                 'average_rating' => 0,
                 'total_reviews' => 0
             ];
         }
-
         return $this->model->getRatingSummary($movieId);
     }
 }
