@@ -4,8 +4,63 @@ const bva = require('./bva-cases');
 
 const baseUrl = 'http://localhost/movie-ticket-booking/backend/api.php';
 
+
+
+function getRequestConfig(testCase) {
+  switch (testCase.serviceMethod) {
+    case 'processBooking':
+      return {
+        method: 'POST',
+        endpoint: '/bookings/validate'
+      };
+
+    case 'getUserBookings':
+      return {
+        method: 'GET',
+        endpoint: '/bookings/validate-user'
+      };
+
+    case 'cancelBooking':
+      return {
+        method: 'POST',
+        endpoint: '/bookings/validate-cancel'
+      };
+
+    case 'getAdminBookingDetail':
+      return {
+        method: 'GET',
+        endpoint: '/admin/bookings/validate-detail'
+      };
+
+    case 'updateAdminBookingStatus':
+      return {
+        method: 'POST',
+        endpoint: '/admin/bookings/validate-status'
+      };
+
+    case 'deleteAdminBooking':
+      return {
+        method: 'DELETE',
+        endpoint: '/admin/bookings/validate-delete'
+      };
+
+    case 'getTotalSpentByUser':
+      return {
+        method: 'GET',
+        endpoint: '/bookings/validate-total-spent'
+      };
+
+    default:
+      throw new Error(
+        `Unsupported BookingService method: ${testCase.serviceMethod}`
+      );
+  }
+}
+
+
 function buildBody(moduleKey, testCase) {
   switch (moduleKey) {
+
     case 'authentication':
       return {
         first_name: 'BVA',
@@ -51,77 +106,193 @@ function buildBody(moduleKey, testCase) {
         comment: `BVA test ${testCase.id}`
       };
 
+    case 'booking': {
+      switch (testCase.serviceMethod) {
+
+        case 'processBooking':
+          return {
+            user_id:
+              testCase.field === 'userId'
+                ? testCase.value
+                : 1,
+
+            showtime_id:
+              testCase.field === 'showtimeId'
+                ? testCase.value
+                : 1,
+
+            seat_ids:
+              testCase.field === 'seatIds'
+                ? testCase.value
+                : [1],
+
+            payment_method: 'cash'
+          };
+
+        case 'getUserBookings':
+          return {
+            user_id: testCase.value
+          };
+
+        case 'cancelBooking':
+          return {
+            user_id:
+              testCase.field === 'userId'
+                ? testCase.value
+                : 1,
+
+            booking_id:
+              testCase.field === 'bookingId'
+                ? testCase.value
+                : 1
+          };
+
+        case 'getAdminBookingDetail':
+          return {
+            booking_id: testCase.value
+          };
+
+        case 'updateAdminBookingStatus':
+          return {
+            booking_id: testCase.value,
+            status: 'paid'
+          };
+
+        case 'deleteAdminBooking':
+          return {
+            booking_id: testCase.value
+          };
+
+        case 'getTotalSpentByUser':
+          return {
+            user_id: testCase.value
+          };
+
+        default:
+          return {};
+      }
+    }
+
     default:
       return {};
   }
 }
 
+
 function buildRequest(moduleKey, config, testCase) {
+  const requestConfig =
+    moduleKey === 'booking'
+      ? getRequestConfig(testCase)
+      : {
+          method: config.method,
+          endpoint: config.endpoint
+        };
+
   const body = buildBody(moduleKey, testCase);
+
+  const isGet =
+    requestConfig.method === 'GET';
+
+  const isDelete =
+    requestConfig.method === 'DELETE';
+
+  let urlRaw =
+    `{{baseUrl}}${requestConfig.endpoint}`;
+
+  if (
+    moduleKey === 'booking' &&
+    (
+      testCase.serviceMethod === 'getUserBookings' ||
+      testCase.serviceMethod === 'getTotalSpentByUser'
+    )
+  ) {
+    urlRaw += `?user_id=${encodeURIComponent(testCase.value)}`;
+  }
+
+  if (
+    moduleKey === 'booking' &&
+    testCase.serviceMethod === 'getAdminBookingDetail'
+  ) {
+    urlRaw += `?booking_id=${encodeURIComponent(testCase.value)}`;
+  }
+
+  const request = {
+    method: requestConfig.method,
+
+    header: [
+      {
+        key: 'Content-Type',
+        value: 'application/json'
+      }
+    ],
+
+    url: {
+      raw: urlRaw,
+      host: ['{{baseUrl}}'],
+      path: requestConfig.endpoint
+        .split('/')
+        .filter(Boolean)
+    }
+  };
+
+  if (!isGet && !isDelete) {
+    request.body = {
+      mode: 'raw',
+      raw: JSON.stringify(body, null, 2)
+    };
+  }
 
   return {
     name:
-      `${testCase.id} | ${config.field}=${testCase.value} | ${testCase.position}`,
+      `${testCase.id} | ` +
+      `${testCase.serviceMethod} | ` +
+      `${testCase.field}=${JSON.stringify(testCase.value)} | ` +
+      `${testCase.boundary}`,
 
-    request: {
-      method: config.method,
-
-      header: [
-        {
-          key: 'Content-Type',
-          value: 'application/json'
-        }
-      ],
-
-      body: {
-        mode: 'raw',
-        raw: JSON.stringify(body, null, 2)
-      },
-
-      url: {
-        raw: `{{baseUrl}}${config.endpoint}`,
-        host: ['{{baseUrl}}'],
-        path: config.endpoint.split('/').filter(Boolean)
-      },
-
-      description:
-        `TC=${testCase.id}\n` +
-        `Module=${config.module}\n` +
-        `Field=${config.field}\n` +
-        `Value=${testCase.value}\n` +
-        `Boundary=${testCase.position}\n` +
-        `Expected=${testCase.expected}`
-    },
+    request,
 
     event: [
       {
         listen: 'test',
         script: {
           type: 'text/javascript',
+
           exec: [
             `const tcId = "${testCase.id}";`,
-            `const field = "${config.field}";`,
+            `const serviceMethod = "${testCase.serviceMethod}";`,
+            `const field = "${testCase.field}";`,
             `const inputValue = ${JSON.stringify(testCase.value)};`,
             `const expected = "${testCase.expected}";`,
+
             '',
+
             'let json;',
+
             '',
+
             'try {',
             '  json = pm.response.json();',
             '} catch (e) {',
             '  json = {};',
             '}',
+
             '',
+
             'const actual = json.status || "NO_STATUS";',
+
             '',
+
             'console.log("--------------------------------");',
             'console.log("TC:", tcId);',
+            'console.log("Service:", serviceMethod);',
             'console.log("Field:", field);',
             'console.log("Input:", inputValue);',
             'console.log("Expected:", expected);',
             'console.log("Actual:", actual);',
+
             '',
-            'pm.test(`${tcId} | Expected=${expected} | Actual=${actual}`, function () {',
+
+            'pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {',
             '  pm.expect(actual).to.eql(expected);',
             '});'
           ]

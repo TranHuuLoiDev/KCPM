@@ -164,6 +164,29 @@ if (
     exit;
 }
 
+// ============================================================
+// BVA - BookingService validation
+// ============================================================
+if (
+    $method === 'POST'
+    && $resource === 'bookings'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
+    $bookingService = new App\Services\BookingService();
+
+    $result = $bookingService->processBooking(
+        $input['user_id'] ?? 0,
+        $input['showtime_id'] ?? 0,
+        $input['seat_ids'] ?? [],
+        $input['payment_method'] ?? 'cash'
+    );
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 //1. ĐẶT VÉ (POST /bookings)
 if ($resource === 'bookings') {
 
