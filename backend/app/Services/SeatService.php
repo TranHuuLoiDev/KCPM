@@ -230,27 +230,64 @@ class SeatService {
         }
         return chr($nextCode);
     }
+    
+    public function validateSeatInput($data) {
+    $data['seat_row'] = strtoupper(trim($data['seat_row'] ?? ''));
 
-    private function validate($data, $excludeId = null) {
-        if ($data['room_id'] <= 0 || !$this->roomModel->findById($data['room_id'])) {
+    $validation = $this->validateBase($data);
+
+    if ($validation) {
+        return $validation;
+    }
+
+    return [
+        'status' => 'success',
+        'message' => 'Dữ liệu ghế hợp lệ!'
+    ];
+}
+
+    private function validateBase($data) {
+        if (($data['room_id'] ?? 0) <= 0 || !$this->roomModel->findById($data['room_id'])) {
             return ['status' => 'error', 'message' => 'Phòng chiếu không hợp lệ!'];
         }
 
-        if (!preg_match('/^[A-H]$/', $data['seat_row'])) {
+        if (!preg_match('/^[A-H]$/', $data['seat_row'] ?? '')) {
             return ['status' => 'error', 'message' => 'Hàng ghế phải từ A đến H!'];
         }
 
         $seatNumber = (int)($data['seat_number'] ?? 0);
+
         if ($seatNumber < 1 || $seatNumber > 12) {
             return ['status' => 'error', 'message' => 'Số ghế phải từ 1 đến 12!'];
         }
 
-        if ($data['seat_type_id'] <= 0 || !$this->seatTypeModel->findById($data['seat_type_id'])) {
+        if (($data['seat_type_id'] ?? 0) <= 0 || !$this->seatTypeModel->findById($data['seat_type_id'])) {
             return ['status' => 'error', 'message' => 'Loại ghế không hợp lệ!'];
         }
 
-        if ($this->model->findByPosition($data['room_id'], $data['seat_row'], $seatNumber, $excludeId)) {
-            return ['status' => 'error', 'message' => "Ghế {$data['seat_row']}$seatNumber đã tồn tại trong phòng này!"];
+        return null;
+    }
+    
+
+    private function validate($data, $excludeId = null) {
+        $validation = $this->validateBase($data);
+
+        if ($validation) {
+            return $validation;
+        }
+
+        $seatNumber = (int)($data['seat_number'] ?? 0);
+
+        if ($this->model->findByPosition(
+            $data['room_id'],
+            $data['seat_row'],
+            $seatNumber,
+            $excludeId
+        )) {
+            return [
+                'status' => 'error',
+                'message' => "Ghế {$data['seat_row']}$seatNumber đã tồn tại trong phòng này!"
+            ];
         }
 
         return null;

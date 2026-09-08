@@ -129,4 +129,72 @@ class BookingModelTest extends TestCase
 
         $this->assertIsString($error);
     }
+
+
+    public function testGetBookingsByUserReturnsArray(): void
+        {
+            $id = $this->model->createBooking(self::SEED_USER_ID, 120000, 'momo');
+            $this->insertedIds[] = $id;
+
+            $bookings = $this->model->getBookingsByUser(self::SEED_USER_ID);
+
+            $this->assertIsArray($bookings);
+            $this->assertNotEmpty($bookings);
+        }
+
+        public function testGetAdminBookingsReturnsArray(): void
+        {
+            $filters = [
+                'status' => 'paid',
+                'search' => 'John'
+            ];
+
+            $bookings = $this->model->getAdminBookings($filters);
+
+            $this->assertIsArray($bookings);
+        }
+
+        public function testGetAdminBookingDetailReturnsDataOrNull(): void
+        {
+            $id = $this->model->createBooking(self::SEED_USER_ID, 100000, 'vnpay');
+            $this->insertedIds[] = $id;
+
+            $detail = $this->model->getAdminBookingDetail($id);
+
+            $this->assertNotNull($detail);
+            $this->assertSame((string)$id, (string)$detail['id']);
+        }
+
+        public function testGetAdminBookingTicketsReturnsArray(): void
+        {
+            $tickets = $this->model->getAdminBookingTickets(1);
+
+            $this->assertIsArray($tickets);
+        }
+
+        public function testUpdateBookingStatusSucceeds(): void
+        {
+            $id = $this->model->createBooking(self::SEED_USER_ID, 100000, 'momo');
+            $this->insertedIds[] = $id;
+
+            $result = $this->model->updateBookingStatus($id, 'paid');
+
+            $this->assertTrue($result);
+        }
+
+        public function testHasSeatConflictWhenRestoringReturnsBool(): void
+        {
+            $hasConflict = $this->model->hasSeatConflictWhenRestoring(1);
+
+            $this->assertIsBool($hasConflict);
+        }
+
+        public function testTransactionMethods(): void
+        {
+            // Kiểm tra các hàm điều khiển Transaction không gây crash
+            $this->model->beginTransaction();
+            $this->model->rollback();
+
+            $this->assertTrue(true);
+        }
 }

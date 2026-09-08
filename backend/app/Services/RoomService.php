@@ -83,19 +83,52 @@ class RoomService {
         return $this->theatreModel->getAll();
     }
 
-    private function validate($data, $excludeId = null) {
+    public function validateRoomInput($data) {
+    $validation = $this->validateBase($data);
+
+    if ($validation) {
+        return $validation;
+    }
+
+    return [
+        'status' => 'success',
+        'message' => 'Dữ liệu phòng hợp lệ!'
+    ];
+}
+
+    private function validateBase($data) {
         if (empty($data['name'])) {
             return ['status' => 'error', 'message' => 'Tên phòng không được để trống!'];
         }
-        if ($data['theatre_id'] <= 0 || !$this->theatreModel->findById($data['theatre_id'])) {
+
+        if (
+            ($data['theatre_id'] ?? 0) <= 0
+            || !$this->theatreModel->findById($data['theatre_id'])
+        ) {
             return ['status' => 'error', 'message' => 'Rạp chiếu không hợp lệ!'];
         }
-        if ($data['total_seats'] < 1) {
+
+        if (($data['total_seats'] ?? 0) < 1) {
             return ['status' => 'error', 'message' => 'Số ghế phải lớn hơn 0!'];
         }
-        if ($this->model->findByName($data['name'], $excludeId)) {
-            return ['status' => 'error', 'message' => "Tên phòng '{$data['name']}' đã tồn tại trong hệ thống!"];
+
+        return null;
+    }
+
+    private function validate($data, $excludeId = null) {
+        $validation = $this->validateBase($data);
+
+        if ($validation) {
+            return $validation;
         }
+
+        if ($this->model->findByName($data['name'], $excludeId)) {
+            return [
+                'status' => 'error',
+                'message' => "Tên phòng '{$data['name']}' đã tồn tại trong hệ thống!"
+            ];
+        }
+
         return null;
     }
 }

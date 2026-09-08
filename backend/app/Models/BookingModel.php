@@ -314,47 +314,47 @@ class BookingModel {
     }
 
     //
-    public function getBookingsByUser($userId) {
-        $query = "
-            SELECT
-                b.*,
-                GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seat_names,
-                GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seats,
-                st.show_date,
-                st.start_time,
-                st.end_time,
-                m.title AS movie_title,
-                m.poster AS movie_poster,
-                r.name AS room_name,
-                th.name AS theatre_name,
-                th.address AS theatre_address,
-                th.city AS theatre_city
-            FROM bookings b
-            INNER JOIN tickets t ON t.booking_id = b.id
-            INNER JOIN seats s ON s.id = t.seat_id
-            INNER JOIN showtimes st ON st.id = t.showtime_id
-            INNER JOIN movies m ON m.id = st.movie_id
-            INNER JOIN rooms r ON r.id = st.room_id
-            INNER JOIN theatres th ON th.id = r.theatre_id
-            WHERE b.user_id = ?
-            GROUP BY b.id
-            ORDER BY b.created_at DESC
-        ";
-
-        $stmt = mysqli_prepare($this->conn, $query);
-        mysqli_stmt_bind_param($stmt, "i", $userId);
-        mysqli_stmt_execute($stmt);
-
-        $result = mysqli_stmt_get_result($stmt);
-
-        $bookings = [];
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $bookings[] = $row;
-        }
-
-        return $bookings;
-    }
+//     public function getBookingsByUser($userId) {
+//         $query = "
+//             SELECT
+//                 b.*,
+//                 GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seat_names,
+//                 GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seats,
+//                 st.show_date,
+//                 st.start_time,
+//                 st.end_time,
+//                 m.title AS movie_title,
+//                 m.poster AS movie_poster,
+//                 r.name AS room_name,
+//                 th.name AS theatre_name,
+//                 th.address AS theatre_address,
+//                 th.city AS theatre_city
+//             FROM bookings b
+//             INNER JOIN tickets t ON t.booking_id = b.id
+//             INNER JOIN seats s ON s.id = t.seat_id
+//             INNER JOIN showtimes st ON st.id = t.showtime_id
+//             INNER JOIN movies m ON m.id = st.movie_id
+//             INNER JOIN rooms r ON r.id = st.room_id
+//             INNER JOIN theatres th ON th.id = r.theatre_id
+//             WHERE b.user_id = ?
+//             GROUP BY b.id
+//             ORDER BY b.created_at DESC
+//         ";
+//
+//         $stmt = mysqli_prepare($this->conn, $query);
+//         mysqli_stmt_bind_param($stmt, "i", $userId);
+//         mysqli_stmt_execute($stmt);
+//
+//         $result = mysqli_stmt_get_result($stmt);
+//
+//         $bookings = [];
+//
+//         while ($row = mysqli_fetch_assoc($result)) {
+//             $bookings[] = $row;
+//         }
+//
+//         return $bookings;
+//     }
     //
 
     //
@@ -494,4 +494,51 @@ class BookingModel {
 
         call_user_func_array([$stmt, 'bind_param'], $bindParams);
     }
+
+
+
+    public function getBookingsByUser($userId) {
+        $query = "
+            SELECT
+                b.*,
+                GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seat_names,
+                GROUP_CONCAT(CONCAT(s.seat_row, s.seat_number) ORDER BY s.seat_row, s.seat_number SEPARATOR ', ') AS seats,
+                MIN(st.show_date) AS show_date,
+                MIN(st.start_time) AS start_time,
+                MIN(st.end_time) AS end_time,
+                MAX(m.title) AS movie_title,
+                MAX(m.poster) AS movie_poster,
+                MAX(r.name) AS room_name,
+                MAX(th.name) AS theatre_name,
+                MAX(th.address) AS theatre_address,
+                MAX(th.city) AS theatre_city
+            FROM bookings b
+            LEFT JOIN tickets t ON t.booking_id = b.id
+            LEFT JOIN seats s ON s.id = t.seat_id
+            LEFT JOIN showtimes st ON st.id = t.showtime_id
+            LEFT JOIN movies m ON m.id = st.movie_id
+            LEFT JOIN rooms r ON r.id = st.room_id
+            LEFT JOIN theatres th ON th.id = r.theatre_id
+            WHERE b.user_id = ?
+            GROUP BY b.id
+            ORDER BY b.created_at DESC
+        ";
+
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $userId);
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+
+        $bookings = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $bookings[] = $row;
+        }
+
+        return $bookings;
+    }
+
+
+// đã kiểm tra thay đổi, commit thành công và test postman api, nhưng do chưa commit thiếu KAN-32, nên commit này sẽ với mục đích liên kết đến jira
 }
