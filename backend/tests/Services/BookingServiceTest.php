@@ -75,6 +75,13 @@ class BookingServiceTest extends TestCase
     // processBooking()
     // =========================================================
 
+    public function testProcessBookingFailsWhenUserIdIsMinMinusTwo(): void
+    {
+        $result = $this->service->processBooking(-1, 1, [1], 'cash');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Vui lòng đăng nhập để đặt vé.', $result['message']);
+    }
+
     public function testProcessBookingFailsWhenUserIsNotLoggedIn(): void
     {
         $result = $this->service->processBooking(
@@ -91,6 +98,22 @@ class BookingServiceTest extends TestCase
         );
     }
 
+    public function testProcessBookingAcceptsMinimumPositiveUserId(): void
+    {
+        $this->showtimeModel->expects($this->once())->method('getDetailById')->with(1)->willReturn(null);
+        $result = $this->service->processBooking(1, 1, [1], 'cash');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Suất chiếu không khả dụng.', $result['message']);
+    }
+
+    public function testProcessBookingAcceptsUserIdMinPlusTwo(): void
+    {
+        $this->showtimeModel->expects($this->once())->method('getDetailById')->with(1)->willReturn(null);
+        $result = $this->service->processBooking(2, 1, [1], 'cash');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Suất chiếu không khả dụng.', $result['message']);
+    }
+
     public function testProcessBookingFailsWhenShowtimeIdIsInvalid(): void
     {
         $result = $this->service->processBooking(
@@ -105,6 +128,29 @@ class BookingServiceTest extends TestCase
             'Suất chiếu không hợp lệ.',
             $result['message']
         );
+    }
+
+    public function testProcessBookingFailsWhenShowtimeIdIsMinMinusTwo(): void
+    {
+        $result = $this->service->processBooking(1, -1, [1], 'cash');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Suất chiếu không hợp lệ.', $result['message']);
+    }
+
+    public function testProcessBookingAcceptsMinimumPositiveShowtimeId(): void
+    {
+        $this->showtimeModel->expects($this->once())->method('getDetailById')->with(1)->willReturn(null);
+        $result = $this->service->processBooking(1, 1, [1], 'cash');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Suất chiếu không khả dụng.', $result['message']);
+    }
+
+    public function testProcessBookingAcceptsShowtimeIdMinPlusTwo(): void
+    {
+        $this->showtimeModel->expects($this->once())->method('getDetailById')->with(2)->willReturn(null);
+        $result = $this->service->processBooking(1, 2, [1], 'cash');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Suất chiếu không khả dụng.', $result['message']);
     }
 
     public function testProcessBookingFailsWhenSeatListIsEmpty(): void
@@ -498,6 +544,25 @@ class BookingServiceTest extends TestCase
     // getUserBookings()
     // =========================================================
 
+    public function testGetUserBookingsReturnsEmptyArrayForUserIdMinMinusTwo(): void
+    {
+        $this->assertSame([], $this->service->getUserBookings(-1));
+    }
+
+    public function testGetUserBookingsHandlesMinimumPositiveUserId(): void
+    {
+        $bookings = [['id' => 1, 'status' => 'paid']];
+        $this->bookingModel->expects($this->once())->method('getBookingsByUser')->with(1)->willReturn($bookings);
+        $this->assertSame($bookings, $this->service->getUserBookings(1));
+    }
+
+    public function testGetUserBookingsHandlesUserIdMinPlusTwo(): void
+    {
+        $bookings = [['id' => 2, 'status' => 'pending']];
+        $this->bookingModel->expects($this->once())->method('getBookingsByUser')->with(2)->willReturn($bookings);
+        $this->assertSame($bookings, $this->service->getUserBookings(2));
+    }
+
     public function testGetUserBookingsReturnsEmptyArrayForInvalidUser(): void
     {
         $result = $this->service->getUserBookings(0);
@@ -527,6 +592,29 @@ class BookingServiceTest extends TestCase
     // cancelBooking()
     // =========================================================
 
+    public function testCancelBookingFailsWhenUserIdIsMinMinusTwo(): void
+    {
+        $result = $this->service->cancelBooking(-1, 10);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Vui long dang nhap de huy ve.', $result['message']);
+    }
+
+    public function testCancelBookingHandlesMinimumPositiveUserId(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getByIdAndUser')->with(10, 1)->willReturn(null);
+        $result = $this->service->cancelBooking(1, 10);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Khong tim thay booking can huy.', $result['message']);
+    }
+
+    public function testCancelBookingHandlesUserIdMinPlusTwo(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getByIdAndUser')->with(10, 2)->willReturn(null);
+        $result = $this->service->cancelBooking(2, 10);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Khong tim thay booking can huy.', $result['message']);
+    }
+
     public function testCancelBookingFailsWhenUserIsInvalid(): void
     {
         $result = $this->service->cancelBooking(0, 10);
@@ -536,6 +624,29 @@ class BookingServiceTest extends TestCase
             'Vui long dang nhap de huy ve.',
             $result['message']
         );
+    }
+
+    public function testCancelBookingFailsWhenBookingIdIsMinMinusTwo(): void
+    {
+        $result = $this->service->cancelBooking(10, -1);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Booking khong hop le.', $result['message']);
+    }
+
+    public function testCancelBookingHandlesMinimumPositiveBookingId(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getByIdAndUser')->with(1, 10)->willReturn(null);
+        $result = $this->service->cancelBooking(10, 1);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Khong tim thay booking can huy.', $result['message']);
+    }
+
+    public function testCancelBookingHandlesBookingIdMinPlusTwo(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getByIdAndUser')->with(2, 10)->willReturn(null);
+        $result = $this->service->cancelBooking(10, 2);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Khong tim thay booking can huy.', $result['message']);
     }
 
     public function testCancelBookingFailsWhenBookingIdIsInvalid(): void
@@ -588,6 +699,23 @@ class BookingServiceTest extends TestCase
     // Admin / helper validation
     // =========================================================
 
+    public function testGetAdminBookingDetailReturnsNullForBookingIdMinMinusTwo(): void
+    {
+        $this->assertNull($this->service->getAdminBookingDetail(-1));
+    }
+
+    public function testGetAdminBookingDetailHandlesMinimumPositiveId(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getAdminBookingDetail')->with(1)->willReturn(null);
+        $this->assertNull($this->service->getAdminBookingDetail(1));
+    }
+
+    public function testGetAdminBookingDetailHandlesBookingIdMinPlusTwo(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getAdminBookingDetail')->with(2)->willReturn(null);
+        $this->assertNull($this->service->getAdminBookingDetail(2));
+    }
+
     public function testGetAdminBookingDetailReturnsNullForInvalidId(): void
     {
         $result = $this->service->getAdminBookingDetail(0);
@@ -595,11 +723,49 @@ class BookingServiceTest extends TestCase
         $this->assertNull($result);
     }
 
+    public function testGetTotalSpentByUserReturnsZeroForUserIdMinMinusTwo(): void
+    {
+        $this->assertSame(0, $this->service->getTotalSpentByUser(-1));
+    }
+
+    public function testGetTotalSpentByUserHandlesMinimumPositiveUserId(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getTotalSpentByUser')->with(1)->willReturn(120000);
+        $this->assertSame(120000, $this->service->getTotalSpentByUser(1));
+    }
+
+    public function testGetTotalSpentByUserHandlesUserIdMinPlusTwo(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getTotalSpentByUser')->with(2)->willReturn(250000);
+        $this->assertSame(250000, $this->service->getTotalSpentByUser(2));
+    }
+
     public function testGetTotalSpentByUserReturnsZeroForInvalidUser(): void
     {
         $result = $this->service->getTotalSpentByUser(0);
 
         $this->assertSame(0, $result);
+    }
+
+    public function testUpdateAdminBookingStatusFailsForBookingIdMinMinusTwo(): void
+    {
+        $result = $this->service->updateAdminBookingStatus(-1, 'paid');
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Booking không hợp lệ.', $result['message']);
+    }
+
+    public function testUpdateAdminBookingStatusHandlesMinimumPositiveId(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getAdminBookingById')->with(1)->willReturn(null);
+        $result = $this->service->updateAdminBookingStatus(1, 'paid');
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testUpdateAdminBookingStatusHandlesBookingIdMinPlusTwo(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getAdminBookingById')->with(2)->willReturn(null);
+        $result = $this->service->updateAdminBookingStatus(2, 'paid');
+        $this->assertSame('error', $result['status']);
     }
 
     public function testUpdateAdminBookingStatusFailsForInvalidId(): void
@@ -628,6 +794,27 @@ class BookingServiceTest extends TestCase
             'Trạng thái booking không hợp lệ.',
             $result['message']
         );
+    }
+
+    public function testDeleteAdminBookingFailsForBookingIdMinMinusTwo(): void
+    {
+        $result = $this->service->deleteAdminBooking(-1);
+        $this->assertSame('error', $result['status']);
+        $this->assertSame('Booking không hợp lệ.', $result['message']);
+    }
+
+    public function testDeleteAdminBookingHandlesMinimumPositiveId(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getAdminBookingById')->with(1)->willReturn(null);
+        $result = $this->service->deleteAdminBooking(1);
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testDeleteAdminBookingHandlesBookingIdMinPlusTwo(): void
+    {
+        $this->bookingModel->expects($this->once())->method('getAdminBookingById')->with(2)->willReturn(null);
+        $result = $this->service->deleteAdminBooking(2);
+        $this->assertSame('error', $result['status']);
     }
 
     public function testDeleteAdminBookingFailsForInvalidId(): void
