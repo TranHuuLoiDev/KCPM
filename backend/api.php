@@ -193,6 +193,26 @@ if (
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
     exit;
 }
+    // BVA AUTOMATION - REVIEW RATING VALIDATION
+if (
+    $method === 'POST'
+    && $resource === 'reviews'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
+    $reviewService = new App\Services\ReviewService();
+
+    $result = $reviewService->validateReviewInput([
+        'user_id' => (int)($input['user_id'] ?? 0),
+        'movie_id' => (int)($input['movie_id'] ?? 0),
+        'rating' => (int)($input['rating'] ?? 0),
+        'comment' => trim($input['comment'] ?? '')
+    ]);
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
 
 if ($resource === 'bookings') {
     if ($method === 'POST' && !isset($segments[2])) {

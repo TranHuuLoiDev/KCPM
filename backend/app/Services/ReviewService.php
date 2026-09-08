@@ -27,8 +27,9 @@ class ReviewService {
             return ['status' => 'error', 'message' => 'Phim không hợp lệ!'];
         }
 
-        if ($rating < 1 || $rating > 5) {
-            return ['status' => 'error', 'message' => 'Vui lòng chọn số sao từ 1 đến 5!'];
+        $ratingValidation = $this->validateRating($rating);
+        if ($ratingValidation) {
+            return $ratingValidation;
         }
 
         if ($comment === '') {
@@ -45,6 +46,32 @@ class ReviewService {
         }
 
         return ['status' => 'error', 'message' => 'Lỗi khi gửi đánh giá: ' . $this->model->getError()];
+    }
+
+    public function validateReviewInput($data) {
+        $rating = (int)($data['rating'] ?? 0);
+
+        $validation = $this->validateRating($rating);
+
+        if ($validation) {
+            return $validation;
+        }
+
+        return [
+            'status' => 'success',
+            'message' => 'Dữ liệu đánh giá hợp lệ!'
+        ];
+    }
+
+    private function validateRating($rating) {
+        if ($rating < 1 || $rating > 5) {
+            return [
+                'status' => 'error',
+                'message' => 'Vui lòng chọn số sao từ 1 đến 5!'
+            ];
+        }
+
+        return null;
     }
 
     public function getReviewsByMovieId($movieId) {
