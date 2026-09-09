@@ -1,0 +1,1315 @@
+{
+  "info": {
+    "name": "KCPM - Equivalence Partitioning Test Suite",
+    "description": "Bo test case Phan Hoach Lop Tuong Duong (EP) cho project KCPM. Moi field co du 2-3 lop: duoi bien (invalid) / trong (valid) / tren bien (invalid). Chinh bien 'base_url' truoc khi chay, va sua cac id (room_id, theatre_id, movie_id, seat_type_id, user_id...) cho khop voi du lieu that trong database cua ban.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/movie-ticket-booking/backend/api.php"
+    }
+  ],
+  "item": [
+    {
+      "name": "EP - Seats (seat_number: 1-12)",
+      "item": [
+        {
+          "name": "TC-SEAT-EP-01 | seat_number=0 (lop khong hop le - duoi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('1 đến 12');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/seats/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_type_id\": 1,\n  \"seat_number\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-SEAT-EP-02 | seat_number=6 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/seats/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_type_id\": 1,\n  \"seat_number\": 6\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-SEAT-EP-03 | seat_number=20 (lop khong hop le - tren)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('1 đến 12');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/seats/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_type_id\": 1,\n  \"seat_number\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Seats (seat_row: A-H)",
+      "item": [
+        {
+          "name": "TC-ROW-EP-01 | seat_row=D (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/seats/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_number\": 5,\n  \"seat_type_id\": 1,\n  \"seat_row\": \"D\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-ROW-EP-02 | seat_row=Z (lop khong hop le - ngoai A-H)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('A đến H');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/seats/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_number\": 5,\n  \"seat_type_id\": 1,\n  \"seat_row\": \"Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-ROW-EP-03 | seat_row rong (lop khong hop le - thieu du lieu)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('A đến H');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/seats/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_number\": 5,\n  \"seat_type_id\": 1,\n  \"seat_row\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Rooms (total_seats: >=1)",
+      "item": [
+        {
+          "name": "TC-ROOM-EP-01 | total_seats=-5 (lop khong hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('lớn hơn 0');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rooms/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rooms",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"Phong Test EP\",\n  \"total_seats\": -5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-ROOM-EP-02 | total_seats=50 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rooms/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rooms",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"theatre_id\": 1,\n  \"name\": \"Phong Test EP\",\n  \"total_seats\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Theatres (total_screens: >=1)",
+      "item": [
+        {
+          "name": "TC-THEATRE-EP-01 | total_screens=0 (lop khong hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('lớn hơn 0');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/theatres/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "theatres",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rap Test EP\",\n  \"address\": \"123 Test\",\n  \"city\": \"HCM\",\n  \"phone\": \"0900000000\",\n  \"total_screens\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-THEATRE-EP-02 | total_screens=8 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/theatres/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "theatres",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rap Test EP\",\n  \"address\": \"123 Test\",\n  \"city\": \"HCM\",\n  \"phone\": \"0900000000\",\n  \"total_screens\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Reviews (rating: 1-5)",
+      "item": [
+        {
+          "name": "TC-REVIEW-EP-01 | rating=0 (lop khong hop le - duoi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('1 đến 5');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reviews/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"comment\": \"Test EP\",\n  \"rating\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-REVIEW-EP-02 | rating=3 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reviews/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"comment\": \"Test EP\",\n  \"rating\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-REVIEW-EP-03 | rating=8 (lop khong hop le - tren)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('1 đến 5');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reviews/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"movie_id\": 1,\n  \"comment\": \"Test EP\",\n  \"rating\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Showtimes (price: 10000-500000)",
+      "item": [
+        {
+          "name": "TC-SHOW-EP-01 | price=5000 (lop khong hop le - duoi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('giới hạn biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/showtimes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "showtimes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movie_id\": 1,\n  \"room_id\": 1,\n  \"start_time\": \"2026-09-10 19:00:00\",\n  \"price\": 5000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-SHOW-EP-02 | price=100000 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/showtimes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "showtimes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movie_id\": 1,\n  \"room_id\": 1,\n  \"start_time\": \"2026-09-10 19:00:00\",\n  \"price\": 100000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-SHOW-EP-03 | price=600000 (lop khong hop le - tren)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('giới hạn biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/showtimes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "showtimes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movie_id\": 1,\n  \"room_id\": 1,\n  \"start_time\": \"2026-09-10 19:00:00\",\n  \"price\": 600000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Admin Dashboard (limit: 1-100)",
+      "item": [
+        {
+          "name": "TC-LIMIT-EP-01 | limit=0 (lop khong hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/stats?limit=0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-LIMIT-EP-02 | limit=50 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/stats?limit=50",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-LIMIT-EP-03 | limit=150 (lop khong hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/stats?limit=150",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "150"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Admin Users (age: 18-100)",
+      "item": [
+        {
+          "name": "TC-AGE-EP-01 | age=10 (lop khong hop le - duoi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/users?age=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "age",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-AGE-EP-02 | age=30 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/users?age=30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "age",
+                  "value": "30"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-AGE-EP-03 | age=150 (lop khong hop le - tren)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/users?age=150",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "age",
+                  "value": "150"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EP - Bookings (ticket_quantity: 1-10)",
+      "item": [
+        {
+          "name": "TC-TICKET-EP-01 | ticket_quantity=0 (lop khong hop le - duoi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookings?ticket_quantity=0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "ticket_quantity",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-TICKET-EP-02 | ticket_quantity=5 (lop hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = success', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('success');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookings?ticket_quantity=5",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "ticket_quantity",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-TICKET-EP-03 | ticket_quantity=15 (lop khong hop le - tren)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code la 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ket qua status = error', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.status).to.eql('error');",
+                  "});",
+                  "",
+                  "pm.test('Message chua noi dung mong doi', function () {",
+                  "    const res = pm.response.json();",
+                  "    pm.expect(res.message).to.include('biên');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookings?ticket_quantity=15",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "ticket_quantity",
+                  "value": "15"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
