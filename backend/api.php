@@ -163,17 +163,12 @@ if (
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
     exit;
 }
-
 // ============================================================
 // BVA - BookingService validation
 // ============================================================
 if (
     $method === 'POST'
     && $resource === 'bookings'
-// BVA AUTOMATION - THEATRE VALIDATION
-if (
-    $method === 'POST'
-    && $resource === 'theatres'
     && ($segments[1] ?? '') === 'validate'
 ) {
     $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
@@ -186,6 +181,21 @@ if (
         $input['seat_ids'] ?? [],
         $input['payment_method'] ?? 'cash'
     );
+
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// ============================================================
+// BVA - TheatreService validation
+// ============================================================
+if (
+    $method === 'POST'
+    && $resource === 'theatres'
+    && ($segments[1] ?? '') === 'validate'
+) {
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+
     $theatreService = new App\Services\TheatreService();
 
     $result = $theatreService->validateTheatreInput([
@@ -199,7 +209,6 @@ if (
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
     exit;
 }
-
 // BVA AUTOMATION - REVIEW RATING VALIDATION
 if (
     $method === 'POST'
