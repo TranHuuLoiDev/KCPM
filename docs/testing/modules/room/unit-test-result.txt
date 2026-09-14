@@ -1,0 +1,44 @@
+======================================================================
+PHPUNIT EXECUTION RESULT EVIDENCE - ROOM MODULE
+======================================================================
+Command Executed: $env:DB_PASSWORD="1234"; d:\xampp\php\php.exe backend/vendor/bin/phpunit backend/tests/Services/RoomServiceTest.php
+Execution Date  : 2026-09-15 01:22:04 ICT
+Environment     : PHP 8.2.12 (cli) (ZTS Visual C++ 2019 x64) / PHPUnit 9.6.35
+Database        : MySQL (movie_ticket_booking) @ 127.0.0.1:3306
+======================================================================
+
+PHPUnit 9.6.35 by Sebastian Bergmann and contributors.
+
+...................                                               19 / 19 (100%)
+
+Time: 00:03.284, Memory: 10.00 MB
+
+OK (19 tests, 31 assertions)
+
+----------------------------------------------------------------------
+VERIFIED TEST METHODS SUMMARY:
+----------------------------------------------------------------------
+1.  Tests\Services\RoomServiceTest::testAddRoomFailsWhenNameEmpty ........................ [PASS]
+2.  Tests\Services\RoomServiceTest::testAddRoomFailsWhenTheatreInvalid ..................... [PASS]
+3.  Tests\Services\RoomServiceTest::testAddRoomFailsWhenTotalSeatsLessThanOne .............. [PASS]
+4.  Tests\Services\RoomServiceTest::testAddRoomFailsWhenNameAlreadyExists .................. [PASS]
+5.  Tests\Services\RoomServiceTest::testAddRoomSucceedsWithValidData ...................... [PASS]
+6.  Tests\Services\RoomServiceTest::testUpdateRoomFailsWithInvalidId ....................... [PASS]
+7.  Tests\Services\RoomServiceTest::testUpdateRoomFailsWhenRoomDoesNotExist ................ [PASS]
+8.  Tests\Services\RoomServiceTest::testUpdateRoomSucceedsAndPersistsChanges ............... [PASS]
+9.  Tests\Services\RoomServiceTest::testDeleteRoomFailsWithInvalidId ....................... [PASS]
+10. Tests\Services\RoomServiceTest::testDeleteRoomFailsWhenRoomDoesNotExist ................ [PASS]
+11. Tests\Services\RoomServiceTest::testDeleteRoomSucceeds ............................... [PASS]
+12. Tests\Services\RoomServiceTest::testGetRoomByIdReturnsNullForInvalidId ................. [PASS]
+13. Tests\Services\RoomServiceTest::testGetRoomByIdReturnsRoomWithTheatreInfo .............. [PASS]
+14. Tests\Services\RoomServiceTest::testGetAllRoomsReturnsArray ........................... [PASS]
+15. Tests\Services\RoomServiceTest::testGetAllTheatresReturnsArray ........................ [PASS]
+16. Tests\Services\RoomServiceTest::testValidateRoomTotalSeatsBelowMinimum ................ [PASS] (TC-ROOM-BVA-01: total_seats = -1)
+17. Tests\Services\RoomServiceTest::testValidateRoomTotalSeatsZero ........................ [PASS] (TC-ROOM-BVA-02: total_seats = 0)
+18. Tests\Services\RoomServiceTest::testValidateRoomTotalSeatsAtMinimum .................... [PASS] (TC-ROOM-BVA-03: total_seats = 1)
+19. Tests\Services\RoomServiceTest::testValidateRoomTotalSeatsMinPlusOne .................. [PASS] (TC-ROOM-BVA-04: total_seats = 2)
+
+======================================================================
+SUMMARY: 19 Passed, 0 Failed, 0 Skipped, 0 Errored
+======================================================================
+## KAN-57

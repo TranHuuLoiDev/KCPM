@@ -24,4 +24,8 @@ tests/reports/
 
 # Playwright Test Results
 test-results/
-#KAN37
+
+# PHPUnit Cache & Coverage
+.phpunit.cache/
+backend/.phpunit.cache/
+.scannerwork/

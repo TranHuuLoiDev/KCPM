@@ -134,6 +134,7 @@ public function testValidateSeatNumberBelowMinimum(): void
     $this->assertSame('error', $result['status']);
 }
 
+
 public function testValidateSeatNumberAtMinimum(): void
 {
     $result = $this->service->validateSeatInput([
@@ -160,6 +161,18 @@ public function testValidateSeatNumberMinPlusOne(): void
     $this->assertSame('success', $result['status']);
 }
 
+public function testValidateSeatNumberAtNominal(): void
+{
+    $result = $this->service->validateSeatInput([
+        'room_id' => 1,
+        'seat_row' => 'A',
+        'seat_number' => 6,
+        'seat_type_id' => 1,
+        'is_active' => true
+    ]);
+
+    $this->assertSame('success', $result['status']);
+}
 public function testValidateSeatNumberMaxMinusOne(): void
 {
     $result = $this->service->validateSeatInput([
@@ -232,6 +245,33 @@ public function testValidateSeatRejectsInvalidRow(): void
             'seat_row' => 'A',
             'seat_number' => 1,
             'seat_type_id' => 0,
+            'is_active' => true
+        ]);
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateSeatRejectsNonExistingRoom(): void
+    {
+        $result = $this->service->validateSeatInput([
+            'room_id' => 999999,
+            'seat_row' => 'A',
+            'seat_number' => 6,
+            'seat_type_id' => 1,
+            'is_active' => true
+        ]);
+
+
+        $this->assertSame('error', $result['status']);
+    }
+
+    public function testValidateSeatRejectsNonExistingSeatType(): void
+    {
+        $result = $this->service->validateSeatInput([
+            'room_id' => 1,
+            'seat_row' => 'A',
+            'seat_number' => 6,
+            'seat_type_id' => 999999,
             'is_active' => true
         ]);
 
