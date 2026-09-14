@@ -41,7 +41,10 @@ const folder = process.argv[2];
 
 const options = {
   collection: collectionPath,
-  reporters: []
+  reporters: [],
+  envVar: [
+    { key: 'baseUrl', value: process.env.BASE_URL || 'http://127.0.0.1:8080/movie-ticket-booking/backend/api.php' }
+  ]
 };
 
 if (folder) {
