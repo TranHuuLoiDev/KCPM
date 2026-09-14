@@ -1,5 +1,5 @@
 # 03 - Boundary Value Analysis (BVA) & Test Case Design: Room Module
-
+## KAN-57
 ## 1. Boundary Values Breakdown
 
 Dựa trên điều kiện validation trong source code ($total\_seats \ge 1$):

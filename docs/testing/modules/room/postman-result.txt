@@ -39,3 +39,4 @@ Pass Rate        : 100%
 Report Output JSON : tests/reports/latest-bva-result.json
 Report Output CSV  : tests/reports/latest-bva-result.csv
 ==========================================
+## KAN-57
