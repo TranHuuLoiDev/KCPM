@@ -1,0 +1,42 @@
+======================================================================
+NEWMAN / POSTMAN BVA AUTOMATION EVIDENCE - ROOM MODULE
+======================================================================
+Command Executed: node tests/automation/run-bva-and-log.js "BVA - Room"
+Execution Date  : 2026-09-15 01:23:45 ICT
+Collection File : tests/postman/BVA_MovieBooking.postman_collection.json
+Target Endpoint : POST http://127.0.0.1:8080/movie-ticket-booking/backend/api.php/rooms/validate
+======================================================================
+
+BVA AUTOMATION - RESULT LOGGING
+==========================================
+Folder : BVA - Room
+==========================================
+
+[PASS] TC-ROOM-BVA-01 | total_seats=-1 | Expected=error | Actual=error
+       HTTP 200 OK | Response Time: 317ms
+       Response Body: {"status":"error","message":"Số ghế phải lớn hơn 0!"}
+
+[PASS] TC-ROOM-BVA-02 | total_seats=0 | Expected=error | Actual=error
+       HTTP 200 OK | Response Time: 37ms
+       Response Body: {"status":"error","message":"Số ghế phải lớn hơn 0!"}
+
+[PASS] TC-ROOM-BVA-03 | total_seats=1 | Expected=success | Actual=success
+       HTTP 200 OK | Response Time: 28ms
+       Response Body: {"status":"success","message":"Dữ liệu phòng hợp lệ!"}
+
+[PASS] TC-ROOM-BVA-04 | total_seats=2 | Expected=success | Actual=success
+       HTTP 200 OK | Response Time: 31ms
+       Response Body: {"status":"success","message":"Dữ liệu phòng hợp lệ!"}
+
+==========================================
+BVA TEST RESULT SUMMARY
+==========================================
+Total Test Cases : 4
+Passed           : 4
+Failed           : 0
+Pass Rate        : 100%
+------------------------------------------
+Report Output JSON : tests/reports/latest-bva-result.json
+Report Output CSV  : tests/reports/latest-bva-result.csv
+==========================================
+## KAN-57
