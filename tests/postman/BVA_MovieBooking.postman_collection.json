@@ -15,7 +15,7 @@
       "name": "BVA - Seat",
       "item": [
         {
-          "name": "TC-SEAT-BVA-01 | undefined | undefined=0 | undefined",
+          "name": "TC-SEAT-BVA-01 | validateSeatInput | seat_number=0 | MIN - 1",
           "request": {
             "method": "POST",
             "header": [
@@ -46,8 +46,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const tcId = \"TC-SEAT-BVA-01\";",
-                  "const serviceMethod = \"undefined\";",
-                  "const field = \"undefined\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
                   "const inputValue = 0;",
                   "const expected = \"error\";",
                   "",
@@ -78,7 +78,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-02 | undefined | undefined=1 | undefined",
+          "name": "TC-SEAT-BVA-02 | validateSeatInput | seat_number=1 | MIN",
           "request": {
             "method": "POST",
             "header": [
@@ -109,8 +109,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const tcId = \"TC-SEAT-BVA-02\";",
-                  "const serviceMethod = \"undefined\";",
-                  "const field = \"undefined\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
                   "const inputValue = 1;",
                   "const expected = \"success\";",
                   "",
@@ -141,7 +141,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-03 | undefined | undefined=2 | undefined",
+          "name": "TC-SEAT-BVA-03 | validateSeatInput | seat_number=2 | MIN + 1",
           "request": {
             "method": "POST",
             "header": [
@@ -172,8 +172,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const tcId = \"TC-SEAT-BVA-03\";",
-                  "const serviceMethod = \"undefined\";",
-                  "const field = \"undefined\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
                   "const inputValue = 2;",
                   "const expected = \"success\";",
                   "",
@@ -204,7 +204,70 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-04 | undefined | undefined=11 | undefined",
+          "name": "TC-SEAT-BVA-07 | validateSeatInput | seat_number=6 | NOMINAL",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"TC-SEAT-BVA-07\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 6;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-SEAT-BVA-04 | validateSeatInput | seat_number=11 | MAX - 1",
           "request": {
             "method": "POST",
             "header": [
@@ -235,8 +298,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const tcId = \"TC-SEAT-BVA-04\";",
-                  "const serviceMethod = \"undefined\";",
-                  "const field = \"undefined\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
                   "const inputValue = 11;",
                   "const expected = \"success\";",
                   "",
@@ -267,7 +330,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-05 | undefined | undefined=12 | undefined",
+          "name": "TC-SEAT-BVA-05 | validateSeatInput | seat_number=12 | MAX",
           "request": {
             "method": "POST",
             "header": [
@@ -298,8 +361,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const tcId = \"TC-SEAT-BVA-05\";",
-                  "const serviceMethod = \"undefined\";",
-                  "const field = \"undefined\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
                   "const inputValue = 12;",
                   "const expected = \"success\";",
                   "",
@@ -330,7 +393,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-06 | undefined | undefined=13 | undefined",
+          "name": "TC-SEAT-BVA-06 | validateSeatInput | seat_number=13 | MAX + 1",
           "request": {
             "method": "POST",
             "header": [
@@ -361,8 +424,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const tcId = \"TC-SEAT-BVA-06\";",
-                  "const serviceMethod = \"undefined\";",
-                  "const field = \"undefined\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
                   "const inputValue = 13;",
                   "const expected = \"error\";",
                   "",
