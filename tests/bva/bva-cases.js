@@ -100,7 +100,7 @@ module.exports = {
 
     booking: {
       module: 'Booking',
-      httpUnsupported: true, // Legacy URLs do not call BookingService; use BookingAssignmentTest.
+      httpUnsupported: false,
 
       cases: [
         // ============================================================

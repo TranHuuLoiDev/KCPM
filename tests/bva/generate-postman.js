@@ -7,54 +7,10 @@ const baseUrl = 'http://localhost/movie-ticket-booking/backend/api.php';
 
 
 function getRequestConfig(testCase) {
-  switch (testCase.serviceMethod) {
-    case 'processBooking':
-      return {
-        method: 'POST',
-        endpoint: '/bookings/validate'
-      };
-
-    case 'getUserBookings':
-      return {
-        method: 'GET',
-        endpoint: '/bookings/validate-user'
-      };
-
-    case 'cancelBooking':
-      return {
-        method: 'POST',
-        endpoint: '/bookings/validate-cancel'
-      };
-
-    case 'getAdminBookingDetail':
-      return {
-        method: 'GET',
-        endpoint: '/admin/bookings/validate-detail'
-      };
-
-    case 'updateAdminBookingStatus':
-      return {
-        method: 'POST',
-        endpoint: '/admin/bookings/validate-status'
-      };
-
-    case 'deleteAdminBooking':
-      return {
-        method: 'DELETE',
-        endpoint: '/admin/bookings/validate-delete'
-      };
-
-    case 'getTotalSpentByUser':
-      return {
-        method: 'GET',
-        endpoint: '/bookings/validate-total-spent'
-      };
-
-    default:
-      throw new Error(
-        `Unsupported BookingService method: ${testCase.serviceMethod}`
-      );
-  }
+  return {
+    method: 'POST',
+    endpoint: '/bookings/validate-assignment'
+  };
 }
 
 
@@ -107,10 +63,16 @@ function buildBody(moduleKey, testCase) {
       };
 
     case 'booking': {
+      const body = {
+        service_method: testCase.serviceMethod
+      };
+
       switch (testCase.serviceMethod) {
 
         case 'processBooking':
           return {
+            ...body,
+
             user_id:
               testCase.field === 'userId'
                 ? testCase.value
@@ -131,11 +93,14 @@ function buildBody(moduleKey, testCase) {
 
         case 'getUserBookings':
           return {
+            ...body,
             user_id: testCase.value
           };
 
         case 'cancelBooking':
           return {
+            ...body,
+
             user_id:
               testCase.field === 'userId'
                 ? testCase.value
@@ -149,27 +114,31 @@ function buildBody(moduleKey, testCase) {
 
         case 'getAdminBookingDetail':
           return {
+            ...body,
             booking_id: testCase.value
           };
 
         case 'updateAdminBookingStatus':
           return {
+            ...body,
             booking_id: testCase.value,
             status: 'paid'
           };
 
         case 'deleteAdminBooking':
           return {
+            ...body,
             booking_id: testCase.value
           };
 
         case 'getTotalSpentByUser':
           return {
+            ...body,
             user_id: testCase.value
           };
 
         default:
-          return {};
+          return body;
       }
     }
 
@@ -199,22 +168,6 @@ function buildRequest(moduleKey, config, testCase) {
   let urlRaw =
     `{{baseUrl}}${requestConfig.endpoint}`;
 
-  if (
-    moduleKey === 'booking' &&
-    (
-      testCase.serviceMethod === 'getUserBookings' ||
-      testCase.serviceMethod === 'getTotalSpentByUser'
-    )
-  ) {
-    urlRaw += `?user_id=${encodeURIComponent(testCase.value)}`;
-  }
-
-  if (
-    moduleKey === 'booking' &&
-    testCase.serviceMethod === 'getAdminBookingDetail'
-  ) {
-    urlRaw += `?booking_id=${encodeURIComponent(testCase.value)}`;
-  }
 
   const request = {
     method: requestConfig.method,

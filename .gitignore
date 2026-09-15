@@ -25,3 +25,6 @@ tests/reports/
 # Playwright Test Results
 test-results/
 #KAN37
+# PHPUnit / Xdebug generated reports
+backend/coverage-*.xml
+docs/testing/modules/seat/assignment-junit.xml
