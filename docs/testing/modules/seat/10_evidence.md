@@ -209,13 +209,13 @@ Manual decision matrix:
 
 ```text
 D1a: room_id <= 0
-D1b: room không tồn tại
+D1b: room khÃ´ng tá»“n táº¡i
 D2 : seat_row invalid
 D3a: seat_number < 1
 D3b: seat_number > 12
 D4a: seat_type_id <= 0
-D4b: seat type không tồn tại
-D5 : validation có error?
+D4b: seat type khÃ´ng tá»“n táº¡i
+D5 : validation cÃ³ error?
 ```
 
 Coverage:
@@ -234,7 +234,7 @@ Manual Decision Coverage = 100%
 SeatService Line Coverage = 25.90%
 ```
 
-Hai metric khác nhau, mẫu số khác nhau.
+Hai metric khÃ¡c nhau, máº«u sá»‘ khÃ¡c nhau.
 
 ---
 
@@ -259,52 +259,52 @@ Hai metric khác nhau, mẫu số khác nhau.
 
 ## 10. Screenshot Evidence Checklist
 
-Nên chụp:
+NÃªn chá»¥p:
 
-- [ ] `SeatService.php` đoạn validation.
+- [ ] `SeatService.php` Ä‘oáº¡n validation.
 - [ ] PHPUnit validation `12 tests, 12 assertions`.
 - [ ] Newman `7 Passed, 0 Failed, 100%`.
 - [ ] Xdebug `php -v`.
-- [ ] Coverage terminal có `SeatService Methods 45.00% / Lines 25.90%`.
-- [ ] `coverage-seat.xml` trong thư mục backend.
+- [ ] Coverage terminal cÃ³ `SeatService Methods 45.00% / Lines 25.90%`.
+- [ ] `coverage-seat.xml` trong thÆ° má»¥c backend.
 - [ ] `latest-bva-result.json`.
 - [ ] `latest-bva-result.csv`.
-- [ ] Git status trước commit.
+- [ ] Git status trÆ°á»›c commit.
 - [ ] Commit / PR sau khi push.
 
 ---
 
 ## 11. Git Evidence
 
-Sau khi copy các tài liệu mới vào repo:
+Sau khi copy cÃ¡c tÃ i liá»‡u má»›i vÃ o repo:
 
 ```powershell
 git status
 ```
 
-Chỉ add file thuộc task Seat:
+Chá»‰ add file thuá»™c task Seat:
 
 ```powershell
-git add seat-testing-analysis/06_whitebox.md
-git add seat-testing-analysis/07_phpunit_mapping.md
-git add seat-testing-analysis/08_postman_newman.md
-git add seat-testing-analysis/09_coverage.md
-git add seat-testing-analysis/10_evidence.md
+git add docs/testing/modules/seat/06_whitebox.md
+git add docs/testing/modules/seat/07_phpunit_mapping.md
+git add docs/testing/modules/seat/08_postman_newman.md
+git add docs/testing/modules/seat/09_coverage.md
+git add docs/testing/modules/seat/10_evidence.md
 ```
 
-Có thể add Clover report nếu team muốn giữ coverage artifact:
+CÃ³ thá»ƒ add Clover report náº¿u team muá»‘n giá»¯ coverage artifact:
 
 ```powershell
 git add backend/coverage-seat.xml
 ```
 
-Không dùng `git add .` nếu còn file ngoài scope.
+KhÃ´ng dÃ¹ng `git add .` náº¿u cÃ²n file ngoÃ i scope.
 
 ---
 
 ## 12. Definition of Done
 
-| Hạng mục | Trạng thái |
+| Háº¡ng má»¥c | Tráº¡ng thÃ¡i |
 |---|---|
 | Scope | DONE |
 | Business Rules | DONE |
@@ -321,7 +321,7 @@ Không dùng `git add .` nếu còn file ngoài scope.
 | Xdebug Coverage Driver | DONE |
 | Tool-based SeatService Coverage | DONE |
 | Clover Coverage Report | DONE |
-| Screenshot Package | PENDING |
+| Screenshot Package | DONE |
 | Git Commit | DONE |
 | Pull Request | DONE |
 
@@ -329,7 +329,7 @@ Không dùng `git add .` nếu còn file ngoài scope.
 
 ## 13. Final Conclusion
 
-Dữ liệu thực tế hiện tại:
+Dá»¯ liá»‡u thá»±c táº¿ hiá»‡n táº¡i:
 
 ```text
 Seat validation PHPUnit:
@@ -353,27 +353,28 @@ Overall Project Coverage from this Seat-only run:
 Lines = 5.44%
 ```
 
-Phần testing kỹ thuật đã có đủ execution evidence.
+Pháº§n testing ká»¹ thuáº­t Ä‘Ã£ cÃ³ Ä‘á»§ execution evidence.
 
-Các bước cuối còn lại:
+## Final Status
 
 ```text
-Screenshot
-Git commit
-Push branch
-Pull Request
-```
+Screenshot Package = DONE
+Git Commit         = DONE
+Push Branch        = DONE
+Pull Request       = DONE
+
+SEAT TESTING PACKAGE = COMPLETED
 ---
 
 ## 14. GitHub / Pull Request Evidence
 
-Các thay đổi của module Seat đã được commit, push và merge vào `main`.
+CÃ¡c thay Ä‘á»•i cá»§a module Seat Ä‘Ã£ Ä‘Æ°á»£c commit, push vÃ  merge vÃ o `main`.
 
-| PR | Nội dung | Trạng thái |
+| PR | Ná»™i dung | Tráº¡ng thÃ¡i |
 |---|---|---|
-| #50 | White-box decision matrix và coverage analysis | MERGED |
-| #52 | PHPUnit, Newman, coverage và evidence | MERGED |
-| #53 | Move Seat testing docs vào `docs/testing/modules/seat/` | MERGED |
+| #50 | White-box decision matrix vÃ  coverage analysis | MERGED |
+| #52 | PHPUnit, Newman, coverage vÃ  evidence | MERGED |
+| #53 | Move Seat testing docs vÃ o `docs/testing/modules/seat/` | MERGED |
 
 PR #53:
 
