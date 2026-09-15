@@ -11,8 +11,10 @@ class BookingService {
     private $showtimeModel;
     private $seatModel;
     private $ticketModel;
+    private $clock = null;
 
-    public function __construct() {
+    public function __construct(?callable $clock = null) {
+        $this->clock = $clock;
         $this->bookingModel = new BookingModel();
         $this->showtimeModel = new ShowtimeModel();
         $this->seatModel = new SeatModel();
@@ -46,7 +48,7 @@ class BookingService {
         }
 
         $showDateTime = \DateTime::createFromFormat('Y-m-d H:i:s', $showtime['show_date'] . ' ' . $showtime['start_time']);
-        if ($showDateTime && $showDateTime <= new \DateTime()) {
+        if ($showDateTime && $showDateTime <= $this->currentTime()) {
             return ['status' => 'error', 'message' => 'Suất chiếu này đã bắt đầu hoặc đã kết thúc.'];
         }
 
@@ -161,7 +163,7 @@ class BookingService {
         $showtime = $this->bookingModel->getPrimaryShowtimeByBookingId($bookingId);
         if ($showtime && !empty($showtime['show_date']) && !empty($showtime['start_time'])) {
             $showDateTime = \DateTime::createFromFormat('Y-m-d H:i:s', $showtime['show_date'] . ' ' . $showtime['start_time']);
-            if ($showDateTime && $showDateTime <= new \DateTime()) {
+            if ($showDateTime && $showDateTime <= $this->currentTime()) {
                 return ['status' => 'error', 'message' => 'Khong the huy ve khi suat chieu da bat dau.'];
             }
         }
@@ -316,6 +318,10 @@ class BookingService {
             return 0;
         }
         return $this->bookingModel->getTotalSpentByUser($userId);
+    }
+
+    private function currentTime(): \DateTimeInterface {
+        return $this->clock !== null ? ($this->clock)() : new \DateTimeImmutable();
     }
 
     private function isValidDate($date) {

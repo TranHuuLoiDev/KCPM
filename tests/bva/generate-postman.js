@@ -82,7 +82,7 @@ function buildBody(moduleKey, testCase) {
       };
 
     case 'room':
-      return {
+      return testCase.body || {
         theatre_id: 1,
         name: `BVA Room ${testCase.id} {{$randomInt}}`,
         total_seats: testCase.value,
@@ -99,7 +99,7 @@ function buildBody(moduleKey, testCase) {
       };
 
     case 'review':
-      return {
+      return testCase.body || {
         user_id: 1,
         movie_id: 1,
         rating: testCase.value,
@@ -294,7 +294,12 @@ function buildRequest(moduleKey, config, testCase) {
 
             'pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {',
             '  pm.expect(actual).to.eql(expected);',
-            '});'
+            '});',
+            ...(testCase.expectedMessage ? [
+              `pm.test("${testCase.id} | exact message", function () {`,
+              `  pm.expect(json.message).to.eql(${JSON.stringify(testCase.expectedMessage)});`,
+              '});'
+            ] : [])
           ]
         }
       }
@@ -322,6 +327,7 @@ const collection = {
 };
 
 for (const [moduleKey, config] of Object.entries(bva)) {
+  if (config.httpUnsupported) continue;
   const folder = {
     name: `BVA - ${config.module}`,
     item: []
@@ -354,6 +360,7 @@ fs.writeFileSync(
 );
 
 const totalCases = Object.values(bva)
+  .filter(item => !item.httpUnsupported)
   .reduce((sum, item) => sum + item.cases.length, 0);
 
 console.log('====================================');
