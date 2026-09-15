@@ -322,8 +322,8 @@ Không dùng `git add .` nếu còn file ngoài scope.
 | Tool-based SeatService Coverage | DONE |
 | Clover Coverage Report | DONE |
 | Screenshot Package | PENDING |
-| Git Commit | PENDING |
-| Pull Request | PENDING |
+| Git Commit | DONE |
+| Pull Request | DONE |
 
 ---
 
@@ -363,3 +363,20 @@ Git commit
 Push branch
 Pull Request
 ```
+---
+
+## 14. GitHub / Pull Request Evidence
+
+Các thay đổi của module Seat đã được commit, push và merge vào `main`.
+
+| PR | Nội dung | Trạng thái |
+|---|---|---|
+| #50 | White-box decision matrix và coverage analysis | MERGED |
+| #52 | PHPUnit, Newman, coverage và evidence | MERGED |
+| #53 | Move Seat testing docs vào `docs/testing/modules/seat/` | MERGED |
+
+PR #53:
+
+```text
+docs(seat): move testing analysis into docs modules
+Status: MERGED
