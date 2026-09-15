@@ -73,9 +73,9 @@ function buildBody(moduleKey, testCase) {
       };
 
     case 'seat':
-      return {
+      return testCase.body || {
         room_id: 1,
-        seat_row: 'A',
+        seat_row: 'D',
         seat_number: testCase.value,
         seat_type_id: 1,
         is_active: true

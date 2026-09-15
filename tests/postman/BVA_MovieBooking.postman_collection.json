@@ -15,7 +15,7 @@
       "name": "BVA - Seat",
       "item": [
         {
-          "name": "TC-SEAT-BVA-01 | validateSeatInput | seat_number=0 | MIN - 1",
+          "name": "SEAT-VALIDATE-BVA-01 | validateSeatInput | seat_number=1 | B1",
           "request": {
             "method": "POST",
             "header": [
@@ -36,7 +36,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 0,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 1,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
             }
           },
           "event": [
@@ -45,70 +45,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const tcId = \"TC-SEAT-BVA-01\";",
-                  "const serviceMethod = \"validateSeatInput\";",
-                  "const field = \"seat_number\";",
-                  "const inputValue = 0;",
-                  "const expected = \"error\";",
-                  "",
-                  "let json;",
-                  "",
-                  "try {",
-                  "  json = pm.response.json();",
-                  "} catch (e) {",
-                  "  json = {};",
-                  "}",
-                  "",
-                  "const actual = json.status || \"NO_STATUS\";",
-                  "",
-                  "console.log(\"--------------------------------\");",
-                  "console.log(\"TC:\", tcId);",
-                  "console.log(\"Service:\", serviceMethod);",
-                  "console.log(\"Field:\", field);",
-                  "console.log(\"Input:\", inputValue);",
-                  "console.log(\"Expected:\", expected);",
-                  "console.log(\"Actual:\", actual);",
-                  "",
-                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
-                  "  pm.expect(actual).to.eql(expected);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "TC-SEAT-BVA-02 | validateSeatInput | seat_number=1 | MIN",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/seats/validate",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "seats",
-                "validate"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 1,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "const tcId = \"TC-SEAT-BVA-02\";",
+                  "const tcId = \"SEAT-VALIDATE-BVA-01\";",
                   "const serviceMethod = \"validateSeatInput\";",
                   "const field = \"seat_number\";",
                   "const inputValue = 1;",
@@ -141,7 +78,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-03 | validateSeatInput | seat_number=2 | MIN + 1",
+          "name": "SEAT-VALIDATE-BVA-02 | validateSeatInput | seat_number=2 | B2",
           "request": {
             "method": "POST",
             "header": [
@@ -162,7 +99,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 2,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 2,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
             }
           },
           "event": [
@@ -171,7 +108,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const tcId = \"TC-SEAT-BVA-03\";",
+                  "const tcId = \"SEAT-VALIDATE-BVA-02\";",
                   "const serviceMethod = \"validateSeatInput\";",
                   "const field = \"seat_number\";",
                   "const inputValue = 2;",
@@ -204,7 +141,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-07 | validateSeatInput | seat_number=6 | NOMINAL",
+          "name": "SEAT-VALIDATE-BVA-03 | validateSeatInput | seat_number=6 | B3",
           "request": {
             "method": "POST",
             "header": [
@@ -225,7 +162,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
             }
           },
           "event": [
@@ -234,7 +171,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const tcId = \"TC-SEAT-BVA-07\";",
+                  "const tcId = \"SEAT-VALIDATE-BVA-03\";",
                   "const serviceMethod = \"validateSeatInput\";",
                   "const field = \"seat_number\";",
                   "const inputValue = 6;",
@@ -267,7 +204,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-04 | validateSeatInput | seat_number=11 | MAX - 1",
+          "name": "SEAT-VALIDATE-BVA-04 | validateSeatInput | seat_number=11 | B4",
           "request": {
             "method": "POST",
             "header": [
@@ -288,7 +225,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 11,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 11,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
             }
           },
           "event": [
@@ -297,7 +234,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const tcId = \"TC-SEAT-BVA-04\";",
+                  "const tcId = \"SEAT-VALIDATE-BVA-04\";",
                   "const serviceMethod = \"validateSeatInput\";",
                   "const field = \"seat_number\";",
                   "const inputValue = 11;",
@@ -330,7 +267,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-05 | validateSeatInput | seat_number=12 | MAX",
+          "name": "SEAT-VALIDATE-BVA-05 | validateSeatInput | seat_number=12 | B5",
           "request": {
             "method": "POST",
             "header": [
@@ -351,7 +288,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 12,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 12,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
             }
           },
           "event": [
@@ -360,7 +297,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const tcId = \"TC-SEAT-BVA-05\";",
+                  "const tcId = \"SEAT-VALIDATE-BVA-05\";",
                   "const serviceMethod = \"validateSeatInput\";",
                   "const field = \"seat_number\";",
                   "const inputValue = 12;",
@@ -393,7 +330,7 @@
           ]
         },
         {
-          "name": "TC-SEAT-BVA-06 | validateSeatInput | seat_number=13 | MAX + 1",
+          "name": "SEAT-VALIDATE-BVA-06 | validateSeatInput | seat_row=\"A\" | B6",
           "request": {
             "method": "POST",
             "header": [
@@ -414,7 +351,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 13,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"A\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
             }
           },
           "event": [
@@ -423,10 +360,766 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const tcId = \"TC-SEAT-BVA-06\";",
+                  "const tcId = \"SEAT-VALIDATE-BVA-06\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_row\";",
+                  "const inputValue = \"A\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-BVA-07 | validateSeatInput | seat_row=\"B\" | B7",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"B\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-BVA-07\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_row\";",
+                  "const inputValue = \"B\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-BVA-08 | validateSeatInput | seat_row=\"D\" | B8",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-BVA-08\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_row\";",
+                  "const inputValue = \"D\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-BVA-09 | validateSeatInput | seat_row=\"G\" | B9",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"G\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-BVA-09\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_row\";",
+                  "const inputValue = \"G\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-BVA-10 | validateSeatInput | seat_row=\"H\" | B10",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"H\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-BVA-10\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_row\";",
+                  "const inputValue = \"H\";",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-01 | validateSeatInput | seat_number=6 | V1, V2, V3, V4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-01\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 6;",
+                  "const expected = \"success\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-02 | validateSeatInput | seat_number=0 | X1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 0,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-02\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_number\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-03 | validateSeatInput | seat_number=13 | X2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 13,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-03\";",
                   "const serviceMethod = \"validateSeatInput\";",
                   "const field = \"seat_number\";",
                   "const inputValue = 13;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-04 | validateSeatInput | seat_row=\"I\" | X3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"I\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-04\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_row\";",
+                  "const inputValue = \"I\";",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-05 | validateSeatInput | room_id=0 | X4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 0,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-05\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"room_id\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-06 | validateSeatInput | room_id=999999 | X5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 999999,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 1,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-06\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"room_id\";",
+                  "const inputValue = 999999;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-07 | validateSeatInput | seat_type_id=0 | X6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 0,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-07\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_type_id\";",
+                  "const inputValue = 0;",
+                  "const expected = \"error\";",
+                  "",
+                  "let json;",
+                  "",
+                  "try {",
+                  "  json = pm.response.json();",
+                  "} catch (e) {",
+                  "  json = {};",
+                  "}",
+                  "",
+                  "const actual = json.status || \"NO_STATUS\";",
+                  "",
+                  "console.log(\"--------------------------------\");",
+                  "console.log(\"TC:\", tcId);",
+                  "console.log(\"Service:\", serviceMethod);",
+                  "console.log(\"Field:\", field);",
+                  "console.log(\"Input:\", inputValue);",
+                  "console.log(\"Expected:\", expected);",
+                  "console.log(\"Actual:\", actual);",
+                  "",
+                  "pm.test(`${tcId} | ${serviceMethod} | Expected=${expected} | Actual=${actual}`, function () {",
+                  "  pm.expect(actual).to.eql(expected);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SEAT-VALIDATE-EP-08 | validateSeatInput | seat_type_id=999999 | X7",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/seats/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "seats",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"room_id\": 1,\n  \"seat_row\": \"D\",\n  \"seat_number\": 6,\n  \"seat_type_id\": 999999,\n  \"is_active\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = \"SEAT-VALIDATE-EP-08\";",
+                  "const serviceMethod = \"validateSeatInput\";",
+                  "const field = \"seat_type_id\";",
+                  "const inputValue = 999999;",
                   "const expected = \"error\";",
                   "",
                   "let json;",

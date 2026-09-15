@@ -1,4 +1,4 @@
-﻿module.exports = {
+module.exports = {
   seat: {
     module: 'Seat',
     field: 'seat_number',
@@ -7,71 +7,7 @@
     min: 1,
     max: 12,
 
-    cases: [
-      {
-        id: 'TC-SEAT-BVA-01',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 0,
-        position: 'MIN - 1',
-        boundary: 'MIN - 1',
-        expected: 'error'
-      },
-      {
-        id: 'TC-SEAT-BVA-02',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 1,
-        position: 'MIN',
-        boundary: 'MIN',
-        expected: 'success'
-      },
-      {
-        id: 'TC-SEAT-BVA-03',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 2,
-        position: 'MIN + 1',
-        boundary: 'MIN + 1',
-        expected: 'success'
-      },
-      {
-        id: 'TC-SEAT-BVA-07',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 6,
-        position: 'NOMINAL',
-        boundary: 'NOMINAL',
-        expected: 'success'
-      },
-      {
-        id: 'TC-SEAT-BVA-04',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 11,
-        position: 'MAX - 1',
-        boundary: 'MAX - 1',
-        expected: 'success'
-      },
-      {
-        id: 'TC-SEAT-BVA-05',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 12,
-        position: 'MAX',
-        boundary: 'MAX',
-        expected: 'success'
-      },
-      {
-        id: 'TC-SEAT-BVA-06',
-        serviceMethod: 'validateSeatInput',
-        field: 'seat_number',
-        value: 13,
-        position: 'MAX + 1',
-        boundary: 'MAX + 1',
-        expected: 'error'
-      }
-    ]
+    cases: require('./seat-assignment-cases')
   },
 
   room: {

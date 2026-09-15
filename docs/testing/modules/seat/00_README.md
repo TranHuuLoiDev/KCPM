@@ -1,57 +1,46 @@
-# SEAT TEST DESIGN PACKAGE – MOVIE TICKET BOOKING
+# Kiểm thử Seat — bản hiện hành
 
-## Mục đích
+Báo cáo và dữ liệu test dùng chung: [Assignment 75 case](083205006374_LuongQuocAn_BaoCao_Seat_Form_Assignment_Chot.md).
 
-Bộ tài liệu này triển khai đúng chuỗi phương pháp trong `TEAM_BVA_MOVIE_TICKET_BOOKING_WORKPLAN.md` cho **module Seat**, từ bước xác định phạm vi đến bước thiết kế test case.
+| Method | BVA | EP | PHPUnit |
+|---|---:|---:|---:|
+| validateSeatInput | 10 | 8 | 18/18 PASS |
+| generateSeats | 15 | 10 | 25/25 PASS |
+| bulkDeleteSeats | 20 | 12 | 32/32 PASS |
+| Tổng | 45 | 30 | 75/75 PASS |
 
-```text
-SOURCE CODE
-↓
-BUSINESS RULE
-↓
-VALIDATION CONDITION
-↓
-TEST SCOPE
-↓
-EQUIVALENCE PARTITIONING
-↓
-BOUNDARY VALUE ANALYSIS
-↓
-TEST CASE DESIGN
+Kết quả thực thi: **75 tests, 307 assertions**. [JUnit từng case](assignment-junit.xml) và [mapping](07_phpunit_mapping.md).
+
+## Chạy lại
+
+Từ thư mục backend:
+
+```powershell
+php vendor/bin/phpunit tests/Services/SeatAssignmentTest.php --no-coverage --testdox --log-junit ../docs/testing/modules/seat/assignment-junit.xml
 ```
 
-## Source of truth
+Từ thư mục gốc, sinh collection chứa 18 case validation:
 
-Không lấy boundary hay business rule từ Assignment để áp đặt vào project. Các kết luận trong bộ tài liệu này dựa trên source hiện tại của project:
+```powershell
+node tests/bva/generate-postman.js
+node tests/automation/run-bva-and-log.js "BVA - Seat"
+```
 
-- `backend/app/Services/SeatService.php`
-- `backend/api.php`
-- `backend/tests/Services/SeatServiceTest.php`
-- `tests/bva/bva-cases.js`
-- `tests/postman/BVA_MovieBooking.postman_collection.json`
+Newman cần API hoạt động, room/type 1 tồn tại và ID 999999 không tồn tại. Chưa chạy lại Newman trong lần rà soát này.
 
-## Phạm vi
+PHPUnit Assignment dùng model doubles và fixture mới mỗi case, không kết nối MySQL. Test gọi service thật và kiểm tra dữ liệu insert, range delete, số lượng ghế, status, message, đồng bộ tổng ghế; không thay thế kiểm thử SQL thực tế.
 
-- Module: `Seat`
-- Function chính: `SeatService::validateSeatInput($data)`
-- Logic hỗ trợ: `SeatService::validateBase($data)`
-- Input BVA chính: `seat_number`
-- Input hỗ trợ EP/white-box: `room_id`, `seat_row`, `seat_type_id`
+Các tài liệu 01–06, 08–10 được giữ kèm nhãn phạm vi lịch sử để bảo toàn evidence và mã TC cũ. Thiết kế hiện hành và các bảng V/X/B nằm trong báo cáo Assignment. Các mã TC-SEAT-* cũ không tương đương trực tiếp với BVA-xx/EP-xx mới; tên dataset luôn có tiền tố method để tránh trùng mã.
 
-## Các file
+## Rà soát các file test
 
-| File | Nội dung |
-|---|---|
-| `01_scope.md` | Xác định phạm vi kiểm thử Seat |
-| `02_business_rules.md` | Business rule, validation condition, precondition |
-| `03_equivalence_partition.md` | Phân hoạch lớp tương đương |
-| `04_boundary_value_analysis.md` | Standard BVA và Robustness |
-| `05_test_case_design.md` | Thiết kế test case từ EP/BVA |
+- SeatServiceTest.php: 25 regression test, gồm 12 validation cũ; chưa đủ 18 input chính xác. Lần chạy lại gặp MySQL connection refused.
+- SeatServiceCrudTest.php: 20 integration test; giữ kiểm thử CRUD ngoài Assignment. Chưa chạy lại khi database chưa khả dụng.
+- SeatControllerTest.php: 14 test điều phối request/default/guard, không thay thế service case.
+- seat_bva_test.js: UI smoke test, đã sửa tên Feature để phản ánh đúng phạm vi.
+- bva-cases.js, seat-assignment-cases.js, generate-postman.js, collection chính: đồng bộ 18 dòng validation từ Markdown.
+- run-bva-and-log.js: lấy field theo từng case để log đúng seat_row, room_id, seat_type_id.
+- Collection EP ở gốc: 3 case số ghế bổ sung thuộc bộ cũ; collection movie-ticket-booking và các bản _nam/_toan không cung cấp bộ 75 case này.
+- Test các module Booking, Room, Theatre, Movie, Review, Authentication cùng test-api.php/frontend/test_booking.php nằm ngoài ba method được giao, giữ phạm vi riêng.
 
-## Nguyên tắc
-
-- Standard BVA của `seat_number`: `1, 2, 6, 11, 12`.
-- `0` và `13` là Robustness / Out-of-bound.
-- Khi test `seat_number`, các input còn lại giữ hợp lệ.
-- `room_id=1` và `seat_type_id=1` chỉ được dùng nếu các record thực sự tồn tại trong DB.
-- Actual Output / Status / Evidence ở giai đoạn thiết kế để `TBD`; sẽ điền ở bước execution/evidence.
+Không sửa source nghiệp vụ: 75 case đều đạt trên SeatService hiện tại. Những case EP vi phạm đồng thời nhiều điều kiện được giải thích trong mục 8.4 của báo cáo.
