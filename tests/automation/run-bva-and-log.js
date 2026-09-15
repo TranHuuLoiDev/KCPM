@@ -27,7 +27,7 @@ for (const config of Object.values(bvaCases)) {
   for (const testCase of config.cases) {
     testCaseMap.set(testCase.id, {
       module: config.module,
-      field: config.field,
+      field: testCase.field || config.field,
       input: testCase.value,
       boundary: testCase.position,
       expected: testCase.expected

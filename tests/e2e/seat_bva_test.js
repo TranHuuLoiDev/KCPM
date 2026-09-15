@@ -1,4 +1,5 @@
-﻿Feature('BVA - Quản lý ghế');
+// UI smoke only; assignment coverage: backend/tests/Services/SeatAssignmentTest.php
+Feature('Smoke - Quản lý ghế');
 
 Before(({ I }) => {
   I.amOnPage('/frontend/login.php');
