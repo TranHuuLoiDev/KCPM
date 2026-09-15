@@ -207,6 +207,184 @@ if (
     exit;
 }
 
+// ============================================================
+// BVA AUTOMATION - BOOKING ASSIGNMENT VALIDATION
+// Chỉ kiểm tra biên input, KHÔNG tạo/hủy/xóa booking thật.
+// ============================================================
+if (
+    $method === 'POST'
+    && $resource === 'bookings'
+    && ($segments[1] ?? '') === 'validate-assignment'
+) {
+    $input = json_decode(
+        file_get_contents('php://input'),
+        true
+    ) ?: $_POST;
+
+    $serviceMethod = trim(
+        (string)($input['service_method'] ?? '')
+    );
+
+    $userId = (int)($input['user_id'] ?? 0);
+    $showtimeId = (int)($input['showtime_id'] ?? 0);
+    $bookingId = (int)($input['booking_id'] ?? 0);
+    $seatIds = $input['seat_ids'] ?? [];
+    $status = trim((string)($input['status'] ?? ''));
+
+    $result = [
+        'status' => 'success',
+        'message' => 'Booking BVA input hợp lệ.'
+    ];
+
+    switch ($serviceMethod) {
+
+        // ----------------------------------------------------
+        // BookingService::processBooking()
+        // ----------------------------------------------------
+        case 'processBooking':
+
+            if ($userId <= 0) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Vui lòng đăng nhập để đặt vé.'
+                ];
+                break;
+            }
+
+            if ($showtimeId <= 0) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Suất chiếu không hợp lệ.'
+                ];
+                break;
+            }
+
+            if (!is_array($seatIds) || empty($seatIds)) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Vui lòng chọn ít nhất 1 ghế.'
+                ];
+                break;
+            }
+
+            break;
+
+
+        // ----------------------------------------------------
+        // BookingService::getUserBookings()
+        //
+        // userId <= 0 trong service trả về [],
+        // không phải error.
+        // ----------------------------------------------------
+        case 'getUserBookings':
+            break;
+
+
+        // ----------------------------------------------------
+        // BookingService::cancelBooking()
+        // ----------------------------------------------------
+        case 'cancelBooking':
+
+            if ($userId <= 0) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Vui lòng đăng nhập để hủy vé.'
+                ];
+                break;
+            }
+
+            if ($bookingId <= 0) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Booking không hợp lệ.'
+                ];
+                break;
+            }
+
+            break;
+
+
+        // ----------------------------------------------------
+        // BookingService::getAdminBookingDetail()
+        //
+        // BVA chỉ kiểm tra miền input.
+        // Không kiểm tra booking có tồn tại trong DB.
+        // ----------------------------------------------------
+        case 'getAdminBookingDetail':
+            break;
+
+
+        // ----------------------------------------------------
+        // BookingService::updateAdminBookingStatus()
+        // ----------------------------------------------------
+        case 'updateAdminBookingStatus':
+
+            if ($bookingId <= 0) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Booking không hợp lệ.'
+                ];
+                break;
+            }
+
+            $allowedStatuses = [
+                'pending',
+                'paid',
+                'canceled'
+            ];
+
+            if (!in_array($status, $allowedStatuses, true)) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Trạng thái booking không hợp lệ.'
+                ];
+                break;
+            }
+
+            break;
+
+
+        // ----------------------------------------------------
+        // BookingService::deleteAdminBooking()
+        // ----------------------------------------------------
+        case 'deleteAdminBooking':
+
+            if ($bookingId <= 0) {
+                $result = [
+                    'status' => 'error',
+                    'message' => 'Booking không hợp lệ.'
+                ];
+                break;
+            }
+
+            break;
+
+
+        // ----------------------------------------------------
+        // BookingService::getTotalSpentByUser()
+        //
+        // userId <= 0 trong service trả 0.
+        // ----------------------------------------------------
+        case 'getTotalSpentByUser':
+            break;
+
+
+        default:
+            $result = [
+                'status' => 'error',
+                'message' => 'Booking service method không hợp lệ.'
+            ];
+            break;
+    }
+
+    echo json_encode(
+        $result,
+        JSON_UNESCAPED_UNICODE
+    );
+
+    exit;
+}
+
 //1. ĐẶT VÉ (POST /bookings)
 if ($resource === 'bookings') {
 
