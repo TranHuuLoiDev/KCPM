@@ -17,32 +17,7 @@ module.exports = {
     method: 'POST',
     min: 1,
 
-    cases: [
-      {
-        id: 'TC-ROOM-BVA-01',
-        value: -1,
-        position: 'MIN - 2',
-        expected: 'error'
-      },
-      {
-        id: 'TC-ROOM-BVA-02',
-        value: 0,
-        position: 'MIN - 1',
-        expected: 'error'
-      },
-      {
-        id: 'TC-ROOM-BVA-03',
-        value: 1,
-        position: 'MIN',
-        expected: 'success'
-      },
-      {
-        id: 'TC-ROOM-BVA-04',
-        value: 2,
-        position: 'MIN + 1',
-        expected: 'success'
-      }
-    ]
+    cases: require('./assignment-validation-cases')('Room')
   },
 
   theatre: {
@@ -88,44 +63,7 @@ module.exports = {
     min: 1,
     max: 5,
 
-    cases: [
-      {
-        id: 'TC-REVIEW-BVA-01',
-        value: 0,
-        position: 'MIN - 1',
-        expected: 'error'
-      },
-      {
-        id: 'TC-REVIEW-BVA-02',
-        value: 1,
-        position: 'MIN',
-        expected: 'success'
-      },
-      {
-        id: 'TC-REVIEW-BVA-03',
-        value: 2,
-        position: 'MIN + 1',
-        expected: 'success'
-      },
-      {
-        id: 'TC-REVIEW-BVA-04',
-        value: 4,
-        position: 'MAX - 1',
-        expected: 'success'
-      },
-      {
-        id: 'TC-REVIEW-BVA-05',
-        value: 5,
-        position: 'MAX',
-        expected: 'success'
-      },
-      {
-        id: 'TC-REVIEW-BVA-06',
-        value: 6,
-        position: 'MAX + 1',
-        expected: 'error'
-      }
-    ]
+    cases: require('./assignment-validation-cases')('Review')
   },
 
 
@@ -162,6 +100,7 @@ module.exports = {
 
     booking: {
       module: 'Booking',
+      httpUnsupported: true, // Legacy URLs do not call BookingService; use BookingAssignmentTest.
 
       cases: [
         // ============================================================
