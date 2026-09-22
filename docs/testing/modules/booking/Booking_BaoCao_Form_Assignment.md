@@ -1,3 +1,5 @@
+> **Cập nhật thực thi 2026-09-15:** 52 case thiết kế chính đã đồng bộ với `BookingAssignmentTest` và PASS. Có thêm 6/6 WB fault-injection PASS. Toàn suite: 398 tests, 1.112 assertions, không fail/skip. Evidence hiện hành: [JUnit](../../../../outputs/final-testing-report/evidence/phpunit.xml), [Xdebug](../../../../outputs/final-testing-report/evidence/coverage-summary.json), [Newman](../../../../outputs/final-testing-report/evidence/newman.json). Các nhận xét automation cũ bên dưới chỉ là lịch sử; dùng mapping hiện hành tại mục N.5.
+
 # BÁO CÁO KIỂM THỬ MODULE BOOKING
 
 **Project:** Movie Ticket Booking  
@@ -5,7 +7,7 @@
 **Service:** `App\Services\BookingService`  
 **Ngày rà soát:** 2026-09-15  
 **Mẫu:** [Báo cáo Seat](../seat/083205006374_LuongQuocAn_BaoCao_Seat_Form_Assignment_Chot.md)  
-**Trạng thái:** Đã rà soát source, thiết kế, mapping và chạy lại suite service hiện có. Không đồng nhất suite đang có với toàn bộ case mới. Chưa có thông tin người thực hiện/MSSV riêng cho báo cáo này.
+**Trạng thái:** Đã đồng bộ bảng thiết kế với test và xác minh bằng lần chạy chung. Người phụ trách kiểm thử chưa được xác nhận.
 
 ---
 
@@ -34,7 +36,7 @@ Booking xử lý đặt vé, tính tiền theo ghế, hủy booking, quản tr�
 
 | STT | Method | Visibility | Chức năng |
 |---:|---|---|---|
-| 1 | `__construct()` | public | Tạo bốn model |
+| 1 | `__construct(?callable $clock = null)` | public | Tạo bốn model |
 | 2 | `processBooking($userId,$showtimeId,$seatIds,$paymentMethod)` | public | Guard, tính tiền, tạo booking và vé trong transaction |
 | 3 | `getUserBookings($userId)` | public | ID<=0 trả []; còn lại đọc model |
 | 4 | `cancelBooking($userId,$bookingId)` | public | Ownership, trạng thái, thời gian, transaction hủy |
@@ -104,7 +106,7 @@ X11 là input ngoài danh sách nhưng kết quả hợp lệ sau chuẩn hóa; 
 
 ID -1,0,1,2 trong bộ cũ là kiểm tra cận dưới/EP. Chỉ vượt guard ID không có nghĩa booking thành công. Với seatIds, []/[5]/[5,6] kiểm tra rỗng/một/nhiều ghế; không có max=10 hoặc max=12 ở method. Giới hạn seat_number=12 của Seat không phải giới hạn số vé mỗi booking.
 
-Với clock cố định T, xét thời điểm suất T-1 giây, T, T+1 giây; các input khác thuộc F. Source chưa có clock injection, nên TB equality cần test harness kiểm soát clock trước khi chạy ổn định.
+Với clock cố định T, xét thời điểm suất T-1 giây, T, T+1 giây; các input khác thuộc F. Source có clock injection qua constructor; test cố định T để kiểm tra chính xác T-1/T/T+1 giây.
 
 ## 4.4. Bước 3 — Thiết kế Test Case
 
@@ -181,26 +183,10 @@ Model ghi dữ liệu thành công.
 
 Success message: `Đặt vé thành công!`. Với lỗi guard/seat phải không tạo booking/vé; success assert payload từng vé, commit và không rollback. Tổng **3 TB + 17 EP = 20 dòng**.
 
-## 4.5. Mapping PHPUnit
+## 4.5. Mapping automation hiện hành
 
-Tên dưới đây nằm trong BookingServiceTest; “tương đương” chỉ cùng partition, input phụ/ID có thể khác F.
+`backend/tests/Services/BookingAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 4.4 bằng `AssignmentCases`. Dataset được định danh `processBooking/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **20/20 PASS** trong lần chạy chung 2026-09-15.
 
-| Case | Test hiện có | Ghi chú |
-|---|---|---|
-| EP-01 | `testProcessBookingSucceedsWithValidData` | Trùng input 10,1,[5,6],momo, giá và ID output; ngày tương lai |
-| EP-02 | `testProcessBookingFailsWhenUserIsNotLoggedIn` | Tương đương; chưa assert page |
-| EP-03 | `testProcessBookingFailsWhenShowtimeIdIsInvalid` | Tương đương |
-| EP-04 | `testProcessBookingFailsWhenSeatListIsEmpty` | Tương đương |
-| EP-05 | `testProcessBookingFailsWhenSeatListIsNotArray` | Chuỗi '1' thay vì '5' |
-| EP-06 | `testProcessBookingFailsWhenShowtimeDoesNotExist` | ID 999 thay 999999 |
-| EP-07 | `testProcessBookingFailsWhenShowtimeIsNotActive` | Tương đương |
-| EP-08 | `testProcessBookingFailsWhenShowtimeAlreadyStarted` | Hôm qua; không chứng minh chính xác equality TB-02 |
-| EP-09 | `testProcessBookingFailsWhenSeatDoesNotExist` | ID 999 thay 999999 |
-| EP-10 | `testProcessBookingFailsWhenSeatBelongsToAnotherRoom` | Tương đương |
-| EP-11 | `testProcessBookingFailsWhenSeatIsInactive` | Tương đương |
-| EP-12 | `testProcessBookingFailsWhenSeatIsAlreadyBooked` | Tương đương |
-| EP-13 | `testProcessBookingUsesCashWhenPaymentMethodIsInvalid` | Trùng input, bookingId mock 1002; chưa assert đủ transaction |
-| EP-14..17, TB-01..03 | Chưa có test riêng đúng từng case | Không gán PASS từ tổng suite |
 
 # 5. METHOD 2 — `cancelBooking($userId,$bookingId)`
 
@@ -288,11 +274,10 @@ Kiểm tra TB: cố định clock T, chỉ đổi thời điểm suất chính.
 
 Tổng **3 TB + 9 EP = 12 dòng**. Giữ nguyên thông báo không dấu của source, không tự sửa message kỳ vọng sang tiếng Việt có dấu.
 
-## 5.5. Mapping
+## 5.5. Mapping automation hiện hành
 
-EP-02 ↔ `testCancelBookingFailsWhenUserIsInvalid`; EP-03 ↔ `testCancelBookingFailsWhenBookingIdIsInvalid`; EP-05 ↔ partition ownership trong `testCancelBookingFailsWhenBookingDoesNotBelongToUser` (mock trả null, không kiểm chứng FK/ownership SQL); EP-06 ↔ `testCancelBookingFailsWhenAlreadyCanceled`.
+`backend/tests/Services/BookingAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 5.4 bằng `AssignmentCases`. Dataset được định danh `cancelBooking/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **12/12 PASS** trong lần chạy chung 2026-09-15.
 
-Các test `testCancelBookingHandlesMinimumPositiveUserId`/`...BookingId` cũng mock lookup=null: chỉ chứng minh vượt guard số dương, không phải hủy thành công. EP-01/07/08/09 và ba TB chưa có test riêng. EP-04 có nhánh lookup=null tương đương, nhưng chưa có fixture ID 999999 riêng. `BookingModelTest::testCancelBookingSucceeds` chỉ kiểm tra model, không đi qua guard thời gian của service.
 
 # 6. METHOD 3 — `updateAdminBookingStatus($bookingId,$status)`
 
@@ -370,11 +355,10 @@ Không có xung đột ghế; model cập nhật booking/vé thành công.
 
 Success message: `Cập nhật trạng thái booking thành công.`. Tổng **10 EP**. Lỗi trước transaction không được ghi dữ liệu; success phải assert status từng bảng và commit.
 
-## 6.5. Mapping
+## 6.5. Mapping automation hiện hành
 
-EP-04 ↔ `testUpdateAdminBookingStatusFailsForInvalidId`; EP-05 ↔ `testUpdateAdminBookingStatusFailsForInvalidStatus` (bookingId=10). EP-06 tương đương nhánh lookup=null trong `testUpdateAdminBookingStatusHandlesMinimumPositiveId` và `...HandlesBookingIdMinPlusTwo`, chưa có fixture 999999.
+`backend/tests/Services/BookingAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 6.4 bằng `AssignmentCases`. Dataset được định danh `updateAdminBookingStatus/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **10/10 PASS** trong lần chạy chung 2026-09-15.
 
-Chưa có service test riêng cho các status hợp lệ, conflict, trim hoặc transaction failure. `BookingModelTest::testUpdateBookingStatusSucceeds` chỉ assert model trả true; `testHasSeatConflictWhenRestoringReturnsBool` chỉ assert kiểu bool, chưa chứng minh trường hợp conflict true/false đúng dữ liệu.
 
 # 7. METHOD 4 — `normalizeAdminFilters($input)`
 
@@ -445,11 +429,12 @@ EP-09 truyền mảng rỗng; EP-10 kiểm tra trim đồng thời các trườn
 
 Tổng **10 EP**.
 
-## 7.5. Mapping
+## 7.5. Mapping automation hiện hành
 
-EP-01 trùng `testNormalizeAdminFiltersKeepsValidFilters`. Test `testNormalizeAdminFiltersRemovesInvalidStatusAndDates` đồng thời sai status/from/to và trim search; chỉ là coverage tương đương từng nhánh, không phải đã chạy từng EP-02/03/04/10 độc lập. Những case còn lại chưa có test riêng.
+`backend/tests/Services/BookingAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 7.4 bằng `AssignmentCases`. Dataset được định danh `normalizeAdminFilters/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **10/10 PASS** trong lần chạy chung 2026-09-15.
 
-# 8. RÀ SOÁT AUTOMATION, ROUTE VÀ WHITE-BOX
+
+# 8. RÀ SOÁT AUTOMATION, ROUTE VÀ WHITE-BOX — GHI NHẬN TRƯỚC LẦN ĐỒNG BỘ
 
 ## 8.1. Bảng tổng thiết kế
 
@@ -467,12 +452,12 @@ EP-01 trùng `testNormalizeAdminFiltersKeepsValidFilters`. Test `testNormalizeAd
 
 | ID | Method / fixture lỗi | Expected cần assert | Test hiện có |
 |---|---|---|---|
-| WB-01 | process: createBooking=false | rollback, không commit/tạo vé; error Có lỗi xảy ra khi đặt vé. | Chưa có |
-| WB-02 | process: createMany=false | rollback booking/vé; cùng error tổng quát | Chưa có |
-| WB-03 | process: model trả đủ count nhưng không có ID đang tìm | error Ghế không hợp lệ.; không transaction | Chưa có |
-| WB-04 | cancel: cancelBooking=false, getError='fixture error' | rollback; error Loi khi huy booking: fixture error | Chưa có |
-| WB-05 | update status: updateBookingStatus=false | rollback; error Lỗi khi cập nhật trạng thái booking: fixture error | Chưa có |
-| WB-06 | update status: updateTicketsStatusByBooking=false | rollback; error Lỗi khi cập nhật trạng thái vé: fixture error | Chưa có |
+| WB-01 | process: createBooking=false | rollback, không commit/tạo vé; error Có lỗi xảy ra khi đặt vé. | PASS — BookingAssignmentTest::testFault |
+| WB-02 | process: createMany=false | rollback booking/vé; cùng error tổng quát | PASS — BookingAssignmentTest::testFault |
+| WB-03 | process: model trả đủ count nhưng không có ID đang tìm | error Ghế không hợp lệ.; không transaction | PASS — BookingAssignmentTest::testFault |
+| WB-04 | cancel: cancelBooking=false, getError='fixture error' | rollback; error Loi khi huy booking: fixture error | PASS — BookingAssignmentTest::testFault |
+| WB-05 | update status: updateBookingStatus=false | rollback; error Lỗi khi cập nhật trạng thái booking: fixture error | PASS — BookingAssignmentTest::testFault |
+| WB-06 | update status: updateTicketsStatusByBooking=false | rollback; error Lỗi khi cập nhật trạng thái vé: fixture error | PASS — BookingAssignmentTest::testFault |
 
 WB-03 là dữ liệu mock bất nhất để kiểm tra guard phòng thủ, không phải partition input thông thường. Source gọi beginTransaction trước try và chỉ catch Exception; không tuyên bố bắt mọi Throwable hoặc rollback mọi lỗi từ mọi vị trí.
 
@@ -509,7 +494,7 @@ Một số test PHPUnit có tên “AcceptsMinimumPositive...”/“HandlesMinim
 - BookingModelTest có 18 test. `testTransactionMethods` gọi begin/rollback rồi assertTrue(true), chưa chứng minh dữ liệu thật rollback. `testHasSeatConflictWhenRestoringReturnsBool` chỉ chứng minh kiểu, chưa chứng minh logic conflict.
 - TicketModel::isSeatBooked coi status khác canceled là đã đặt; createMany tạo vé booked. Chưa có evidence concurrent booking/locking trong suite service mock; không tuyên bố đã bảo đảm không đặt trùng dưới tải đồng thời.
 
-# 9. KẾT QUẢ THỰC THI VÀ KẾT LUẬN
+# 9. KẾT QUẢ THỰC THI VÀ KẾT LUẬN — GHI NHẬN TRƯỚC LẦN ĐỒNG BỘ
 
 ## 9.1. Kết quả chạy lại thật
 
@@ -538,3 +523,9 @@ Case transaction cần model doubles có expectation call order/commit/rollback 
 Fixture từng case phải độc lập và cleanup dù test thất bại. Service mock không kiểm tra FK user có thật; integration cần user thật. Thiết kế mong muốn bổ sung (chống concurrency, từ chối ngày sai, kiểm tra user tồn tại) phải được tách khỏi hành vi hiện có.
 
 **Kết luận:** Hoàn tất bốn chuỗi phân tích, 52 dòng thiết kế chính và sáu fault-injection case bổ sung. Suite hiện tại chạy 53/53 PASS; các khoảng trống về thời gian, transaction, khôi phục và route HTTP được ghi riêng để triển khai tiếp mà không làm sai số liệu báo cáo.
+
+## Cập nhật phạm vi HTTP và clock
+
+`currentTime()` là method private thứ 13 của service. Constructor nhận clock tùy chọn; runtime mặc định dùng thời gian thực.
+
+Collection hiện có 39 request Booking đến `/bookings/validate-assignment`: 39/39 PASS. Route chỉ mô phỏng kiểm tra input và không gọi luồng giao dịch BookingService; không dùng số này để thay cho 52 case service hoặc 6 WB. Các route validate cũ ở bảng lịch sử không dùng trong lần chạy hiện hành.

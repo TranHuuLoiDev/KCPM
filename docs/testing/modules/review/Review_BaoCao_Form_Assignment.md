@@ -1,3 +1,5 @@
+> **Cập nhật thực thi 2026-09-15:** 25 case thiết kế chính đã đồng bộ với `ReviewAssignmentTest` và PASS. Toàn suite: 398 tests, 1.112 assertions, không fail/skip. Evidence hiện hành: [JUnit](../../../../outputs/final-testing-report/evidence/phpunit.xml), [Xdebug](../../../../outputs/final-testing-report/evidence/coverage-summary.json), [Newman](../../../../outputs/final-testing-report/evidence/newman.json). Các nhận xét automation cũ bên dưới chỉ là lịch sử; dùng mapping hiện hành tại mục N.5.
+
 # BÁO CÁO KIỂM THỬ MODULE REVIEW
 
 **Project:** Movie Ticket Booking  
@@ -5,7 +7,7 @@
 **Service:** `App\Services\ReviewService`  
 **Ngày rà soát:** 2026-09-15  
 **Mẫu:** [Báo cáo Seat](../seat/083205006374_LuongQuocAn_BaoCao_Seat_Form_Assignment_Chot.md)  
-**Trạng thái:** Thiết kế theo source và đối chiếu automation; chưa gán PASS cho các case mới. Chưa có thông tin người thực hiện/MSSV riêng của module.
+**Trạng thái:** Đã đồng bộ bảng thiết kế với test và xác minh bằng lần chạy chung. Người phụ trách kiểm thử chưa được xác nhận.
 
 ---
 
@@ -122,19 +124,10 @@ Method chỉ kiểm tra rating; không có input khác cần giữ cố định.
 
 Tổng **5 BVA + 3 EP = 8 case**. Nominal xuất hiện hai lần để thể hiện hai mục đích thiết kế, không phải hai input khác nhau.
 
-## 4.5. Mapping automation
+## 4.5. Mapping automation hiện hành
 
-| Case | Test PHPUnit hiện có | Postman hiện có |
-|---|---|---|
-| BVA-01 | `testRatingAtMinimum` | TC-REVIEW-BVA-02 |
-| BVA-02 | `testRatingMinPlusOne` | TC-REVIEW-BVA-03 |
-| BVA-03, EP-01 | Chưa có riêng tại validateReviewInput | Chưa có rating=3 |
-| BVA-04 | `testRatingMaxMinusOne` | TC-REVIEW-BVA-04 |
-| BVA-05 | `testRatingAtMaximum` | TC-REVIEW-BVA-05 |
-| EP-02 | `testRatingBelowMinimum` | TC-REVIEW-BVA-01 |
-| EP-03 | `testRatingAboveMaximum` | TC-REVIEW-BVA-06 |
+`backend/tests/Services/ReviewAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 4.4 bằng `AssignmentCases`. Dataset được định danh `validateReviewInput/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **8/8 PASS** trong lần chạy chung 2026-09-15.
 
-`testValidRatingContinuesToCommentValidation` dùng rating=3 nhưng gọi addReview và nhận lỗi comment. Không thay cho test success nominal của validateReviewInput.
 
 # 5. METHOD 2 — `addReview($userId,$movieId,$rating,$comment)`
 
@@ -223,12 +216,10 @@ Success message chính xác: `Gửi đánh giá thành công!`. Phải assert pa
 
 Tổng **5 BVA + 8 EP = 13 case**. Lỗi validation phải dừng trước create; case user lỗi không được cần tra cứu phim.
 
-## 5.5. Mapping automation
+## 5.5. Mapping automation hiện hành
 
-- EP-05 ↔ `testAddReviewUsesSameRatingValidation`: cùng lỗi rating=0; movie lấy động, comment thực tế `BVA Review Test`, tương đương nhưng khác literal fixture.
-- EP-07 ↔ `testValidRatingContinuesToCommentValidation`: cùng rating=3, comment rỗng; movie lấy động.
-- BVA-01..05 và những EP còn lại chưa có test riêng trong ReviewServiceTest.
-- Endpoint `/reviews/validate` không gọi addReview, nên không chứng minh user/movie/comment validation hay persistence của method này.
+`backend/tests/Services/ReviewAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 5.4 bằng `AssignmentCases`. Dataset được định danh `addReview/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **13/13 PASS** trong lần chạy chung 2026-09-15.
+
 
 # 6. METHOD 3 — `getRatingSummary($movieId)`
 
@@ -291,9 +282,12 @@ ID không hợp lệ được trả về zero summary theo source; không đổi
 
 Tổng **4 EP**. Unit test service có mock chỉ chứng minh guard/chuyển tiếp kết quả; EP-03 cần model integration để xác nhận SQL AVG/ROUND/COUNT thật.
 
-## 6.5. Mapping automation
+## 6.5. Mapping automation hiện hành
 
-Chưa có test nào trong ReviewServiceTest gọi getRatingSummary. Không tính các test rating validation thành coverage thống kê.
+`backend/tests/Services/ReviewAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 6.4 bằng `AssignmentCases`. Dataset được định danh `getRatingSummary/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **4/4 PASS** trong lần chạy chung 2026-09-15.
+
+Thêm `ReviewSummaryIntegrationTest::testSqlSummary`: **4/4 PASS**, chạy SQL AVG/ROUND/COUNT thật trên bảng tạm riêng, không thay đổi bảng reviews lâu dài.
+
 
 # 7. TỔNG HỢP THIẾT KẾ VÀ WHITE-BOX
 
@@ -315,7 +309,7 @@ Chưa có test nào trong ReviewServiceTest gọi getRatingSummary. Không tính
 
 Không công bố tỷ lệ branch/line coverage từ bảng này; cần chạy công cụ đo riêng.
 
-# 8. CASE BỔ SUNG VÀ ĐIỂM CẦN THEO DÕI
+# 8. CASE BỔ SUNG VÀ ĐIỂM CẦN THEO DÕI — GHI NHẬN TRƯỚC LẦN ĐỒNG BỘ
 
 Các mục sau nằm ngoài tổng 25 dòng; ghi để tránh suy diễn điều kiện không có trong source.
 
@@ -331,7 +325,7 @@ Các mục sau nằm ngoài tổng 25 dòng; ghi để tránh suy diễn điều
 | getReviewsByMovieId(0) | [] và không query |
 | getReviewsByMovieId(1) | Danh sách theo created_at giảm dần, có thông tin user; cần fixture thứ tự khác thời điểm |
 
-# 9. EVIDENCE, LỆNH CHẠY VÀ KẾT LUẬN
+# 9. EVIDENCE, LỆNH CHẠY VÀ KẾT LUẬN — GHI NHẬN TRƯỚC LẦN ĐỒNG BỘ
 
 Rà soát tĩnh thấy **8 test methods**: 6 validation rating + 2 addReview. Đây là số test trong source, không phải kết quả 8/8 PASS của lần soạn này. Chưa chạy lại ReviewServiceTest/HTTP/Newman. Constructor/setUp đang phụ thuộc DB dù validateReviewInput tự nó chỉ kiểm tra rating; nếu không có phim, setUp gọi markTestSkipped, không được báo PASS.
 
@@ -350,3 +344,7 @@ node tests/automation/run-bva-and-log.js "BVA - Review"
 Test addReview thành công phải dùng dữ liệu riêng và cleanup/rollback. Test thống kê phải tạo chính xác tập rating, không phụ thuộc review seed. Snapshot `latest-bva-result` có thể bị module khác ghi đè; chỉ sử dụng report chứa Module=Review và đúng mã test của lần chạy.
 
 **Kết luận:** Thiết kế 25 dòng theo ba method. Standard BVA rating đủ năm giá trị; nominal=3 còn thiếu test validation riêng. Automation hiện có không chứng minh addReview thành công hoặc summary; không chuyển evidence của Seat sang Review.
+
+## Kết quả chạy chung hiện hành
+
+ReviewAssignmentTest: 25/25 PASS, 79 assertions; ReviewServiceTest: 8/8 PASS, 12 assertions; ReviewSummaryIntegrationTest: 4/4 PASS, 4 assertions. Newman Review: 8/8 PASS. Các case BVA nominal=3, addReview thành công và summary đã được triển khai. Các tình huống mở rộng mục 8 không tự động được coi là đã kiểm thử.

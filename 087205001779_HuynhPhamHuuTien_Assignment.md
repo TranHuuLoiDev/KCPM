@@ -204,28 +204,25 @@ Dựa trên kết quả Câu 1 và Câu 2, hãy thiết kế bảng test case đ
 
 ### Phần A — Test case cho Standard BVA
 
-Nguyên tắc: mỗi lần kiểm tra một biến, 3 biến còn lại giữ nominal. Như vậy thể hiện rất rõ cách áp dụng Standard BVA.
+Nguyên tắc: mỗi lần kiểm tra một biến, 3 biến còn lại giữ nominal. Theo Chương 4, với `n = 4` biến, bộ Standard BVA lý thuyết có `4n + 1 = 17` test case: một test nominal chung và bốn giá trị `min`, `min+`, `max-`, `max` cho mỗi biến. Do miền nguyên `monNo = [0,3]` quá hẹp nên `nominal = 2` trùng `max- = 2`; hai mục tiêu này được gắn chung trên một test. Vì vậy bảng dưới có **16 input thực thi khác nhau**, nhưng vẫn phủ đủ toàn bộ tag biên.
 
 Sinh viên điền vào bảng sau:
 |    STT | Test case                | Số tín chỉ | GPA | Số môn nợ | Học kỳ | Kết quả mong đợi | Tag      |
 | -----: | ------------------------ | ---------: | --: | --------: | -----: | ---------------- | -------- |
 | BVA-01 | Số tín chỉ – min         |         10 | 3.0 |         2 |      5 | **Hợp lệ**       | B1       |
 | BVA-02 | Số tín chỉ – min+        |         11 | 3.0 |         2 |      5 | **Hợp lệ**       | B2       |
-| BVA-03 | Số tín chỉ – nominal     |         18 | 3.0 |         2 |      5 | **Hợp lệ**       | B3       |
+| BVA-03 | Nominal chung            |         18 | 3.0 |         2 |      5 | **Hợp lệ**       | B3, B8, B13, B14, B18 |
 | BVA-04 | Số tín chỉ – max-        |         24 | 3.0 |         2 |      5 | **Hợp lệ**       | B4       |
 | BVA-05 | Số tín chỉ – max         |         25 | 3.0 |         2 |      5 | **Hợp lệ**       | B5       |
 | BVA-06 | GPA – min                |         18 | 2.0 |         2 |      5 | **Hợp lệ**       | B6       |
 | BVA-07 | GPA – min+               |         18 | 2.1 |         2 |      5 | **Hợp lệ**       | B7       |
-| BVA-08 | GPA – nominal            |         18 | 3.0 |         2 |      5 | **Hợp lệ**       | B8       |
 | BVA-09 | GPA – max-               |         18 | 3.9 |         2 |      5 | **Hợp lệ**       | B9       |
 | BVA-10 | GPA – max                |         18 | 4.0 |         2 |      5 | **Hợp lệ**       | B10      |
 | BVA-11 | Số môn nợ – min          |         18 | 3.0 |         0 |      5 | **Hợp lệ**       | B11      |
 | BVA-12 | Số môn nợ – min+         |         18 | 3.0 |         1 |      5 | **Hợp lệ**       | B12      |
-| BVA-13 | Số môn nợ – nominal/max- |         18 | 3.0 |         2 |      5 | **Hợp lệ**       | B13, B14 |
 | BVA-14 | Số môn nợ – max          |         18 | 3.0 |         3 |      5 | **Hợp lệ**       | B15      |
 | BVA-15 | Học kỳ – min             |         18 | 3.0 |         2 |      1 | **Hợp lệ**       | B16      |
 | BVA-16 | Học kỳ – min+            |         18 | 3.0 |         2 |      2 | **Hợp lệ**       | B17      |
-| BVA-17 | Học kỳ – nominal         |         18 | 3.0 |         2 |      5 | **Hợp lệ**       | B18      |
 | BVA-18 | Học kỳ – max-            |         18 | 3.0 |         2 |      9 | **Hợp lệ**       | B19      |
 | BVA-19 | Học kỳ – max             |         18 | 3.0 |         2 |     10 | **Hợp lệ**       | B20      |
 
@@ -252,9 +249,9 @@ Sinh viên điền vào bảng sau:
 
 | Nhóm                         |     Số TC | Phạm vi phủ               |
 | ---------------------------- | --------: | ------------------------- |
-| **Standard BVA**             |        19 | **B1–B20**                |
+| **Standard BVA**             |        16 | **B1–B20; các điểm trùng dùng chung một TC** |
 | **Equivalence Partitioning** |         9 | **V1–V4, X1–X8**          |
-| **Tổng**                     | **28 TC** | **Phủ toàn bộ V, X và B** |
+| **Tổng**                     | **25 TC** | **Phủ toàn bộ V, X và B** |
 
 
 ## Câu 4. Triển khai kiểm thử tự động
