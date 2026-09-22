@@ -49,7 +49,7 @@ Xác định module
 → Xác định input và điều kiện hợp lệ
 → Phân hoạch lớp tương đương
 → Phân tích giá trị biên
-→ Thiết kế một bảng Standard BVA gộp các biến có biên
+→ Thiết kế bảng biên và phân biệt Standard BVA với biên quan hệ
 → Thiết kế một bảng EP V/X gộp toàn bộ input
 → Mapping với automation và kết quả thực tế nếu đã có
 ```
@@ -234,6 +234,8 @@ seat_row nominal    = D
 | BVA-09 | `seat_row` – max- | 1 | G | 6 | 1 | true | **Hợp lệ** | B9 |
 | BVA-10 | `seat_row` – max | 1 | H | 6 | 1 | true | **Hợp lệ** | B10 |
 
+Theo công thức Chương 4, `n = 2` nên Standard BVA có `4n + 1 = 9` input khác nhau. `BVA-03` và `BVA-08` cùng là vector nominal `(seat_row=D, seat_number=6)`; hai dòng được giữ để truy vết hai tag `B3` và `B8`, nhưng chỉ được tính là **một** test case Standard BVA duy nhất.
+
 ---
 
 ### Phần B — Test case phủ Equivalence Partitioning V/X
@@ -255,7 +257,8 @@ seat_row nominal    = D
 
 | Nhóm | Số TC | Phạm vi phủ |
 |---|---:|---|
-| **Standard BVA** | 10 | **B1–B10** |
+| **Standard BVA** | 9 input duy nhất | **B1–B10; BVA-03/BVA-08 trùng vector nominal** |
+| **Dòng truy vết dư** | 1 | Giữ riêng để mapping tag/automation |
 | **Equivalence Partitioning** | 8 | **V1–V4, X1–X7** |
 | **Tổng theo hai bảng** | **18 TC** | **Phủ toàn bộ V, X và B trong scope** |
 
@@ -263,7 +266,7 @@ seat_row nominal    = D
 
 ## 4.5. Trạng thái automation thực tế
 
-Đã chạy PHPUnit: **18/18 (10 BVA + 8 EP) PASS** trong "SeatAssignmentTest.php".
+Đã chạy PHPUnit: **18/18 (10 dataset biên, tương ứng 9 input Standard BVA duy nhất, + 8 EP) PASS** trong "SeatAssignmentTest.php".
 
 Mỗi dòng bảng được nạp trực tiếp thành một dataset có tên method/BVA-xx hoặc method/EP-xx. Fixture model trong bộ nhớ được tạo mới cho từng case; room/type 1 tồn tại, 999999 không tồn tại. Test kiểm tra status, thông báo chính xác và các lời gọi tạo/xóa/đồng bộ tổng ghế. Đây là unit test service, chưa chứng minh SQL hoặc HTTP integration.
 
@@ -339,12 +342,11 @@ Các input:
 
 ## 5.3. Bước 2 — Phân tích giá trị biên
 
-Các biến phù hợp Standard BVA:
+Phân loại kỹ thuật theo Chương 4:
 
 ```text
-seatsPerRow ∈ [1,12]
-startRow    ∈ [A,H]
-endRow      ∈ [A,H]
+seatsPerRow ∈ [1,12]  → Standard BVA một biến
+startRow, endRow      → biên quan hệ vì còn ràng buộc startRow <= endRow
 ```
 
 ### `seatsPerRow`
@@ -381,7 +383,7 @@ endRow      ∈ [A,H]
 
 ## 5.4. Bước 3 — Thiết kế Test Case
 
-### Phần A — Test case cho Standard BVA
+### Phần A — Standard BVA cho `seatsPerRow` và bộ biên quan hệ cho hàng
 
 Nguyên tắc: mỗi lần chỉ thay đổi **một biến đang kiểm thử**, các input khác giữ hợp lệ.
 
@@ -426,6 +428,8 @@ bảo đảm còn vị trí ghế chưa tồn tại trong range đang test.
 | BVA-14 | `endRow` – max- | 1 | A | G | 6 | 1 | **Hợp lệ** – tiếp tục tạo ghế | B14 |
 | BVA-15 | `endRow` – max | 1 | A | H | 6 | 1 | **Hợp lệ** – tiếp tục tạo ghế | B15 |
 
+Chỉ `BVA-01..05` là bộ Standard BVA độc lập cho `seatsPerRow`. `BVA-06..15` là **relational boundary tests** cho cặp `startRow/endRow`; không dùng chúng để áp công thức `4n + 1`, vì thay đổi một đầu mút buộc đầu mút còn lại phải đổi để giữ `startRow <= endRow`.
+
 ---
 
 ### Phần B — Test case phủ Equivalence Partitioning V/X
@@ -447,7 +451,8 @@ bảo đảm còn vị trí ghế chưa tồn tại trong range đang test.
 
 | Nhóm | Số TC | Phạm vi phủ |
 |---|---:|---|
-| **Standard BVA** | 15 | **B1–B15** |
+| **Standard BVA (`seatsPerRow`)** | 5 | **B1–B5** |
+| **Biên quan hệ (`startRow/endRow`)** | 10 | **B6–B15** |
 | **Equivalence Partitioning** | 10 | **V1–V7, X1–X9** |
 | **Tổng theo hai bảng** | **25 TC** | **Phủ các partition và boundary chính** |
 
@@ -455,7 +460,7 @@ bảo đảm còn vị trí ghế chưa tồn tại trong range đang test.
 
 ## 5.5. Trạng thái automation thực tế
 
-Đã chạy PHPUnit: **25/25 (15 BVA + 10 EP) PASS** trong "SeatAssignmentTest.php".
+Đã chạy PHPUnit: **25/25 (5 Standard BVA + 10 biên quan hệ + 10 EP) PASS** trong "SeatAssignmentTest.php".
 
 Mỗi dòng bảng được nạp trực tiếp thành một dataset có tên method/BVA-xx hoặc method/EP-xx. Fixture model trong bộ nhớ được tạo mới cho từng case; room/type 1 tồn tại, 999999 không tồn tại. Test kiểm tra status, thông báo chính xác và các lời gọi tạo/xóa/đồng bộ tổng ghế. Đây là unit test service, chưa chứng minh SQL hoặc HTTP integration.
 
@@ -587,7 +592,7 @@ endNumber   ∈ [1,12]
 
 ## 6.4. Bước 3 — Thiết kế Test Case
 
-### Phần A — Test case cho Standard BVA
+### Phần A — Bộ biên quan hệ cho khoảng xóa
 
 Nguyên tắc: mỗi lần chỉ thay đổi **một biến đang kiểm thử**, các input khác giữ ở giá trị hợp lệ.
 
@@ -652,6 +657,8 @@ và phải có ghế trong range cần xóa.
 | BVA-19 | `endNumber` – max- | 1 | D | D | 1 | 11 | **Hợp lệ** – tiếp tục xóa ghế | B19 |
 | BVA-20 | `endNumber` – max | 1 | D | D | 1 | 12 | **Hợp lệ** – tiếp tục xóa ghế | B20 |
 
+Bốn đầu mút không độc lập: `startRow <= endRow` và `startNumber <= endNumber`. Vì vậy 20 dòng này là **relational boundary tests theo từng đầu mút**, không phải một bộ Standard BVA có số lượng `4n + 1`. Các case quan hệ đảo chiều tiếp tục được kiểm tra trong bảng EP.
+
 ---
 
 ### Phần B — Test case phủ Equivalence Partitioning V/X
@@ -675,7 +682,8 @@ và phải có ghế trong range cần xóa.
 
 | Nhóm | Số TC | Phạm vi phủ |
 |---|---:|---|
-| **Standard BVA** | 20 | **B1–B20** |
+| **Standard BVA độc lập** | 0 (N/A) | Các biến bị ràng buộc theo cặp |
+| **Biên quan hệ** | 20 | **B1–B20** |
 | **Equivalence Partitioning** | 12 | **V1–V8, X1–X11** |
 | **Tổng theo hai bảng** | **32 TC** | **Phủ các partition và boundary chính** |
 
@@ -683,7 +691,7 @@ và phải có ghế trong range cần xóa.
 
 ## 6.5. Trạng thái automation thực tế
 
-Đã chạy PHPUnit: **32/32 (20 BVA + 12 EP) PASS** trong "SeatAssignmentTest.php".
+Đã chạy PHPUnit: **32/32 (20 biên quan hệ + 12 EP) PASS** trong "SeatAssignmentTest.php".
 
 Mỗi dòng bảng được nạp trực tiếp thành một dataset có tên method/BVA-xx hoặc method/EP-xx. Fixture model trong bộ nhớ được tạo mới cho từng case; room/type 1 tồn tại, 999999 không tồn tại. Test kiểm tra status, thông báo chính xác và các lời gọi tạo/xóa/đồng bộ tổng ghế. Đây là unit test service, chưa chứng minh SQL hoặc HTTP integration.
 
@@ -693,12 +701,12 @@ Evidence: [assignment-junit.xml](assignment-junit.xml). Chi tiết: [07_phpunit_
 
 # 7. BẢNG TỔNG HỢP TOÀN BỘ TEST DESIGN
 
-| Method | Standard BVA | Equivalence Partitioning | Tổng theo hai bảng | Trạng thái execution |
-|---|---:|---:|---:|---|
-| `validateSeatInput()` | 10 | 8 | 18 | PHPUnit 18/18 PASS |
-| `generateSeats()` | 15 | 10 | 25 | PHPUnit đầy đủ PASS |
-| `bulkDeleteSeats()` | 20 | 12 | 32 | PHPUnit đầy đủ PASS |
-| **Tổng** | **45** | **30** | **75** | — |
+| Method | Standard BVA (input duy nhất) | Biên quan hệ / dòng truy vết | Equivalence Partitioning | Tổng dòng automation | Trạng thái execution |
+|---|---:|---:|---:|---:|---|
+| `validateSeatInput()` | 9 | 1 dòng nominal trùng | 8 | 18 | PHPUnit 18/18 PASS |
+| `generateSeats()` | 5 | 10 | 10 | 25 | PHPUnit đầy đủ PASS |
+| `bulkDeleteSeats()` | 0 (N/A) | 20 | 12 | 32 | PHPUnit đầy đủ PASS |
+| **Tổng** | **14** | **31** | **30** | **75** | — |
 
 Lưu ý:
 
@@ -756,7 +764,7 @@ Mỗi method được chọn
 → Xác định input và business rule
 → Xác định Equivalence Partitioning
 → Xác định biến nào thực sự có miền biên
-→ Gộp tất cả biến BVA của method vào MỘT bảng Standard BVA
+→ Phân biệt Standard BVA độc lập với biên quan hệ của các input phụ thuộc nhau
 → Gộp toàn bộ valid/invalid partition vào MỘT bảng EP V/X
 → Tổng hợp số test case
 → Đối chiếu với automation và evidence thực tế
@@ -780,7 +788,7 @@ startRow
 endRow
 ```
 
-được phép trình bày theo Standard BVA với:
+chỉ được trình bày theo Standard BVA khi có thể thay đổi một biến và giữ các biến còn lại ở cùng một vector nominal. Khi có ràng buộc `start <= end`, các case được ghi là **biên quan hệ**. Các điểm biên vẫn dùng:
 
 ```text
 min

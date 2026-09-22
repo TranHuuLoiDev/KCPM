@@ -1,3 +1,5 @@
+> **Cập nhật thực thi 2026-09-15:** 40 case thiết kế chính đã đồng bộ với `RoomAssignmentTest` và PASS. Toàn suite: 398 tests, 1.112 assertions, không fail/skip. Evidence hiện hành: [JUnit](../../../../outputs/final-testing-report/evidence/phpunit.xml), [Xdebug](../../../../outputs/final-testing-report/evidence/coverage-summary.json), [Newman](../../../../outputs/final-testing-report/evidence/newman.json). Các nhận xét automation cũ bên dưới chỉ là lịch sử; dùng mapping hiện hành tại mục N.5.
+
 # BÁO CÁO KIỂM THỬ MODULE ROOM
 
 **Project:** Movie Ticket Booking  
@@ -5,7 +7,7 @@
 **Service:** `App\Services\RoomService`  
 **Ngày rà soát:** 2026-09-15  
 **Mẫu trình bày:** [Báo cáo Seat](../seat/083205006374_LuongQuocAn_BaoCao_Seat_Form_Assignment_Chot.md)  
-**Trạng thái:** Thiết kế và mapping theo source; không mặc định các case mới đã PASS. Thông tin người thực hiện/MSSV chưa được cung cấp cho module này.
+**Trạng thái:** Đã đồng bộ bảng thiết kế với test và xác minh bằng lần chạy chung. Người phụ trách kiểm thử chưa được xác nhận.
 
 ---
 
@@ -153,11 +155,10 @@ Tên phòng có thể trùng khi chỉ gọi validation.
 
 Success nghĩa là dữ liệu vượt validation, không phải đã tạo phòng. Tổng: 5 LB + 8 EP = **13 case**.
 
-## 4.5. Mapping automation
+## 4.5. Mapping automation hiện hành
 
-LB-01/02/03/04 lần lượt tương ứng `testValidateRoomTotalSeatsBelowMinimum`, `testValidateRoomTotalSeatsZero`, `testValidateRoomTotalSeatsAtMinimum`, `testValidateRoomTotalSeatsMinPlusOne`. PHPUnit dùng rạp tạm/tên ngẫu nhiên thay F, tương đương partition nhưng không trùng literal fixture. Bốn request Postman `TC-ROOM-BVA-01..04` tương ứng cùng giá trị.
+`backend/tests/Services/RoomAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 4.4 bằng `AssignmentCases`. Dataset được định danh `validateRoomInput/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **13/13 PASS** trong lần chạy chung 2026-09-15.
 
-LB-05 và EP-01..08 chưa có test riêng gọi method với đầy đủ input ở bảng. EP-06 trùng ý nghĩa LB-02, không tính thành một test độc lập đã có. Không dùng test `addRoom` để khẳng định đã chạy `validateRoomInput` cho từng case.
 
 # 5. METHOD 2 — `addRoom($data)`
 
@@ -239,16 +240,10 @@ Model insert thành công; fixture mới cho mỗi test.
 
 Tổng: 5 LB + 7 EP = **12 case**. Với lỗi validation phải kiểm tra không gọi insert. Success cần đọc lại name/theatre_id/total_seats/is_active; status đơn thuần chưa chứng minh đủ persistence.
 
-## 5.5. Mapping automation
+## 5.5. Mapping automation hiện hành
 
-| Case mới | Test hiện có | Mức tương ứng |
-|---|---|---|
-| EP-01, LB-05 | `testAddRoomSucceedsWithValidData` | Cùng tổng ghế 40; assert status, tìm phòng để cleanup; chưa assert đủ field |
-| EP-02 | `testAddRoomFailsWhenNameEmpty` | Cùng partition, assert message |
-| EP-04 | `testAddRoomFailsWhenTheatreInvalid` | ID 999999; không phủ theatre_id<=0 |
-| EP-05, LB-02 | `testAddRoomFailsWhenTotalSeatsLessThanOne` | total_seats=0 |
-| EP-06 | `testAddRoomFailsWhenNameAlreadyExists` | Tên fixture khác, cùng trùng tên |
-| Còn lại | Chưa có riêng | Chưa gán PASS |
+`backend/tests/Services/RoomAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 5.4 bằng `AssignmentCases`. Dataset được định danh `addRoom/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **12/12 PASS** trong lần chạy chung 2026-09-15.
+
 
 # 6. METHOD 3 — `updateRoom($id,$data)`
 
@@ -336,9 +331,10 @@ Model update thành công; fixture mới cho mỗi test.
 
 Tổng: 5 LB + 10 EP = **15 case**.
 
-## 6.5. Mapping automation
+## 6.5. Mapping automation hiện hành
 
-`testUpdateRoomFailsWithInvalidId` ↔ EP-02; `testUpdateRoomFailsWhenRoomDoesNotExist` ↔ EP-03; `testUpdateRoomSucceedsAndPersistsChanges` ↔ EP-01/LB-05 theo partition (assert tên mới). Các case khác chưa có test riêng. Postman Room chỉ gọi validation, không chứng minh update hoặc excludeId.
+`backend/tests/Services/RoomAssignmentTest.php::testAssignment` đọc trực tiếp từng dòng trong mục 6.4 bằng `AssignmentCases`. Dataset được định danh `updateRoom/ID`; kiểm tra đầy đủ input, kết quả, thông báo và lời gọi model tương ứng. **15/15 PASS** trong lần chạy chung 2026-09-15.
+
 
 # 7. TỔNG HỢP VÀ WHITE-BOX
 
@@ -364,7 +360,7 @@ Một input xuất hiện ở cả EP/LB vẫn là hai dòng thiết kế; khôn
 
 Không tính tỷ lệ decision/branch coverage khi chưa lập đủ từng nhánh và có evidence thực thi.
 
-# 8. KẾT QUẢ RÀ SOÁT EVIDENCE VÀ SAI LỆCH TÀI LIỆU CŨ
+# 8. KẾT QUẢ RÀ SOÁT EVIDENCE VÀ SAI LỆCH TÀI LIỆU CŨ — GHI NHẬN TRƯỚC LẦN ĐỒNG BỘ
 
 - File evidence cũ ghi **19 tests, 31 assertions** và Newman **4/4**. Đây là kết quả lưu từ trước; lần soạn này không chạy integration Room, vì setUp ghi database thật. Không gán 40/40 PASS.
 - `bva-test-cases.md` ghi case nominal=40 đã PASS, nhưng PHPUnit validation và Postman hiện chỉ có -1,0,1,2. Chưa tìm thấy evidence riêng cho nominal tại validateRoomInput.
@@ -374,7 +370,7 @@ Không tính tỷ lệ decision/branch coverage khi chưa lập đủ từng nh�
 - Không coi nominal là biên; không dùng giới hạn số ghế Seat để tự đặt max cho Room.
 - Tên toàn dấu cách: báo cáo ghi hành vi service trực tiếp, khác API/controller do trim. Đây là chênh lệch tầng xử lý cần giữ rõ trong test.
 
-# 9. THỰC THI TIẾP THEO VÀ KẾT LUẬN
+# 9. THỰC THI TIẾP THEO VÀ KẾT LUẬN — GHI NHẬN TRƯỚC LẦN ĐỒNG BỘ
 
 Từ thư mục `backend`, khi DB test/fixture đã sẵn sàng:
 
@@ -391,3 +387,7 @@ node tests/automation/run-bva-and-log.js "BVA - Room"
 Nếu đo coverage thì tạo report riêng Room và ghi rõ phạm vi suite. Các case insert/update cần cleanup cả khi assertion thất bại; không dùng phòng/rạp seed để thử xóa cascade. Schema có giới hạn lưu trữ nhưng vượt giới hạn SQL là bài integration riêng, chưa có service error chuẩn cho mọi SQL exception.
 
 **Kết luận:** Đã thiết kế 40 dòng cho ba method và chỉ rõ phần automation hiện có. Room áp dụng EP và biên một phía; không thể chép nguyên Standard BVA miền đóng của Seat.
+
+## Kết quả chạy chung hiện hành
+
+RoomAssignmentTest: 40/40 PASS, 134 assertions; RoomServiceTest: 19/19 PASS, 31 assertions. Newman Room: 13/13 PASS. API trim tên, vì vậy EP-07 tên khoảng trắng bị từ chối ở HTTP nhưng hợp lệ khi gọi service trực tiếp.
